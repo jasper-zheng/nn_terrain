@@ -333,9 +333,7 @@ public:
             const auto& page{ m_pages_phases[i] };
             for (int j = 0; j < page.size(); j++) {
                 const auto& event_slices{ page[j] };
-                //const auto& phase{ m_event_phases[j] };
                 for (int k = 0; k < event_slices.size(); k++) {
-                    //const auto& e{ event_slices[k] };
                     const auto& phase{ m_pages_phases[i][j][k] };
                     const auto& c{ m_pages_colors[i][j][k] };
                     src_content += std::to_string(i) + "," + std::to_string(static_cast<int>(phase->X)) + "," + std::to_string(static_cast<int>(phase->Y)) + "," + std::to_string(phase->P).substr(0, 5) + "," + phase->phase.c_str() + "," + std::to_string(static_cast<int>(phase->fade)) + "," + std::to_string(c.red()).substr(0, 5) + "," + std::to_string(c.green()).substr(0, 5) + "," + std::to_string(c.blue()).substr(0, 5) + "," + std::to_string(phase->ms.count()) + "\n";
@@ -345,7 +343,6 @@ public:
         for (int i = 0; i < m_event_phases.size(); i++) {
             const auto& event_slices{ m_event_phases[i] };
             for (int k = 0; k < event_slices.size(); k++) {
-                //const auto& e{ event_slices[k] };
                 const auto& phase{ m_event_phases[i][k] };
                 const auto& c{ m_event_colors[i][k] };
                 src_content += std::to_string(m_pages_phases.size()) + "," + std::to_string(static_cast<int>(phase->X)) + "," + std::to_string(static_cast<int>(phase->Y)) + "," + std::to_string(phase->P).substr(0, 5) + "," + phase->phase.c_str() + "," + std::to_string(static_cast<int>(phase->fade)) + "," + std::to_string(c.red()).substr(0, 5) + "," + std::to_string(c.green()).substr(0, 5) + "," + std::to_string(c.blue()).substr(0, 5) + "," + std::to_string(phase->ms.count()) + "\n";
@@ -353,7 +350,6 @@ public:
         }
 
         for (int k = 0; k < m_event_phases_slice.size(); k++) {
-            //const auto& e{ m_events_slice[k] };
             const auto& phase{ m_event_phases_slice[k] };
             const auto& c{ m_event_colors_slice[k] };
             src_content += std::to_string(m_pages_phases.size()) + "," + std::to_string(static_cast<int>(phase->X)) + "," + std::to_string(static_cast<int>(phase->Y)) + "," + std::to_string(phase->P).substr(0, 5) + "," + phase->phase.c_str() + "," + std::to_string(static_cast<int>(phase->fade)) + "," + std::to_string(c.red()).substr(0, 5) + "," + std::to_string(c.green()).substr(0, 5) + "," + std::to_string(c.blue()).substr(0, 5) + "," + std::to_string(phase->ms.count()) + "\n";
@@ -365,28 +361,21 @@ public:
     }
     message<> m_clear{ this, "clear",
         MIN_FUNCTION {
-            //vector<event> new_e_slice = m_events_slice;
             vector<event_info *> new_e_phase_slice = m_event_phases_slice;
             vector<color> new_e_color_slice = m_event_colors_slice;
 
-            //m_events.push_back(new_e_slice);
             m_event_phases.push_back(new_e_phase_slice);
             m_event_colors.push_back(new_e_color_slice);
 
-            //vector<vector<event>> new_e = m_events;
             vector<vector<event_info *>> new_e_phase = m_event_phases;
             vector<vector<color>> new_e_color = m_event_colors;
 
-            //m_pages.push_back(new_e);
             m_pages_phases.push_back(new_e_phase);
             m_pages_colors.push_back(new_e_color);
 
-            //m_events_slice.clear();
             m_event_phases_slice.clear();
-            //m_event_phases_slice = new vector<event_info *>();
             m_event_colors_slice.clear();
 
-            //m_events.clear();
             m_event_phases.clear();
             m_event_colors.clear();
 
@@ -535,7 +524,6 @@ public:
         float ink_now = 1.0;
         for (auto i = m_event_phases_slice.size() ; i > 0; --i) {
 
-            //const auto& e {m_events_slice[i-1]};
             const auto& phase { m_event_phases_slice[i-1]};
             const auto& e_color { m_event_colors_slice[i-1]};
 
@@ -543,20 +531,11 @@ public:
                 //is_using_pen = (e.type() == event::input_type::pen);
                 is_using_pen = true;
             } 
-            //else if (phase->phase == "down" && is_fading) {
-            //    ink -= fading_speed;
-            //}
 
             bool permanent = (phase->phase == "drag") || (phase->phase == "down") || (phase->phase == "up");
             number brightness = permanent ? 1.0 : 0.8;
 
             number radius = 2;
-            //if (e.type() == event::input_type::touch)
-            //    radius = 10;
-            //else if (e.type() == event::input_type::pen)
-            //    radius = 2;
-            //else // input_type::mouse
-            //    radius = 4;
             if (phase->fade) {
                 if (is_refreshing_page) {
                     ink_now = static_cast<float>(fading_min);
