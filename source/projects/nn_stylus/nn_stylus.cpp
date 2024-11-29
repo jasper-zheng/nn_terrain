@@ -34,30 +34,24 @@ typedef struct event_info_type {
     std::chrono::duration<float> ms;
 } event_info;
 
-class nn_stylus : public object<nn_stylus>, public ui_operator<948, 490> {
+class nn_stylus : public object<nn_stylus>, public ui_operator<760, 400> {
 private:
 
-    //vector<event> m_events_slice;
     vector<event_info *> m_event_phases_slice;
     vector<color> m_event_colors_slice;
 
-    //vector<vector<event>> m_events;
     vector<vector<event_info *>> m_event_phases;
     vector<vector<color>> m_event_colors;
 
-    //vector<vector<vector<event>>> m_pages;
     vector<vector<vector<event_info *>>> m_pages_phases;
     vector<vector<vector<color>>> m_pages_colors;
 
-    /*vector<float> canvas_line;
-    vector<vector<float>> canvas;*/
     vector<float> terrain_line;
     vector<vector<float>> terrain_canvas;
     boolean show_terrain = false;
 
     boolean show_canvas = false;
 
-    
     number m_anchor_x {};
     number m_anchor_y {};
     number x_prev {};
@@ -65,13 +59,12 @@ private:
     number start_x {};
     number start_y {};
 
-    //float fading_speed = 0.1;
     attribute<number> fading_speed{ this, "fading_speed", 0.007 };
     attribute<number> fading_min{ this, "fading_min", 0.045 };
     attribute<number> m_line_width_scale{ this, "line_width_scale", 3.0 };
     attribute<number> m_line_width_min{ this, "line_min", 0.01 };
 
-    string	m_text;
+    string m_text;
     symbol m_fontname{ "lato-light" };
     attribute<number>  m_fontsize{ this, "fontsize", 8.0 };
     attribute<bool>  is_fading{ this, "fade_history", true };
@@ -97,7 +90,9 @@ private:
     int log_point_count = 0;
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
     attribute<symbol> note_name{ this, "log_name", "001" };
+    attribute<number> m_auto_save_interval{ this, "auto_save_interval", 60 };
     boolean is_loading_log = false;
+    boolean is_refreshing_page = false;
 
     string patch_path = min_devkit_path();
 
@@ -147,8 +142,12 @@ public:
     }
     timer<timer_options::defer_delivery> m_timer{ this,
         MIN_FUNCTION {
-            if (model_loaded && is_touching)
+            if (model_loaded && is_touching) {
                 inference();
+            }
+            else if (is_touching) {
+                output_tensor = torch::tensor({ { 0.0, stroke_info[0], stroke_info[1], 0.0, 0.0, 0.0, 0.0, 0.0} });
+            }
             
             torch::Tensor ten = output_tensor.to(torch::kFloat);
             atoms result(ten.data_ptr<float>(), ten.data_ptr<float>() + ten.numel());
@@ -165,9 +164,9 @@ public:
     timer<timer_options::defer_delivery> m_timer_log{ this,
 		MIN_FUNCTION {
             if (is_logging) {
-                save_log();
+                save_log("autosave");
             }
-            m_timer_log.delay(1000 * 60);
+            m_timer_log.delay(1000 * static_cast<int>(m_auto_save_interval));
 			return {};
 		}
 	};
@@ -203,13 +202,10 @@ public:
         ei.P = e.pen_pressure();
         ei.phase = message_name;
         ei.fade = is_fading;
-        //ei.shiftX = shiftX(e.x(), m_shift * m_shift_scale, m_shift_theta);
-        //ei.shiftY = shiftY(e.y(), m_shift * m_shift_scale, m_shift_theta);
+
         ei.ms = std::chrono::system_clock::now() - now;
         number d = (e.target().width() - e.target().height())/2.0;
 
-        //stroke_info[0] = scale(ei.shiftX, d, e.target().width() - d, -m_scale_num, m_scale_num);
-        //stroke_info[1] = scale(ei.shiftY, 0.0, e.target().height(), -m_scale_num, m_scale_num);
         stroke_info[0] = scale(ei.X, d, e.target().width() - d, -m_scale_num, m_scale_num);
         stroke_info[1] = scale(ei.Y, 0.0, e.target().height(), -m_scale_num, m_scale_num);
 
@@ -217,7 +213,6 @@ public:
 
         m_outlet_main.send(message_name, event_type, stroke_info[0], stroke_info[1], e.is_command_key_down(), e.is_shift_key_down());
 
-        //m_events_slice.push_back(e);
         m_event_phases_slice.push_back(new event_info(ei));
         m_event_colors_slice.push_back(color{ ink_color.get().red(), ink_color.get().green(), ink_color.get().blue(), ink_color.get().alpha() });
         redraw();
@@ -317,13 +312,21 @@ public:
             return {};
         }
     };
+    message<> m_end_record{ this, "end_record",
+    MIN_FUNCTION {
+        if (is_logging) {
+            is_logging = false;
+        }
+        return {};
+    }
+    };
     message<> m_save_log{ this, "log",
         MIN_FUNCTION {
-            save_log();
+            save_log("");
             return {};
         }
     };
-    void save_log() {
+    void save_log(const std::string& addition_text) {
         string src_content = "";
 
         for (int i = 0; i < m_pages_phases.size(); i++) {
@@ -334,7 +337,8 @@ public:
                 for (int k = 0; k < event_slices.size(); k++) {
                     //const auto& e{ event_slices[k] };
                     const auto& phase{ m_pages_phases[i][j][k] };
-                    src_content += std::to_string(i) + "," + std::to_string(static_cast<int>(phase->X)) + "," + std::to_string(static_cast<int>(phase->Y)) + "," + std::to_string(phase->P).substr(0, 5) + "," + phase->phase.c_str() + "," + std::to_string(phase->ms.count()) + "\n";
+                    const auto& c{ m_pages_colors[i][j][k] };
+                    src_content += std::to_string(i) + "," + std::to_string(static_cast<int>(phase->X)) + "," + std::to_string(static_cast<int>(phase->Y)) + "," + std::to_string(phase->P).substr(0, 5) + "," + phase->phase.c_str() + "," + std::to_string(static_cast<int>(phase->fade)) + "," + std::to_string(c.red()).substr(0, 5) + "," + std::to_string(c.green()).substr(0, 5) + "," + std::to_string(c.blue()).substr(0, 5) + "," + std::to_string(phase->ms.count()) + "\n";
                 }
             }
         }
@@ -343,17 +347,19 @@ public:
             for (int k = 0; k < event_slices.size(); k++) {
                 //const auto& e{ event_slices[k] };
                 const auto& phase{ m_event_phases[i][k] };
-                src_content += std::to_string(m_pages_phases.size()) + "," + std::to_string(static_cast<int>(phase->X)) + "," + std::to_string(static_cast<int>(phase->Y)) + "," + std::to_string(phase->P).substr(0, 5) + "," + phase->phase.c_str() + "," + std::to_string(phase->ms.count()) + "\n";
+                const auto& c{ m_event_colors[i][k] };
+                src_content += std::to_string(m_pages_phases.size()) + "," + std::to_string(static_cast<int>(phase->X)) + "," + std::to_string(static_cast<int>(phase->Y)) + "," + std::to_string(phase->P).substr(0, 5) + "," + phase->phase.c_str() + "," + std::to_string(static_cast<int>(phase->fade)) + "," + std::to_string(c.red()).substr(0, 5) + "," + std::to_string(c.green()).substr(0, 5) + "," + std::to_string(c.blue()).substr(0, 5) + "," + std::to_string(phase->ms.count()) + "\n";
             }
         }
 
         for (int k = 0; k < m_event_phases_slice.size(); k++) {
             //const auto& e{ m_events_slice[k] };
             const auto& phase{ m_event_phases_slice[k] };
-            src_content += std::to_string(m_pages_phases.size()) + "," + std::to_string(static_cast<int>(phase->X)) + "," + std::to_string(static_cast<int>(phase->Y)) + "," + std::to_string(phase->P).substr(0, 5) + "," + phase->phase.c_str() + "," + std::to_string(phase->ms.count()) + "\n";
+            const auto& c{ m_event_colors_slice[k] };
+            src_content += std::to_string(m_pages_phases.size()) + "," + std::to_string(static_cast<int>(phase->X)) + "," + std::to_string(static_cast<int>(phase->Y)) + "," + std::to_string(phase->P).substr(0, 5) + "," + phase->phase.c_str() + "," + std::to_string(static_cast<int>(phase->fade)) + "," + std::to_string(c.red()).substr(0, 5) + "," + std::to_string(c.green()).substr(0, 5) + "," + std::to_string(c.blue()).substr(0, 5) + "," + std::to_string(phase->ms.count()) + "\n";
         }
 
-        atoms results = create_log_and_save(std::to_string(note_name), patch_path, src_content);
+        atoms results = create_log_and_save(std::to_string(note_name) + addition_text, patch_path, src_content);
         cout << "saved log to: " << results[0] << endl;
         m_image.write_and_lock(static_cast<string>(results[1]) + ".png", 150);
     }
@@ -361,20 +367,25 @@ public:
         MIN_FUNCTION {
             //vector<event> new_e_slice = m_events_slice;
             vector<event_info *> new_e_phase_slice = m_event_phases_slice;
+            vector<color> new_e_color_slice = m_event_colors_slice;
+
             //m_events.push_back(new_e_slice);
             m_event_phases.push_back(new_e_phase_slice);
+            m_event_colors.push_back(new_e_color_slice);
 
             //vector<vector<event>> new_e = m_events;
             vector<vector<event_info *>> new_e_phase = m_event_phases;
+            vector<vector<color>> new_e_color = m_event_colors;
 
             //m_pages.push_back(new_e);
             m_pages_phases.push_back(new_e_phase);
-            m_pages_colors.push_back(m_event_colors);
+            m_pages_colors.push_back(new_e_color);
 
             //m_events_slice.clear();
             m_event_phases_slice.clear();
             //m_event_phases_slice = new vector<event_info *>();
             m_event_colors_slice.clear();
+
             //m_events.clear();
             m_event_phases.clear();
             m_event_colors.clear();
@@ -482,7 +493,7 @@ public:
 			return {};
 		}
 	};
-    message<> m_show_terrain{ this, "terrain",
+    message<> m_show_terrain{ this, "terrain_show",
         MIN_FUNCTION {
             if (model_loaded) {
                 show_terrain = true;
@@ -491,13 +502,13 @@ public:
             return {};
         }
     };
-    message<> m_clear_terrain{ this, "terrain_clear", MIN_FUNCTION {
+    message<> m_clear_terrain{ this, "terrain_hide", MIN_FUNCTION {
         show_terrain = false;
         redraw();
         return {};
     } };
     
-    terrain m_terrain{ this, 948.0, 490.0, min_path("locator").get_path(), MIN_FUNCTION{
+    terrain m_terrain{ this, 760.0, 400.0, min_path("locator").get_path(), MIN_FUNCTION{
         target t { args };
         for (int i = 0; i < terrain_canvas.size(); i++) {
             for (int j = 0; j < terrain_canvas[0].size(); j++) {
@@ -547,8 +558,13 @@ public:
             //else // input_type::mouse
             //    radius = 4;
             if (phase->fade) {
-                ink -= fading_speed;
-                ink_now = std::max(static_cast<float>(fading_min), ink);
+                if (is_refreshing_page) {
+                    ink_now = static_cast<float>(fading_min);
+                }
+                else {
+                    ink -= fading_speed;
+                    ink_now = std::max(static_cast<float>(fading_min), ink);
+                }
             }
             else {
                 ink_now = 1.0;
@@ -592,13 +608,13 @@ public:
             y_prev = m_anchor_y;
         }
 
-        if ((m_event_phases_slice.size() >= page_refresh) && (!is_loading_log)) {
+        if (is_refreshing_page) {
             cout << "page refresh" << endl;
             m_event_phases_slice[m_event_phases_slice.size() - 1]->phase = "up";
 
             //m_events.push_back(m_events_slice);
             m_event_phases.push_back(m_event_phases_slice);
-            m_event_colors.push_back(m_event_colors_slice); 
+            m_event_colors.push_back(m_event_colors_slice);
 
             m_image.write_and_lock("export24aa.png", 72);
 
@@ -608,7 +624,7 @@ public:
 
             //m_events_slice.push_back(m_events[m_events.size() - 1][m_events[m_events.size() - 1].size() - 1]);
             event_info ei;
-            ei.X = m_event_phases[m_event_phases.size()-1][m_event_phases[m_event_phases.size() - 1].size() - 1]->X;
+            ei.X = m_event_phases[m_event_phases.size() - 1][m_event_phases[m_event_phases.size() - 1].size() - 1]->X;
             ei.Y = m_event_phases[m_event_phases.size() - 1][m_event_phases[m_event_phases.size() - 1].size() - 1]->Y;
             ei.phase = "down";
             //ei.shiftX = 0;
@@ -618,7 +634,13 @@ public:
             m_event_colors_slice.push_back(m_event_colors[m_event_colors.size() - 1][m_event_colors[m_event_colors.size() - 1].size() - 1]);
 
             m_image.draw_history("export24aa.png");
+            is_refreshing_page = false;
         }
+
+        if ((m_event_phases_slice.size() >= page_refresh) && (!is_loading_log)) {
+            is_refreshing_page = true;
+        }
+
         is_loading_log = false;
         return{ {ink} };
     } };
@@ -685,6 +707,7 @@ public:
                             std::stringstream sub_string(line);
                             string token;
                             int i = 0;
+                            double r, g, b;
                             while (std::getline(sub_string, token, ',')) {
                                 event_info ei;
                                 if (i == 1) {
@@ -700,10 +723,22 @@ public:
 									ei.phase = token;
 								}
 								else if (i == 5) {
+									ei.fade = std::stoi(token);
+								}
+                                else if (i == 6) {
+                                    r = std::stod(token);
+                                }
+								else if (i == 7) {
+									g = std::stod(token);
+								}
+								else if (i == 8) {
+									b = std::stod(token);
+								}
+								else if (i == 9) {
 									ei.ms = std::chrono::duration<float>(std::stof(token));
 								}
                                 m_event_phases_slice.push_back(new event_info(ei));
-                                color c{ 1.0, 1.0, 1.0, 1.0 };
+                                color c{ r, g, b, 1.0 };
                                 m_event_colors_slice.push_back(c);
                                 i += 1;
                             }

@@ -41,6 +41,11 @@
 			<description></description>
 		</method>
 
+		<method name='end_record'>
+			<digest></digest>
+			<description></description>
+		</method>
+
 		<method name='log'>
 			<digest></digest>
 			<description></description>
@@ -66,12 +71,12 @@
 			<description></description>
 		</method>
 
-		<method name='terrain'>
+		<method name='terrain_show'>
 			<digest></digest>
 			<description></description>
 		</method>
 
-		<method name='terrain_clear'>
+		<method name='terrain_hide'>
 			<digest></digest>
 			<description></description>
 		</method>
@@ -139,6 +144,11 @@
 		</attribute>
 
 		<attribute name='log_name' get='1' set='1' type='symbol' size='1' >
+			<digest></digest>
+			<description></description>
+		</attribute>
+
+		<attribute name='auto_save_interval' get='1' set='1' type='float64' size='1' >
 			<digest></digest>
 			<description></description>
 		</attribute>

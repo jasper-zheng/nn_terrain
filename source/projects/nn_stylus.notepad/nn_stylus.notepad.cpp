@@ -46,7 +46,7 @@ private:
     attribute<number>  m_fontsize{ this, "fontsize", 8.0 };
     attribute<bool>  is_fading{ this, "fade_history", true };
     attribute<color>  ink_color{ this, "ink_color", color{1.0,1.0,1.0,1.0} };
-    //attribute<color>  m_background_color{ this, "background_color", color{0.1,0.1,0.1,1.0} };
+
     attribute<number> page_refresh{ this, "page_refresh", 1000 };
 
     number pen_pressure {};
@@ -132,16 +132,6 @@ public:
         redraw();
     }
 
-    // the actual attribute for the message
-    //attribute<color>  m_background_fill{ this, "background_fill_colour", color{0.1,0.1,0.1,1.0}, description {
-    //        "Background fill"
-    //        "Colour of the background."
-    //    },
-    //    setter { MIN_FUNCTION{
-    //        //redraw();
-    //        return {args[0]};
-    //        }} 
-    //};
 
     attribute<symbol> canvas_background{ this, "canvas_background", "none",
         description {
@@ -239,7 +229,6 @@ public:
     };
     message<> m_mousemove{ this, "mousemove",
         MIN_FUNCTION {
-            //cout << "mousemove" << endl;
             send("move", args);
             return {};
         }
@@ -266,7 +255,6 @@ public:
     };
     message<> m_mousedrag{ this, "mousedrag",
         MIN_FUNCTION {
-            //cout << "mousedrag" << endl;
             send("drag", args);
             return {};
         }
@@ -381,7 +369,6 @@ public:
     message<> m_paint{ this, "paint",
         MIN_FUNCTION {
             target t { args };
-            //m_paint_target = std::make_unique<target>(args);
 
             rect<fill> {	// background
                 t,
