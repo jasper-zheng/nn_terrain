@@ -4,6 +4,7 @@
 
 This is a (work-in-progress) Max external for sound synthesising with latent terrain, as well as creating letent terrains on-the-fly, using interactive machine learning.
 
+## Example Max Patches using Latent Terrain  
 
 Constructing a terrain by defining the trajectories of audio fragments:  
 ![cppn](./assets/terrain_training_cppn_s.gif)  
