@@ -5,6 +5,7 @@
 
 
 using namespace c74::min::ui;
+using namespace c74::min;
 
 class terrain {
 public:
