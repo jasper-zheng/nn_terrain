@@ -28,7 +28,7 @@ We're currently testing the model on acids-ircam's [RAVE](https://github.com/aci
 
 To compile, you will need: 
  - Min-DevKit, available from the Package Manager inside of Max or [directly from Github](https://github.com/Cycling74/min-devkit).   
- - (LibTorch)[https://pytorch.org/cppdocs/installing.html].  
+ - [LibTorch](https://pytorch.org/cppdocs/installing.html).  
 
 
 
