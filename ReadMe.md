@@ -1,23 +1,32 @@
 # Latent Terrain Priors for Neural Audio Autoencoders
 
+Constructing a terrain by defining the trajectories of audio fragments:  
+![cppn](./assets/terrain_training_cppn_s.gif)   
+
+It also supports the point-by-point steering approach proposed by Vigliensoni and Fiebrink (2023):    
+![cppn](./assets/terrain_training_points_s.gif)   
+
 *Latent Terrain* is an algorithmic approach to dissecting the latent space of a neural audio autoencoder (e.g., [RAVE](https://github.com/acids-ircam/RAVE)) into a lower-dimensional (e.g., 2D), mountainous, and steep space. The dissected structure is a streamable "terrain", which can be used to access latent vectors given coordinates in the lower-dimensional space.
 
-This is a (work-in-progress) Max external for sound synthesising with latent terrain, as well as creating letent terrains on-the-fly, using interactive machine learning.
+This is a (work-in-progress) Max external for sound synthesising with latent terrain, as well as creating letent terrains on-the-fly, using interactive machine learning.  
 
-## Example Max Patches using Latent Terrain  
+The external, demo Max patches, documentation and tutorials will be released soon.
 
-Constructing a terrain by defining the trajectories of audio fragments:  
-![cppn](./assets/terrain_training_cppn_s.gif)  
+## Demos
 
-It also support the point-by-point steering approach proposed by Vigliensoni and Fiebrink (2023):    
-![cppn](./assets/terrain_training_points_s.gif)  
+Demo videos recorded for the IRCAM Forum Workshops 2025, see the [article](https://forum.ircam.fr/article/detail/latent-terrain-dissecting-the-latent-space-of-neural-audio-autoencoder-by-shuoyang-jasper-zheng/).  
+
+
+https://github.com/user-attachments/assets/39dc648f-7c11-4669-895a-1f46999ddca1
+
+
 
 
 ## Progress   
 
-We're currently testing the model on acids-ircam's [RAVE](https://github.com/acids-ircam/nn_tilde).  
+We're currently testing the model on acids-ircam's [nn_tilde](https://github.com/acids-ircam/nn_tilde).  
 
-- [✔︎] Load and inference scripted mapping model exported bt torchscript in realtime.   
+- [✔︎] Load and inference scripted mapping model exported bt torchscript.   
 - [✕︎] Display terrain visualisation.  
   - [✔︎] Greyscale (one-channel)  
   - [✕︎] Multi-channel  
