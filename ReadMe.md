@@ -40,6 +40,10 @@ We're currently testing the model on acids-ircam's [nn_tilde](https://github.com
 <s> - Min-DevKit, available from the Package Manager inside of Max or [directly from Github](https://github.com/Cycling74/min-devkit).   </s>  
 <s> - [LibTorch](https://pytorch.org/cppdocs/installing.html).  </s>
 
+```
+cmake -G Xcode ../src/ -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release
+```
+
 At the final stage of cleaning up the repository, planning to get everything done by mid-May.  
 Once ready, a release tag will be added to the repository, with the external objects, example Max patches, instructions to compile.
 

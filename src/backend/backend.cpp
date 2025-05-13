@@ -1,3 +1,5 @@
+// Adapted from https://github.com/acids-ircam/nn_tilde/blob/master/src/backend/backend.cpp
+
 #include "backend.h"
 #include "parsing_utils.h"
 #include <algorithm>
@@ -8,7 +10,8 @@
 #define CUDA torch::kCUDA
 #define MPS torch::kMPS
 
-CPPN::CPPN() : m_loaded(0), m_device(CPU), m_use_gpu(false) {
+
+FCPPN::FCPPN() : m_loaded(0), m_device(CPU), m_use_gpu(false) {
     at::init_num_threads();
   }
 
@@ -18,7 +21,7 @@ Backend::Backend() : m_loaded(0), m_device(CPU), m_use_gpu(false) {
 
 void Backend::perform(std::vector<float *> in_buffer,
                       std::vector<float *> out_buffer,
-                      int n_vec, // 128
+                      int n_vec, // m_buffer_size
                       std::string method,
                       int n_batches) {
   c10::InferenceMode guard;
@@ -49,10 +52,6 @@ void Backend::perform(std::vector<float *> in_buffer,
   cat_tensor_in = cat_tensor_in.reshape({in_dim, n_batches, -1, in_ratio});
   cat_tensor_in = cat_tensor_in.select(-1, -1); // this line gets rid of the last dimension
   cat_tensor_in = cat_tensor_in.permute({1, 0, 2}); // -> {n_batches, in_dim, n latent per buffer}
-//    std::cout << "dim: "<<cat_tensor_in.dim() <<std::endl;
-//    for (int i(0); i<cat_tensor_in.dim(); i++){
-//        std::cout <<"dim"<<i<<": "<<cat_tensor_in.size(i)<<std::endl;
-//    }
     
     
   // SEND TENSOR TO DEVICE
@@ -103,83 +102,6 @@ void Backend::perform(std::vector<float *> in_buffer,
   }
 }
 
-
-void Backend::freeze(std::vector<float *> in_buffer,
-                      std::vector<float *> out_buffer,
-                      int n_vec, //2048
-                      std::string method,
-                      int n_batches) {
-  c10::InferenceMode guard;
-
-  auto params = get_method_params(method);
-  // std::cout << "in_buffer length : " << in_buffer.size() << std::endl;
-  // std::cout << "out_buffer length : " << out_buffer.size() << std::endl;
-
-  if (!params.size())
-    return;
-
-  auto in_dim = params[0];
-  auto in_ratio = params[1];
-  auto out_dim = params[2];
-  auto out_ratio = params[3];
-
-  if (!m_loaded)
-    return;
-
-  // COPY BUFFER INTO A TENSOR
-  std::vector<at::Tensor> tensor_in;
-  // for (auto buf : in_buffer)
-  for (int i(0); i < in_buffer.size(); i++) {
-    tensor_in.push_back(torch::from_blob(in_buffer[i], {1, 1, n_vec}));
-  }
-
-  auto cat_tensor_in = torch::cat(tensor_in, 1);
-  cat_tensor_in = cat_tensor_in.reshape({in_dim, n_batches, -1, in_ratio});
-  cat_tensor_in = cat_tensor_in.select(-1, -1);
-  cat_tensor_in = cat_tensor_in.permute({1, 0, 2});
-    
-  // SEND TENSOR TO DEVICE
-  std::unique_lock<std::mutex> model_lock(m_model_mutex);
-  cat_tensor_in = cat_tensor_in.to(m_device);
-  std::vector<torch::jit::IValue> inputs = {cat_tensor_in};
-
-  // PROCESS TENSOR
-  at::Tensor tensor_out;
-  try {
-    tensor_out = m_model.get_method(method)(inputs).toTensor();
-    tensor_out = tensor_out.repeat_interleave(out_ratio).reshape(
-        {n_batches, out_dim, -1});
-  } catch (const std::exception &e) {
-    std::cerr << e.what() << '\n';
-    return;
-  }
-  model_lock.unlock();
-
-  int out_batches(tensor_out.size(0)), out_channels(tensor_out.size(1)),
-      out_n_vec(tensor_out.size(2));
-
-  // CHECKS ON TENSOR SHAPE
-  if (out_batches * out_channels != out_buffer.size()) {
-    std::cout << "bad out_buffer size, expected " << out_batches * out_channels
-              << " buffers, got " << out_buffer.size() << "!\n";
-    return;
-  }
-
-  if (out_n_vec != n_vec) {
-    std::cout << "model output size is not consistent, expected " << n_vec
-              << " samples, got " << out_n_vec << "!\n";
-    return;
-  }
-
-  tensor_out = tensor_out.to(CPU);
-  tensor_out = tensor_out.reshape({out_batches * out_channels, -1});
-  auto out_ptr = tensor_out.contiguous().data_ptr<float>();
-
-  for (int i(0); i < out_buffer.size(); i++) {
-    memcpy(out_buffer[i], out_ptr + i * n_vec, n_vec * sizeof(float));
-  }
-}
-
 int Backend::load(std::string path) {
   try {
     auto model = torch::jit::load(path);
@@ -198,35 +120,6 @@ int Backend::load(std::string path) {
     std::cerr << e.what() << '\n';
     return 1;
   }
-}
-
-int CPPN::load(std::string path) {
-  try {
-    auto model = torch::jit::load(path);
-    model.eval();
-    model.to(m_device);
-
-    std::unique_lock<std::mutex> model_lock(m_model_mutex);
-    m_model = model;
-    m_loaded = 1;
-    model_lock.unlock();
-
-//    m_available_methods = get_available_methods();
-      m_path = path;
-      std::vector<torch::jit::IValue> test_inputs;
-      // CAUTION
-      //test_inputs.push_back(torch::tensor({ { -0.8681, 3.5148, -1.6512, -5.0145, 0.0} }));
-      test_inputs.push_back(torch::tensor({ { -0.8681, 3.5148} }));
-      output_tensor = m_model.forward(test_inputs).toTensor();
-    return 0;
-  } catch (const std::exception &e) {
-    std::cerr << e.what() << '\n';
-    return 1;
-  }
-}
-
-void CPPN::save(std::string path) {
-    // jit model can't be saved with torch::save, need to seek for other options, e.g., implementing the model archetecture in C++
 }
 
 int Backend::reload() {
@@ -470,16 +363,7 @@ std::vector<int> Backend::get_method_params(std::string method) {
   }
   return params;
 }
-std::vector<int> CPPN::get_method_params() {
-    std::vector<int> params;
-// TODO
-//    for (int i(0); i < 2; i++){
-//        params.push_back(p[i].item().to<int>());
-//    }
-    params.push_back(3);
-    params.push_back(8);
-    return params;
-}
+
 
 int Backend::get_higher_ratio() {
   int higher_ratio = 1;
@@ -494,25 +378,6 @@ int Backend::get_higher_ratio() {
 }
 
 bool Backend::is_loaded() { return m_loaded; }
-bool CPPN::is_loaded() { return m_loaded; }
-void CPPN::use_gpu(bool value) {
-  std::unique_lock<std::mutex> model_lock(m_model_mutex);
-  if (value) {
-    if (torch::hasCUDA()) {
-      std::cout << "sending model to cuda" << std::endl;
-      m_device = CUDA;
-    } else if (torch::hasMPS()) {
-      std::cout << "sending model to mps" << std::endl;
-      m_device = MPS;
-    } else {
-      std::cout << "sending model to cpu" << std::endl;
-      m_device = CPU;
-    }
-  } else {
-    m_device = CPU;
-  }
-  m_model.to(m_device);
-}
 
 void Backend::use_gpu(bool value) {
   std::unique_lock<std::mutex> model_lock(m_model_mutex);
@@ -532,3 +397,55 @@ void Backend::use_gpu(bool value) {
   }
   m_model.to(m_device);
 }
+
+void FCPPN::use_gpu(bool value) {
+  std::unique_lock<std::mutex> model_lock(m_model_mutex);
+  if (value) {
+    if (torch::hasCUDA()) {
+      std::cout << "sending model to cuda" << std::endl;
+      m_device = CUDA;
+    } else if (torch::hasMPS()) {
+      std::cout << "sending model to mps" << std::endl;
+      m_device = MPS;
+    } else {
+      std::cout << "sending model to cpu" << std::endl;
+      m_device = CPU;
+    }
+  } else {
+    m_device = CPU;
+  }
+  m_model->to(m_device);
+//    model_lock.unlock();
+}
+
+bool FCPPN::save(std::string save_path, std::string save_name, int m_in_dim, int m_out_dim,
+                    int m_cmax, float m_gauss_scale, int m_mapping_size) {
+//    std::unique_lock<std::mutex> model_lock(m_model_mutex);
+    try {
+        m_model->to(CPU);
+        // TODO: this is not a save path:
+        torch::serialize::OutputArchive archive;
+        m_model->save(archive);
+//        archive << value;
+        
+        archive.write("m_in_dim", torch::tensor(m_in_dim));
+        archive.write("m_out_dim", torch::tensor(m_out_dim));
+        archive.write("m_cmax", torch::tensor(m_cmax));
+        archive.write("m_gauss_scale", torch::tensor(m_gauss_scale));
+        archive.write("m_mapping_size", torch::tensor(m_mapping_size));
+
+        // Save the archive to the specified file path
+        std::string src_path_str = (std::filesystem::path(save_path) / (save_name+".pt")).string();
+        archive.save_to(src_path_str);
+        
+        m_model->to(m_device);
+        return true;
+    } catch (const std::exception &e) {
+        m_model->to(m_device);
+        throw e;
+        return false;
+    }
+}
+
+
+

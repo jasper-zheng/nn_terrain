@@ -18,7 +18,8 @@ if ((NOT ("${PUREDATA_INCLUDE_DIR}" STREQUAL "")) OR (UNIX AND NOT APPLE))
 endif()
 
 if(APPLE OR MSVC)
-    add_subdirectory(frontend/maxmsp/nn_terrain) # MAX MSP EXTERNAL
-    add_subdirectory(frontend/maxmsp/mc.nn_tilde) # MAX MSP EXTERNAL
-    add_subdirectory(frontend/maxmsp/mcs.nn_tilde) # MAX MSP EXTERNAL
+    add_subdirectory(frontend/maxmsp/nn.terrain) # MAX MSP EXTERNAL
+    add_subdirectory(frontend/maxmsp/nn.terrain.encode) # MAX MSP EXTERNAL
+    add_subdirectory(frontend/maxmsp/nn.terrain.record) # MAX MSP EXTERNAL
+    add_subdirectory(frontend/maxmsp/nn.terrain.gui) # MAX MSP EXTERNAL
 endif()

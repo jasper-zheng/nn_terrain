@@ -36,12 +36,10 @@ find_package(Torch REQUIRED)
 
 set(
 SOURCE_FILES
-	nn_terrain.cpp
-    	"circular_buffer.h"
-	"utils.h"
-	"pen.h"
-	"min_path.h"
-	"terrain.h"
+	nn.terrain.encode.cpp
+	"../shared/utils.h"
+	"../shared/min_path.h"
+	"../shared/min_dictionary.h"
 )
 
 if (UNIX)
@@ -59,11 +57,9 @@ add_library(
 	${PROJECT_NAME} 
 	MODULE
 	${SOURCE_FILES}
-    	"circular_buffer.h"
-	"utils.h"
-	"pen.h"
-	"min_path.h"
-	"terrain.h"
+	"../shared/utils.h"
+	"../shared/min_path.h"
+	"../shared/min_dictionary.h"
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE backend)
 

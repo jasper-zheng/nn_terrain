@@ -4,6 +4,9 @@
 ///	@license	Use of this source code is governed by the MIT License found in the License.md file.
 
 #pragma once
+#include <filesystem>
+#include <chrono>
+#include <ctime>
 
 namespace c74::min {
 
@@ -47,7 +50,6 @@ namespace c74::min {
             : m_path{ path_id }
             , m_directory{ true }
         {}
-
 
         // path initialized by name
         min_path(const std::string& name, const filetype type = filetype::any, const bool create = false) {
@@ -236,7 +238,6 @@ namespace c74::min {
                 return m_filename;
         }
 
-
         /// Copy the file/folder represented by this path to a specified destination.
         /// @param destination_folder The folder will be the folder containing the copy of this path
 
@@ -259,4 +260,36 @@ namespace c74::min {
         bool          m_directory{};
     };
 
+    atoms create_log_and_save(const std::string& save_name, const std::string& base_path, const std::string& input) {
+        
+        char buffer[256];
+        struct tm * datetime;
+        std::time_t timestamp;
+        
+        std::time(&timestamp);
+        datetime = localtime(&timestamp);
+        
+        std::strftime(buffer, sizeof(buffer), "%Y%m%d%H%M%S", datetime);
+        
+        string file_name_str = save_name + buffer;
+        string src_path_str = (std::filesystem::path(base_path) / (file_name_str+".txt")).string();
+        
+        
+//        string src_content;
+//        {
+//            std::ifstream in{ src_path_str };
+//            src_content = string{ std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>() };
+//        }
+//        {
+//            std::ofstream out{ src_path_str };
+//            out << input;
+//            out.close();
+//        }
+        
+        return { {src_path_str, file_name_str} };
+    }
+
+    
 }    // namespace c74::min
+
+
