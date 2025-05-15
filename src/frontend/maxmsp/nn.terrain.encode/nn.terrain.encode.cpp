@@ -125,8 +125,7 @@ public:
   message<> maxclass_setup{
       this, "maxclass_setup",
       [this](const c74::min::atoms &args, const int inlet) -> c74::min::atoms {
-        cout << "nn_terrain~ " << VERSION << " - torch " << TORCH_VERSION
-             << " - built on 2023 - Antoine Caillon & Axel Chemla--Romeu-Santos" << endl;
+        cout << "torch version: " << TORCH_VERSION << endl;
         return {};
       }};
     
@@ -179,7 +178,7 @@ public:
                 string key_str = std::string(keys[i]->s_name);
                 atom d_data = d[key_str];
                 min_dict d_data_dict = {d_data};
-                atom count = c74::max::dictionary_getentrycount(d_data_dict.m_instance);
+//                atom count = c74::max::dictionary_getentrycount(d_data_dict.m_instance);
                 
                 if (key_str == "coordinates"){
                     cout << "please send coordinates directly to nn.terrain" << endl;
@@ -229,19 +228,26 @@ public:
                 return {};
             }
             // ==============
-            
+//            return {};
             std::vector<at::Tensor> tensor_in;
             std::vector<int> latent_lens;
             try{
                 // TODO: need a better way to convert buffers to tensors
                 for (int i(0); i < buffers.size(); i++) {
                     buffer_lock<false> b {*buffers[i]};
-                    vector<float> buffer_data(b.lookup(0, 1), b.lookup(b.frame_count()-1, 1));
+                    
+//                    vector<float> buffer_data(b.lookup(0, 0), b.lookup(b.frame_count()-1, 0));
+                    
+                    vector<float> buffer_data;
+                    for (int j(0); j < b.frame_count(); j++){
+                        float buffer_data_p = b.lookup(j, 0);
+                        buffer_data.push_back(buffer_data_p);
+                    }
                     
                     at::Tensor buffer_tensor = torch::from_blob(buffer_data.data(), {1, 1, static_cast<long long>(b.frame_count())}, torch::kFloat);
                     buffer_tensor = buffer_tensor.clone();
                     
-//                    // if buffer size is not divisible by m_out_ratio (2048), pad with zeros at the end
+                    // if buffer size is not divisible by m_out_ratio (2048), pad with zeros at the end
                     int zeros = m_out_ratio - b.frame_count() % m_out_ratio;
                     latent_lens.push_back(
                         std::ceil(static_cast<float>(b.frame_count()) / static_cast<float>(m_out_ratio))
@@ -254,7 +260,7 @@ public:
                 cerr << e.what() << endl;
                 return {};
             }
-            
+//            return {};
             auto cat_tensor_in = torch::cat(tensor_in, 2); // -> [1, 1, num_samples]
             
             // batching, in case the buffers are too long:
@@ -274,10 +280,11 @@ public:
             // forward pass:
             std::vector<at::Tensor> tensor_out_trim;
             at::Tensor cat_tensor_out;
-            
+//            return {};
             std::unique_lock<std::mutex> model_lock(m_model->m_model_mutex);
+//            torch::NoGradGuard no_grad;
             try {
-                
+                torch::NoGradGuard no_grad;
                 for (int i(0); i < cat_tensor_in_trim.size(0); i++){
                     at::Tensor input_tensor = cat_tensor_in_trim.index({i}).unsqueeze(0).to(m_model->m_device);
                     std::vector<torch::jit::IValue> inputs = {input_tensor};
@@ -297,10 +304,15 @@ public:
                 
                 model_lock.unlock();
             } catch (const std::exception &e) {
-                cerr << e.what() << endl;
+                std::string str = e.what();
+                if (str.size() > 1000) {
+                        str.erase(0, 1000);
+                    }
+                cerr << str << endl;
+                
                 return {};
             }
-            
+//            return {};
             
             latent_dict.clear();
             

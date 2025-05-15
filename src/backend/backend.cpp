@@ -435,7 +435,7 @@ bool FCPPN::save(std::string save_path, std::string save_name, int m_in_dim, int
         archive.write("m_mapping_size", torch::tensor(m_mapping_size));
 
         // Save the archive to the specified file path
-        std::string src_path_str = (std::filesystem::path(save_path) / (save_name+".pt")).string();
+        std::string src_path_str = (std::filesystem::path(save_path) / save_name).string();
         archive.save_to(src_path_str);
         
         m_model->to(m_device);

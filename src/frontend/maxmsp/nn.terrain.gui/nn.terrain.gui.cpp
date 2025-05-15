@@ -208,7 +208,7 @@ private:
     
     attribute<int,threadsafe::undefined,limit::clamp> plot_resolution {this, "plot_resolution", 1, title{": Plot Resolution"}, description {"(int) 1~16, the resolution to display the terrain"},range{{1, 16}}};
     
-    attribute<number,threadsafe::undefined,limit::clamp> traj_density{ this, "trajectories_point_density", 0.4f, title{": Point Density"}, description{"density of points in a trajectory"}, range{{0.1, 10.0}}, setter{ MIN_FUNCTION{
+    attribute<number,threadsafe::undefined,limit::clamp> traj_density{ this, "point_density", 0.4f, title{": Point Density"}, description{"density of points in a trajectory"}, range{{0.1, 10.0}}, setter{ MIN_FUNCTION{
         float density = static_cast<float>(args[0]);
         ms_to_distance = samplerate()/m_in_ratio*0.001*density;
         dist_to_ms = m_in_ratio/(0.001f*samplerate()*density);
@@ -258,7 +258,7 @@ private:
     attribute<numbers> terrain_clamp { this, "terrain_clamp", {-1.0f, 4.0f}, description{"(min, max)"}, title{": Terrain Value Clamp"}};
     attribute<color> t_rgb { this, "terrain_rgb_h", color{1.0,1.0,1.0,1.0}, description{"terrain colour higher bound"}, title{": Terrain Colour Hi"}};
     attribute<color> b_rgb { this, "terrain_rgb_l", color{0.9,0.75,0.6,0.0}, description{"terrain colour lower bound"}, title{": Terrain Colour Lo"}};
-    attribute<bool> show_stylus{ this, "show_stylus", true, description{"(bool)"}, title{": Stylus Display"}, setter{ MIN_FUNCTION{
+    attribute<bool> show_stylus{ this, "stylus_display", true, description{"(bool)"}, title{": Stylus Display"}, setter{ MIN_FUNCTION{
 //        redraw();
         return { args[0] };
     }}};
@@ -267,12 +267,12 @@ private:
         } }
     };
     
-    attribute<number,threadsafe::undefined,limit::clamp> m_line_width_scale{ this, "line_width_scale", 3.0, title{": Stylus Line Width"},range{0.1, 10.0}, description{"(float) line width of the drawing in the stylus mode"}};
+    attribute<number,threadsafe::undefined,limit::clamp> m_line_width_scale{ this, "stylus_line_width", 3.0, title{": Stylus Line Width"},range{0.1, 10.0}, description{"(float) line width of the drawing in the stylus mode"}};
         
     
     number m_line_width_min = 0.01;
 
-    attribute<color>  ink_color{ this, "ink_color", color{1.0,1.0,1.0,1.0}, title{": Stylus Ink Colour"}, description{"(color) colour of the drawing in the stylus mode"}};
+    attribute<color>  ink_color{ this, "stylus_ink_color", color{1.0,1.0,1.0,1.0}, title{": Stylus Ink Colour"}, description{"(color) colour of the drawing in the stylus mode"}};
     number page_refresh = 1000;
 
     
@@ -417,6 +417,31 @@ public:
                     const auto& traj {m_trajs[i]};
                     traj->completed = false;
                 }
+            }
+            traj_to_refresh = true;
+            return {};
+        }
+    };
+    
+    message<> append_m {this, "append", "Add an audio sample length (in ms) to be plotted along trajectories",
+        MIN_FUNCTION {
+            if (args.size() != 1){
+                cerr << "args size " << args.size() << " error, args size should be 1" << endl;
+                return {};
+            }
+            if (args[0].a_type == 3){
+                cerr << "arguments need to be int or float" << endl;
+                return {};
+            }
+            if (m_mode != modes::audio){
+                cwarn << "Defining length of audio samples only works in audio dataset mode" << endl;
+                return {};
+            }
+            latent_lens.push_back(ms_to_lt(args[0]));
+            if (latent_lens.size() <= m_trajs.size()){
+                const auto& traj {m_trajs[latent_lens.size()-1]};
+                traj_len_ms.push_back(traj->ms);
+                traj->completed = traj->filled_latents >= latent_lens.back();
             }
             traj_to_refresh = true;
             return {};
@@ -1791,6 +1816,7 @@ void stylus::clear_trajs(tasks t, modes m){
         }
         type_traj.clear();
         traj_len_ms.clear();
+        latent_lens.clear();
         traj_ptr = 0;
     } else if (t == tasks::play){
         selected_traj = 0;

@@ -227,6 +227,7 @@ public:
     
     message<> maxclass_setup{
         this, "maxclass_setup", [this](const c74::min::atoms &args, const int inlet) -> c74::min::atoms {
+            cout << "torch version: " << TORCH_VERSION << endl;
             return {};
         }
     };
@@ -809,6 +810,8 @@ void nn_terrain::cppn_infer(float* float_in, std::vector<float *> out_buffer){
     try {
         
         tensor_out = cppn_model->m_model->forward(tensor_in);
+        
+        tensor_out = tensor_out.clamp_min({-100.0f}).clamp_max({100.0f});
         
         // -----------------------------
         
