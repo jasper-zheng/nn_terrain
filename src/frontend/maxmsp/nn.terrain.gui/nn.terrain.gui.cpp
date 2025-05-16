@@ -116,7 +116,7 @@ private:
     int play_seg_ptr = 0;
     int is_adding_new = 0; // 0: no, 1: adding to the front, 2: adding to the end
     bool continue_dragging = false;
-    bool drag_once = false;;
+    bool drag_once = false;
     
     click_check_info cc;
     
@@ -633,23 +633,25 @@ public:
     
     number prev_x = 0.0f;
     number prev_y = 0.0f;
+    number prev_p = 0.0f;
     symbol prev_phase = "none";
     void send(symbol message_name, const event& e) {
-        symbol event_type;
-        if (e.type() == event::input_type::mouse)
-            event_type = c74::max::gensym("mouse");
-        else if (e.type() == event::input_type::touch)
-            event_type = c74::max::gensym("touch");
-        else if (e.type() == event::input_type::pen)
-            event_type = c74::max::gensym("pen");
-        else
-            event_type = c74::max::gensym("unknown");
-        
-        if (prev_x == e.x() && prev_y == e.y() && prev_phase == message_name){
+//        symbol event_type;
+//        if (e.type() == event::input_type::mouse)
+//            event_type = c74::max::gensym("mouse");
+//        else if (e.type() == event::input_type::touch)
+//            event_type = c74::max::gensym("touch");
+//        else if (e.type() == event::input_type::pen)
+//            event_type = c74::max::gensym("pen");
+//        else
+//            event_type = c74::max::gensym("unknown");
+//        
+        if (prev_x == e.x() && prev_y == e.y() && prev_p == e.pen_pressure() && prev_phase == message_name){
             return;
         } else {
             prev_x = e.x();
             prev_y = e.y();
+            prev_p = e.pen_pressure();
             prev_phase = message_name;
         }
         
@@ -661,7 +663,7 @@ public:
         event_info ei;
         ei.X = xy[0];
         ei.Y = xy[1];
-        ei.P = e.type() == event::input_type::pen ? e.pen_pressure() : 0.4;
+        ei.P = e.pen_pressure() == 1.0 ? 0.4 : e.pen_pressure();
         ei.phase = message_name;
 //        ei.ms = std::chrono::system_clock::now() - now;
         
@@ -1266,7 +1268,7 @@ public:
         }
     };
     message<> m_mousedrag{ this, "mousedrag",MIN_FUNCTION {send("drag", args);return {};}};
-    message<> m_mousedragdelta { this, "mousedragdelta",MIN_FUNCTION {send("drag", args);return {};}};
+//    message<> m_mousedragdelta { this, "mousedragdelta",MIN_FUNCTION {send("drag", args);return {};}};
 
 //    message<> m_create_terrain{ this, "terrain_create",
 //        MIN_FUNCTION {

@@ -49,7 +49,7 @@ if (UNIX)
 			OUTPUT_VARIABLE VERSION
 			OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
-	message(${VERSION})
+	message(STATUS ${VERSION})
 	add_definitions(-DVERSION="${VERSION}")
 endif()
 
@@ -64,9 +64,10 @@ add_library(
 target_link_libraries(${PROJECT_NAME} PRIVATE backend)
 
 if (APPLE) # SEARCH FOR TORCH DYLIB IN THE LOADER FOLDER
+target_link_libraries(${PROJECT_NAME} PRIVATE "-framework CoreFoundation")
 set_target_properties(${PROJECT_NAME} PROPERTIES
 BUILD_WITH_INSTALL_RPATH FALSE
-LINK_FLAGS "-Wl,-rpath,@loader_path/"
+LINK_FLAGS "-Wl,-F/Library/Frameworks,-rpath,@loader_path/"
 )
 endif()
 

@@ -36,7 +36,7 @@ find_package(Torch REQUIRED)
 
 set(
 SOURCE_FILES
-	nn.terrain.cpp
+	nn.terrain_tilde.cpp
     	"../shared/circular_buffer.h"
 	"../shared/utils.h"
 	"../shared/min_path.h"
@@ -50,7 +50,7 @@ if (UNIX)
 			OUTPUT_VARIABLE VERSION
 			OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
-	message(${VERSION})
+	message(STATUS ${VERSION})
 	add_definitions(-DVERSION="${VERSION}")
 endif()
 

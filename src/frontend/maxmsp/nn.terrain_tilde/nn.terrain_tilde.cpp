@@ -56,7 +56,7 @@ std::string min_devkit_path() {
 #endif    // WIN_VERSION
 
 #ifdef MAC_VERSION
-    CFBundleRef this_bundle = CFBundleGetBundleWithIdentifier(CFSTR("com.jasperzheng.nn-terrain"));
+    CFBundleRef this_bundle = CFBundleGetBundleWithIdentifier(CFSTR("com.jasperzheng.nn-terrain-"));
     CFURLRef    this_url = CFBundleCopyExecutableURL(this_bundle);
     char        this_path[4096];
     CFURLGetFileSystemRepresentation(this_url, true, reinterpret_cast<UInt8*>(this_path), 4096);
@@ -65,8 +65,8 @@ std::string min_devkit_path() {
     // we now have a path like this:
     // /Users/tim/Materials/min-devkit/externals/min.project.mxo/Contents/MacOS/min.project"
     // so we need to chop off 5 slashes from the end
-    auto iter = this_path_str.find("/externals/nn.terrain.mxo/Contents/MacOS/nn.terrain");
-    this_path_str.erase(iter, strlen("/externals/nn.terrain.mxo/Contents/MacOS/nn.terrain"));
+    auto iter = this_path_str.find("/externals/nn.terrain~.mxo/Contents/MacOS/nn.terrain~");
+    this_path_str.erase(iter, strlen("/externals/nn.terrain~.mxo/Contents/MacOS/nn.terrain~"));
     return this_path_str;
 #endif    // MAC_VERSION
 }

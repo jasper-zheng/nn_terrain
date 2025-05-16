@@ -6,7 +6,9 @@ cmake_minimum_required(VERSION 3.0)
 set(C74_MIN_API_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../min-api)
 include(${C74_MIN_API_DIR}/script/min-pretarget.cmake)
 
-
+if (APPLE)
+	set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0")
+endif()
 #############################################################
 # MAX EXTERNAL
 #############################################################
@@ -38,7 +40,11 @@ add_library(
 
 
 include(${C74_MIN_API_DIR}/script/min-posttarget.cmake)
-
+if (APPLE)
+    target_link_libraries(${PROJECT_NAME} PRIVATE "-framework CoreFoundation")
+    target_link_libraries(${PROJECT_NAME} PRIVATE "-framework CoreGraphics")
+    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-Wl,-F/Library/Frameworks")
+endif()
 
 #############################################################
 # UNIT TEST

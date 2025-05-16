@@ -71,8 +71,6 @@ public:
   message<> maxclass_setup{
       this, "maxclass_setup",
       [this](const c74::min::atoms &args, const int inlet) -> c74::min::atoms {
-//        cout << "nn_terrain~ " << VERSION << " - torch " << TORCH_VERSION
-//             << " - built on 2023 - Antoine Caillon & Axel Chemla--Romeu-Santos" << endl;
         return {};
       }};
     message<> dspsetup {this, "dspsetup",

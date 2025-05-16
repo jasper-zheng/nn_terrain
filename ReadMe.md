@@ -1,5 +1,8 @@
 # Latent Terrain Priors for Neural Audio Autoencoders
 
+At the final stage of packaging up the repository, will get everything done by the end of May.  
+Once ready, a release tag will be added to the repository, with the external objects, example Max patches, instructions to compile.
+
 Constructing a terrain by defining the trajectories of audio fragments:  
 ![cppn](./assets/terrain_training_cppn_s.gif)   
 
@@ -19,33 +22,69 @@ Demo videos recorded for the IRCAM Forum Workshops 2025, see the [article](https
 
 https://github.com/user-attachments/assets/39dc648f-7c11-4669-895a-1f46999ddca1
 
+## Compatibility
 
+This external works with [nn_tilde v1.5.6 (torch v2.0.0)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6). If you have a `nn~` built from another torch version, you might have to build this yourself.
 
 
 ## Progress   
 
 We're currently testing the model on acids-ircam's [nn_tilde](https://github.com/acids-ircam/nn_tilde).  
 
-- [✔︎] Load and inference scripted mapping model exported bt torchscript.   
-- [✕︎] Display terrain visualisation.  
-  - [✔︎] Greyscale (one-channel)  
-  - [✕︎] Multi-channel  
+- [✕︎] Load and inference scripted mapping model exported bt torchscript.   
+- [✔︎] Display terrain visualisation.  
+  - [✔︎] Greyscale (one-channel)   
+  - [✔︎] Multi-channel (yes but no documentation atm)   
 - [✔︎] Interactive training of terrain models in Max MSP.   
-- [✕︎] Customised configuration of Fourier-CPPNs (Tancik et al., 2020).  
+- [✔︎] Customised configuration of Fourier-CPPNs (Tancik et al., 2020).  
 - [✕︎] Documentation, example patches, tutorials...  
 
-## Compile
 
-<s>To compile, you will need: </s>  
-<s> - Min-DevKit, available from the Package Manager inside of Max or [directly from Github](https://github.com/Cycling74/min-devkit).   </s>  
-<s> - [LibTorch](https://pytorch.org/cppdocs/installing.html).  </s>
+## Build Instructions
+
+### Prerequisites
+
+Mac: 
+ - Xcode 11 or 12 (you can get from the App Store for free).
+ - Download arm64 libtorch [here](https://pytorch.org/get-started/locally/) and unzip it to a known directory.
+ - Install a recent version of [CMake](https://cmake.org/download/) (version 3.19 or higher).
+
+Windows:
+ - ?
+
+### MacOS
+
+Recursively clone this repository into **Max's Packages folder**. Terminal command:
 
 ```
-cmake -G Xcode ../src/ -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release
+git clone https://github.com/jasper-zheng/nn_terrain.git --recursive
 ```
 
-At the final stage of cleaning up the repository, planning to get everything done by mid-May.  
-Once ready, a release tag will be added to the repository, with the external objects, example Max patches, instructions to compile.
+In Terminal, cd into the `nn_terrain` folder you cloned, and make a new folder named `build`. and cd into that folder:
+
+```
+cd nn_terrain
+mkdir build
+cd build
+```
+
+Then run the command below to generate an Xcode project, replace `path/to/libtorch` to your path to libtorch:
+
+```
+cmake ../src/ -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release -G Xcode 
+```
+
+An Xcode project in this `build` folder will be created, open it and use the GUI to build.
+
+Add `CoreFoundation.framework` to the "Frameworks and Libraries" section before build. See below:
+
+<img src="assets/macbuild.png" width="800px"></img>
+
+
+Taken from [min-devkit](https://github.com/Cycling74/min-devkit/tree/main)
+
+> If you are running on a Mac with Apple Silicon, you will likely see an error cannot be loaded due to system security policy when loading your externals in Max. To resolve this, you can ad-hoc codesign your external with codesign `--force --deep -s - myobject.mxo`.
+
 
 ## Acknowledgements
 

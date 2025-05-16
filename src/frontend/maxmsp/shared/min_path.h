@@ -13,7 +13,7 @@ namespace c74::min {
 
     class min_path {
     public:
-        enum class system { undefined = 0, application, desktop, preferences, temp };
+        enum class system { undefined = 0, application, desktop, preferences, temp, max };
 
         enum class filetype { any = 0, folder, external, patcher, audio };
 
@@ -37,6 +37,9 @@ namespace c74::min {
                 break;
             case system::temp:
                 m_path = max::path_tempfolder();
+                break;
+            case system::max:
+                m_path = max::path_usermaxfolder();
                 break;
             default:
                 m_path = 0;
