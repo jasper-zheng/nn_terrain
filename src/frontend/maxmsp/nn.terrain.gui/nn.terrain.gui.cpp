@@ -156,11 +156,11 @@ private:
     enum class tasks {dataset, play, stylus, enum_count};
     enum_map tasks_info = {"Dataset", "Play", "Stylus"};
     attribute<tasks> m_task { this, "task", tasks::dataset, tasks_info, title{": UI Tasks"}, description {"The task to be performed on the UI"}, setter{ MIN_FUNCTION{
-//        redraw();
-        if (args[0] != tasks::stylus && !e_inks.empty()) {
+
+        if (static_cast<int>(args[0]) != 2 /*tasks::stylus*/ && !e_inks.empty()) {
             e_inks.back()->phase = "up";
         }
-        if (args[0] == tasks::play) {
+        if (static_cast<int>(args[0]) == 1 /*tasks::play*/) {
             traj_len_ms.clear();
             for (int i = 0; i < m_plays.size(); i++){
                 const auto& traj {m_plays[i]};
@@ -171,6 +171,7 @@ private:
             }
             m_traj_len_all.send(traj_len_ms);
         }
+        //cout << "task changed to " << args[0] << endl;
         
         traj_to_refresh = true;
         return { args[0] };

@@ -10,6 +10,9 @@
 #define CUDA torch::kCUDA
 #define MPS torch::kMPS
 
+//#ifdef WIN_VERSION
+#include <filesystem>
+//#endif
 
 FCPPN::FCPPN() : m_loaded(0), m_device(CPU), m_use_gpu(false) {
     at::init_num_threads();

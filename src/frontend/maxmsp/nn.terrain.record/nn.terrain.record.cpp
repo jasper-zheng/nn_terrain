@@ -166,7 +166,7 @@ public:
     };
     
     void send_recordings() {
-        cout << "sending latents" << endl;
+        //cout << "sending latents" << endl;
         
         if (m_trajs.empty()){
             traj_num_output.send(m_trajs.size());
