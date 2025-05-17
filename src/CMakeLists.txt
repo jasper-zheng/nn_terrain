@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+if (APPLE)
+	set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0")
+endif()
+
 project(nn_terrain)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -13,9 +17,9 @@ endif()
 
 add_subdirectory(backend) # DEEP LEARNING BACKEND
 
-if ((NOT ("${PUREDATA_INCLUDE_DIR}" STREQUAL "")) OR (UNIX AND NOT APPLE))
-    add_subdirectory(frontend/puredata/nn_tilde) # PURE DATA EXTERNAL
-endif()
+# if ((NOT ("${PUREDATA_INCLUDE_DIR}" STREQUAL "")) OR (UNIX AND NOT APPLE))
+#     add_subdirectory(frontend/puredata/nn_terrain) # PURE DATA EXTERNAL
+# endif()
 
 if(APPLE OR MSVC)
     add_subdirectory(frontend/maxmsp/nn.terrain_tilde) # MAX MSP EXTERNAL

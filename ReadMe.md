@@ -46,7 +46,7 @@ If the externals have trouble opening in Max, or doesn't work correctly with nn_
 
 ### Prerequisites
 
-MacOS: 
+MacOS (arm64): 
  - Xcode 11 or 12 (you can get from the App Store for free).
  - Download arm64 LibTorch [here](https://pytorch.org/get-started/locally/) and unzip it to a known directory. LibTorch's torch version should be the same as nn_tilde.
  - Install a recent version of [CMake](https://cmake.org/download/) (version 3.19 or higher).
@@ -75,20 +75,20 @@ cd build
 Then run the command below to generate an Xcode project, replace `path/to/libtorch` to your path to libtorch:
 
 ```
-cmake ../src/ -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release -G Xcode 
+cmake ../src/ -G Xcode -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64  
 ```
 
-An Xcode project in this `build` folder will be created, open it and use the GUI to build.
+An Xcode project will be created in this `build` folder, you can either open the Xcode project and build it from there, or build by running the command below:
 
-Add `CoreFoundation.framework` to the "Frameworks and Libraries" section before build. See below:
+```
+cmake --build .
+```
 
-<img src="assets/macbuild.png" width="800px"></img>
 
-> p.s. if you know a better way to link frameworks in CMake without having to open Xcode, please let me know.
 
-Taken from [min-devkit](https://github.com/Cycling74/min-devkit/tree/main)
+Additionally, taken from [min-devkit](https://github.com/Cycling74/min-devkit/tree/main):
 
-> If you are running on a Mac with Apple Silicon, you will likely see an error cannot be loaded due to system security policy when loading your externals in Max. To resolve this, you can ad-hoc codesign your external with codesign `--force --deep -s - myobject.mxo`.
+> If you are running on a Mac with Apple Silicon, you might see an error cannot be loaded due to system security policy when loading your externals in Max. To resolve this, you can ad-hoc codesign your external with codesign `--force --deep -s - myobject.mxo`.
 
 ### Build on Windows
 

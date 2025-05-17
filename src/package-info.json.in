@@ -15,6 +15,9 @@
 		}
 	},
 	"tags" : [ ],
+	"package_extra" : {
+		"reverse_domain" : "com.jasperzheng"
+	},
 	"version" : "@GIT_VERSION_MAJ@.@GIT_VERSION_MIN@.@GIT_VERSION_SUB@",
 	"website" : "https://github.com/jasper-zheng/nn_terrain"
 }

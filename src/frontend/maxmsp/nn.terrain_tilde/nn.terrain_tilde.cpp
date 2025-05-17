@@ -311,7 +311,7 @@ public:
             net_args_dict["number_of_channels"] = m_cmax;
             net_args_dict["features_size"] = m_mapping_size;
             net_args_dict["number_of_parameters"] = static_cast<int>(cppn_model->m_model->parameters().size());
-            net_args_dict["saving_path"] = (std::filesystem::path(std::to_string(external_path)) / (std::to_string(saving_name)+".pt")).string();
+//            net_args_dict["saving_path"] = (std::filesystem::path(std::to_string(external_path)) / (std::to_string(saving_name)+".pt")).string();
             
             m_outlets[m_outlets.size()-1]->send("summary", "dictionary", net_args_dict.name());
             return {};
@@ -457,6 +457,8 @@ public:
         }
         } }
     };
+//    std::string external_path;
+    
     attribute<symbol> saving_name{ this, "saving_name", "UntitledTerrain", title{": Saving Name"}, setter{ MIN_FUNCTION{
         std::string str = std::string(args[0]);
         str.erase(std::remove(str.begin(), str.end(), ' '), str.end()); // remove spaces
@@ -492,8 +494,6 @@ private:
 //    double m_playback_position        { 0.0 };    // normalized range
 //    size_t m_record_position        { 0 };        // native range
     double m_one_over_samplerate    { 1.0 };
-    
-//    string external_path;
     
 };
 
@@ -970,17 +970,12 @@ nn_terrain::nn_terrain(const atoms &args){
     
     
     auto output_tensor = cppn_model->m_model->forward(test_inputs);
-//    cout << "cppn model test output: " << output_tensor << endl;
     
     optimizer = std::make_unique<torch::optim::Adam>(cppn_model->m_model->parameters(), static_cast<float>(lr));
     
     cppn_init = true;
 
-  // Calling forward in a thread causes memory leak in windows.
-  // See https://github.com/pytorch/pytorch/issues/24237
-//#ifdef _WIN32
   m_use_thread = false;
-//#endif
 
   // CREATE INLETS, OUTLETS and BUFFERS
   m_in_buffer = std::make_unique<circular_buffer<double, float>[]>(m_in_dim);
@@ -1003,11 +998,9 @@ nn_terrain::nn_terrain(const atoms &args){
     m_outlets.push_back(std::make_unique<outlet<>>(this, "(message) logging information, route option: summary, dataset, dataset_length, epoch, loss", "message"));
     
 
-//  if (m_use_thread) {
-////      m_compute_thread = std::make_unique<std::thread>(model_perform_loop, this);
-//  }
-          
     external_path = min_devkit_path();
+//    external_path = std::string(min_path(min_path::system::max));
+//    cout << "path " << external_path << endl;
     
     training_data["coordinates"] = coord_dict;
     training_data["latents"] = latent_dict;
@@ -1016,25 +1009,7 @@ nn_terrain::nn_terrain(const atoms &args){
     
     dataset_info_dict["coordinates"] = dataset_co_dict;
     dataset_info_dict["latents"] = dataset_lt_dict;
-//    cout << external_path << endl;
 
-//    m_timer.delay(1000);
-//    torch::OrderedDict<std::string, torch::Tensor> nb = cppn_model->m_model->named_buffers();
-//    for (auto it = nb.begin(); it != nb.end(); ++it) {
-//        cout << "name: " << it->key() << endl;
-//        cout << "tensor: " << it->value() << endl;
-//        cout << "size: " << it->value().sizes() << endl;
-//    }
-//    min_path model_path;
-//    model_path = min_path("cppn_model.pt");
-//    torch::Tensor loaded_tensor;
-//    try {
-//            // Load the tensor from the .pt file
-//            torch::load(loaded_tensor, std::string(model_path));
-//            cout << "Tensor loaded successfully:\n" << loaded_tensor << endl;
-//        } catch (const std::exception& e) {
-//            cerr << "Error loading tensor: " << e.what() << endl;
-//        }
     cout << "terrain setup finished" << endl;
 }
 

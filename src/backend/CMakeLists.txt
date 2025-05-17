@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+if (APPLE)
+	set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0" CACHE STRING "Minimum OS X deployment version" FORCE)
+endif()
+
 project(backend)
 
 find_package(Torch REQUIRED)
@@ -13,8 +17,4 @@ if(MSVC)
   set(CMAKE_CXX_FLAGS_MINSIZEREL  "${CMAKE_CXX_FLAGS_MINSIZEREL} /MT")
   set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /MT")
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MT")
-endif()
-
-if (APPLE)
-	set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0")
 endif()

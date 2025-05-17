@@ -1750,6 +1750,7 @@ public:
     }
 };
 stylus::stylus(const atoms& args) : ui_operator::ui_operator {this, args} {
+//    cout << min_devkit_path() << endl;
     external_path = min_devkit_path();
     
     m_in_buffer = std::make_unique<circular_buffer<double, float>[]>(1);

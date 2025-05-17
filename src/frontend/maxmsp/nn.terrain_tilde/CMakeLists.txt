@@ -21,7 +21,7 @@ set(C74_MIN_API_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../min-api)
 include(${C74_MIN_API_DIR}/script/min-pretarget.cmake)
 
 if (APPLE)
-	set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0")
+	set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0" CACHE STRING "Minimum OS X deployment version" FORCE)
 endif()
 
 #############################################################
@@ -65,11 +65,15 @@ add_library(
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE backend)
 
-if (APPLE) # SEARCH FOR TORCH DYLIB IN THE LOADER FOLDER
-set_target_properties(${PROJECT_NAME} PROPERTIES
-BUILD_WITH_INSTALL_RPATH FALSE
-LINK_FLAGS "-Wl,-rpath,@loader_path/"
-)
+if (APPLE)
+	target_link_libraries(${PROJECT_NAME} PUBLIC "$<LINK_LIBRARY:FRAMEWORK,CoreFoundation>")
+	set_target_properties(${PROJECT_NAME} PROPERTIES
+	BUILD_WITH_INSTALL_RPATH FALSE
+	LINK_FLAGS "-Wl,-F/Library/Frameworks,-rpath,@loader_path/"
+	)
+	# I can't figure out how to set the Bundle Identifier nicely in for max-sdk-base, so I'm just gonna do this thing here...
+	set(AUTHOR_DOMAIN "com.jasperzheng")
+	set(BUNDLE_IDENTIFIER "nn-terrain-")
 endif()
 
 include(${C74_MIN_API_DIR}/script/min-posttarget.cmake)
