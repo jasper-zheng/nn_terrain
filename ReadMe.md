@@ -72,7 +72,7 @@ mkdir build
 cd build
 ```
 
-Then run the command below to generate an Xcode project, replace `path/to/libtorch` to your path to libtorch:
+Run the command below to generate an Xcode project, replace `path/to/libtorch` to the libtorch folder you've downloaded:
 
 ```
 cmake ../src/ -G Xcode -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64  
@@ -84,6 +84,7 @@ An Xcode project will be created in this `build` folder, you can either open the
 cmake --build .
 ```
 
+The `.mxo` files will be created in the `src/externals` folder, move them `~/Documents/Max 9/Packages/nn_terrain/externals/`
 
 
 Additionally, taken from [min-devkit](https://github.com/Cycling74/min-devkit/tree/main):
@@ -106,7 +107,7 @@ mkdir build
 cd build
 ```
 
-Then run the command below to generate a project buildsystem, replace `path\to\libtorch` to your path to libtorch, and make sure `Visual Studio 17 2022` is set to your build system generator (run `cmake --help` to get a list of available options).
+Then run the command below to generate a project buildsystem, replace `path\to\libtorch` to the libtorch folder you've downloaded, and make sure `Visual Studio 17 2022` is set to your build system generator (run `cmake --help` to get a list of available options).
 
 ```
 cmake ..\src -A x64 -DCMAKE_PREFIX_PATH="path\to\libtorch" -G "Visual Studio 17 2022"
@@ -117,6 +118,8 @@ Having generated the projects, now you can build by opening the .sln file in Vis
 ```
 cmake --build . --config Release
 ```
+
+The externals will be created in the `src/externals` folder, move them `~/Documents/Max 9/Packages/nn_terrain/externals/`
 
 ## Acknowledgements
 
