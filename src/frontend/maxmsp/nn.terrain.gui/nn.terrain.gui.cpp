@@ -655,6 +655,11 @@ public:
             prev_p = e.pen_pressure();
             prev_phase = message_name;
         }
+        if (e.x() > canvas_width * 1.2f || e.y() > canvas_height * 1.2f) {
+            continue_dragging=true;
+            return;
+        }
+        
         
         numbers xy = itof(e.x(), e.y());
         cursor_x = xy[0];
@@ -664,7 +669,7 @@ public:
         event_info ei;
         ei.X = xy[0];
         ei.Y = xy[1];
-        ei.P = e.pen_pressure() == 1.0 ? 0.4 : e.pen_pressure();
+        ei.P = (e.pen_pressure() == 1.0)|| (e.pen_pressure() == 0.0) ? 0.4 : e.pen_pressure();
         ei.phase = message_name;
 //        ei.ms = std::chrono::system_clock::now() - now;
         
@@ -1838,5 +1843,6 @@ void stylus::clear_trajs(tasks t, modes m){
         m_traj_len_all.send(traj_len_ms);
     }
 }
+
 
 MIN_EXTERNAL(stylus);
