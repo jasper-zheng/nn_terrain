@@ -451,7 +451,7 @@ public:
                 return { args[0] };
             } catch (...) {
                 symbol min_path_this = min_devkit_path();
-                cerr << "Error reading folder, set to default" << endl;
+                cwarn << "Error reading folder, set to default" << endl;
                 return { min_path_this };
             }
         }

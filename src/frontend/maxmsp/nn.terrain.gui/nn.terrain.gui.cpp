@@ -349,7 +349,7 @@ public:
                 return { args[0] };
             } catch (...) {
                 symbol min_path_this = min_devkit_path();
-                cerr << "Error reading folder, set to default" << endl;
+                cwarn << "Error reading folder, set to default" << endl;
                 return { min_path_this };
             }
         }
@@ -655,7 +655,7 @@ public:
             prev_p = e.pen_pressure();
             prev_phase = message_name;
         }
-        if (e.x() > canvas_width * 1.2f || e.y() > canvas_height * 1.2f) {
+        if (e.x() > canvas_width * 1.05f || e.y() > canvas_height * 1.1f) {
             continue_dragging=true;
             return;
         }
