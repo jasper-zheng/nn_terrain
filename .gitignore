@@ -22,9 +22,9 @@ pretrained_models
 
 source/min-api
 source/min-lib
-
+models
 libtorch
-
+docs
 out
-
+help
 logs
