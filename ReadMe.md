@@ -1,31 +1,66 @@
-# Latent Terrain Priors for Neural Audio Autoencoders
+# Coordinates-to-Latents Generator for Neural Audio Autoencoders
 
-At the final stage of packaging up the repository, will get everything done by the end of May.  
+> At the final stage of packaging up the repository, will get everything done by the end of May.  
 Once ready, a release tag will be added to the repository, with the external objects, example Max patches, instructions to compile.
 
-Constructing a terrain by defining the trajectories of audio fragments:  
-![cppn](./assets/terrain_training_cppn_s.gif)   
+<img src="assets/overview.gif" width="600px"></img>
 
-It also supports the point-by-point steering approach proposed by Vigliensoni and Fiebrink (2023):    
-![cppn](./assets/terrain_training_points_s.gif)   
+*Latent terrain* is a coordinates-to-latents mapping model for neural audio autoencoders (such as [RAVE](https://github.com/acids-ircam/RAVE)), can be used to build a mountainous and steep surface map for the autoencoder's latent space. A terrain produces continuous latent vectors in real-time, taking coordinates in the control space as inputs.  
 
-*Latent Terrain* is an algorithmic approach to dissecting the latent space of a neural audio autoencoder (e.g., [RAVE](https://github.com/acids-ircam/RAVE)) into a lower-dimensional (e.g., 2D), mountainous, and steep space. The dissected structure is a streamable "terrain", which can be used to access latent vectors given coordinates in the lower-dimensional space.
+This repository is a set of Max externals to build, visualise, and program latent terrain:
 
-This is a (work-in-progress) Max external for sound synthesising with latent terrain, as well as creating letent terrains on-the-fly, using interactive machine learning.  
+#### nn.terrain~  
+ - Load, build, train, and save a terrain.  
+ - Perform the coordinates-to-latents mapping. 
 
-The external, demo Max patches, documentation and tutorials will be released soon.
+#### nn.terrain.encode  
+ - Encode audio buffers into latent trajectories using a pre-trained audio autoencoder, to be used as training data for nn.terrain~.
+
+#### nn.terrain.record  
+ - Record latent trajectories to be used as training data for nn.terrain~.  
+
+#### nn.terrain.gui  
+ - Edit spatial trajectories to be used as training data for nn.terrain~. 
+ - Visualise the terrain.
+ - Create and program trajectory playbacks.
 
 ## Demos
 
-Demo videos recorded for the IRCAM Forum Workshops 2025, see the [article](https://forum.ircam.fr/article/detail/latent-terrain-dissecting-the-latent-space-of-neural-audio-autoencoder-by-shuoyang-jasper-zheng/).  
+The projection from a latent space to a latent terrain is done by pairing latent trajectories and spatial trajectories on a 2D plane (or any low-dimensional space). This pairing can be trained very quickly (10s) using supervised machine learning, by providing examples of inputs (spatial trajectories), and their corresponding outputs (latent trajectories). 
+
+[video]
+
+Sound synthesising with latent terrain is similar to wave terrain synthesis, operating in the latent space of an audio autoencoder. An audio fragment can be synthesised by pathing through the terrain surface.  
+
+[video]
+
+<!-- Constructing a terrain by defining the trajectories of audio fragments:  
+![cppn](./assets/terrain_training_cppn_s.gif)   
+
+It also supports the point-by-point steering approach proposed by Vigliensoni and Fiebrink (2023):    
+![cppn](./assets/terrain_training_points_s.gif)    -->
+
+<!-- *Latent Terrain* is an algorithmic approach to dissecting the latent space of a neural audio autoencoder (e.g., [RAVE](https://github.com/acids-ircam/RAVE)) into a lower-dimensional (e.g., 2D), mountainous, and steep space. The dissected structure is a streamable "terrain", which can be used to access latent vectors given coordinates in the lower-dimensional space.
+
+This is a (work-in-progress) Max external for sound synthesising with latent terrain, as well as creating letent terrains on-the-fly, using interactive machine learning.  
+
+The external, demo Max patches, documentation and tutorials will be released soon. -->
 
 
-https://github.com/user-attachments/assets/39dc648f-7c11-4669-895a-1f46999ddca1
 
-## Compatibility
+A presentation at the IRCAM Forum Workshops 2025 can be found in [this article](https://forum.ircam.fr/article/detail/latent-terrain-dissecting-the-latent-space-of-neural-audio-autoencoder-by-shuoyang-jasper-zheng/).  
+
+
+<!-- 
+https://github.com/user-attachments/assets/39dc648f-7c11-4669-895a-1f46999ddca1 -->
+
+## Installation
+
+### Compatibility
 
 This external works with [nn_tilde v1.5.6 (torch v2.0.0/2.0.1)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6). If you have a `nn~` built from another torch version, you might have to build this yourself. See the Build Instructions section.
 
+[todo]
 
 ## Progress   
 
@@ -38,6 +73,7 @@ We're currently testing the model on acids-ircam's [nn_tilde](https://github.com
 - [✔︎] Interactive training of terrain models in Max MSP.   
 - [✔︎] Customised configuration of Fourier-CPPNs (Tancik et al., 2020).  
 - [✕︎] Documentation, example patches, tutorials...  
+- [✕︎] PureData
 
 
 ## Build Instructions
