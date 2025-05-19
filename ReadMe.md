@@ -26,7 +26,7 @@ This repository is a set of Max externals to build, visualise, and program laten
 
 ## Demos
 
-The projection from a latent space to a latent terrain is done by pairing latent trajectories and spatial trajectories on a 2D plane (or any low-dimensional space). This pairing can be trained very quickly (10s) using supervised machine learning, by providing examples of inputs (spatial trajectories), and their corresponding outputs (latent trajectories). 
+The projection from a latent space to a latent terrain is done by pairing latent trajectories and spatial trajectories on a 2D plane (or any low-dimensional space). This pairing can be trained very quickly (~15s) using supervised machine learning, by providing examples of inputs (spatial trajectories) and their corresponding outputs (latent trajectories). 
 
 [video]
 
@@ -58,9 +58,29 @@ https://github.com/user-attachments/assets/39dc648f-7c11-4669-895a-1f46999ddca1 
 
 ### Compatibility
 
-This external works with [nn_tilde v1.5.6 (torch v2.0.0/2.0.1)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6). If you have a `nn~` built from another torch version, you might have to build this yourself. See the Build Instructions section.
+This external works with [nn_tilde v1.5.6 (torch v2.0.0/2.0.1)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6). If you have a `nn~` built from another torch version, you might have to build this yourself. See the [Build Instructions](BuildInstructions.md) documentation.
 
 [todo]
+
+## Usage
+Here we briefly walk through the features/functionalities, while detailed usage can be found in the `.maxhelp` help file for each object.  
+
+### Loading a saved terrain
+
+
+### Building a customised terrain
+
+#### Terrain parameters
+
+#### Training examples preparation  
+
+#### Training  
+
+#### Saving (Checkpoints)
+
+### Visualising a terrain 
+
+### Programming trajectory playback  
 
 ## Progress   
 
@@ -75,87 +95,9 @@ We're currently testing the model on acids-ircam's [nn_tilde](https://github.com
 - [✕︎] Documentation, example patches, tutorials...  
 - [✕︎] PureData
 
+## Build Instructions  
 
-## Build Instructions
-
-If the externals have trouble opening in Max, or doesn't work correctly with nn_tilde, you might want to build the externals yourself:
-
-### Prerequisites
-
-MacOS (arm64): 
- - Xcode 11 or 12 (you can get from the App Store for free).
- - Download arm64 LibTorch [here](https://pytorch.org/get-started/locally/) and unzip it to a known directory. LibTorch's torch version should be the same as nn_tilde.
- - Install a recent version of [CMake](https://cmake.org/download/) (version 3.19 or higher).
-
-Windows:
- - Download LibTorch [here](https://pytorch.org/get-started/locally/) and unzip it to a known directory. LibTorch's torch version should be the same as nn_tilde.  
-   - If you would like to enable GPU training/inference, you'll need to select the CUDA version of LibTorch, and have the corresponding [CUDA ToolKit](https://developer.nvidia.com/cuda-toolkit).  
- - Install a recent version of [CMake](https://cmake.org/download/) (version 3.19 or higher).  
-
-### Build on MacOS
-
-Recursively clone this repository into **Max's Packages folder**. Terminal command:
-
-```
-git clone https://github.com/jasper-zheng/nn_terrain.git --recursive
-```
-
-In Terminal, cd into the `nn_terrain` folder you cloned, and make a new folder named `build`. and cd into that folder:
-
-```
-cd nn_terrain
-mkdir build
-cd build
-```
-
-Run the command below to generate an Xcode project, replace `path/to/libtorch` to the libtorch folder you've downloaded:
-
-```
-cmake ../src/ -G Xcode -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64  
-```
-
-An Xcode project will be created in this `build` folder, you can either open the Xcode project and build it from there, or build by running the command below:
-
-```
-cmake --build .
-```
-
-The `.mxo` files will be created in the `src/externals` folder, move them `~/Documents/Max 9/Packages/nn_terrain/externals/`
-
-
-Additionally, taken from [min-devkit](https://github.com/Cycling74/min-devkit/tree/main):
-
-> If you are running on a Mac with Apple Silicon, you might see an error cannot be loaded due to system security policy when loading your externals in Max. To resolve this, you can ad-hoc codesign your external with codesign `--force --deep -s - myobject.mxo`.
-
-### Build on Windows
-
-Recursively clone this repository into **Max's Packages folder**. Terminal command:
-
-```
-git clone https://github.com/jasper-zheng/nn_terrain.git --recurse-submodules
-```
-
-In Terminal, cd into the `nn_terrain` folder you cloned, and make a new folder named `build`. and cd into that folder:
-
-```
-cd nn_terrain
-mkdir build
-cd build
-```
-
-Then run the command below to generate a project buildsystem, replace `path\to\libtorch` to the libtorch folder you've downloaded, and make sure `Visual Studio 17 2022` is set to your build system generator (run `cmake --help` to get a list of available options).
-
-```
-cmake ..\src -A x64 -DCMAKE_PREFIX_PATH="path\to\libtorch" -G "Visual Studio 17 2022"
-```
-
-Having generated the projects, now you can build by opening the .sln file in Visual Studio, or build on the command line using:
-
-```
-cmake --build . --config Release
-```
-
-The externals will be created in the `src/externals` folder, move them `~/Documents/Max 9/Packages/nn_terrain/externals/`
+See the [Build Instructions](BuildInstructions.md) documentation.
 
 ## Acknowledgements
 
