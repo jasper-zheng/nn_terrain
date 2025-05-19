@@ -28,11 +28,11 @@ This repository is a set of Max externals to build, visualise, and program laten
 
 The projection from a latent space to a latent terrain is done by pairing latent trajectories and spatial trajectories on a 2D plane (or any low-dimensional space). This pairing can be trained very quickly (~15s) using supervised machine learning, by providing examples of inputs (spatial trajectories) and their corresponding outputs (latent trajectories). 
 
-[video]
+https://github.com/user-attachments/assets/17a306d2-791a-4322-9ec6-aa788713cbac
 
 Sound synthesising with latent terrain is similar to wave terrain synthesis, operating in the latent space of an audio autoencoder. An audio fragment can be synthesised by pathing through the terrain surface.  
 
-[video]
+https://github.com/user-attachments/assets/2da6380f-272a-40ff-a595-07f7d4008e3b
 
 <!-- Constructing a terrain by defining the trajectories of audio fragments:  
 ![cppn](./assets/terrain_training_cppn_s.gif)   
@@ -82,7 +82,16 @@ Here we briefly walk through the features/functionalities, while detailed usage 
 
 ### Programming trajectory playback  
 
-## Progress   
+### Stylus Mode  
+
+Set the `UI Tasks` attribute of nn.terrain.gui to the stylus mode to use it as a trackpad. If you have a tablet/stylus, it should also output the pen pressure.
+
+
+https://github.com/user-attachments/assets/2dd7edea-583d-410b-8b09-7aa1eec09bfa
+
+
+
+## TODOs   
 
 We're currently testing the model on acids-ircam's [nn_tilde](https://github.com/acids-ircam/nn_tilde).  
 
