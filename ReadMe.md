@@ -7,8 +7,26 @@ Once ready, a release tag will be added to the repository, with the external obj
 
 *Latent terrain* is a coordinates-to-latents mapping model for neural audio autoencoders, can be used to build a mountainous and steep surface map for the autoencoder's latent space. A terrain produces continuous latent vectors in real-time, taking coordinates in the control space as inputs.  
 
+#### Table of Contents
 
-## What's a Neural Audio Autoencoder and why Latent Terrain?
+- [What's a Neural Audio Autoencoder and why Latent Terrain?](#whats-a-neural-audio-autoencoder-and-why-latent-terrain)
+- [Demos](#demos)
+- [Compatibility & Installation](#compatibility-and-installation)
+- [Usage](#usage)
+  - [Building a customised terrain](#building-a-customised-terrain)
+    - [Terrain parameters](#terrain-parameters)
+    - [Training examples preparation](#training-examples-preparation)
+    - [Training](#training)
+    - [Saving (Checkpoints)](#saving-checkpoints)
+  - [Visualising a terrain](#visualising-a-terrain)
+  - [Programming trajectory playback](#programming-trajectory-playback)
+  - [Stylus mode](#stylus-mode)
+  - [Point-by-Point Steering](#point-by-point-steering)
+- [TODOs](#todos)
+- [Build Instructions](BuildInstructions.md)
+- [Acknowledgements](#acknowledgements)
+
+## What's a Neural Audio Autoencoder and why Latent Terrain? 
 
 A neural audio autoencoder (such as [RAVE](https://github.com/acids-ircam/RAVE)) is an AI audio generation tool, it has two components: an encoder and a decoder.    
  - The `encoder` compresses a piece of audio signal into a sequence of latent vectors (a **latent trajectory**). This compression happens in the time domain, so that the sampling rate goes from 44100Hz (audio sampling rate) to 21.5Hz (latent space sampling rate).   
@@ -96,13 +114,11 @@ https://github.com/user-attachments/assets/39dc648f-7c11-4669-895a-1f46999ddca1 
 
 
 
-## Compatibility
+## Compatibility and Installation
 
 This external works with [nn_tilde v1.5.6 (torch v2.0.0/2.0.1)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6). If you have a `nn~` built from another torch version, you might have to build this yourself. See the [Build Instructions](BuildInstructions.md) documentation.  
 
 We only have MaxMSP version at the moment, sorry. Windows and arm64 macOS supported.
-
-## Installation
 
 ### macOS
 
@@ -249,7 +265,7 @@ You can create trajectories to navigate the terrain. This trajectory playback ca
  - <img src="assets/play.gif" width="320px"></img>
 
 
-### Stylus Mode  
+### Stylus mode  
 
 Set the 'UI Tasks' (`task`) attribute of nn.terrain.gui to 'stylus' to use it as a trackpad. If you are using a tablet/stylus, it also supports the pen pressure.
 
@@ -273,7 +289,7 @@ https://github.com/user-attachments/assets/2dd7edea-583d-410b-8b09-7aa1eec09bfa
 
 ## Build Instructions  
 
-See the [Build Instructions](BuildInstructions.md) documentation.
+If the externals have trouble opening in Max, or doesn't work correctly with nn_tilde, you might want to build the externals yourself, see the [Build Instructions](BuildInstructions.md) documentation.
 
 ## Acknowledgements
 
