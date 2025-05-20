@@ -98,11 +98,23 @@ https://github.com/user-attachments/assets/39dc648f-7c11-4669-895a-1f46999ddca1 
 
 ## Compatibility
 
-This external works with [nn_tilde v1.5.6 (torch v2.0.0/2.0.1)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6). If you have a `nn~` built from another torch version, you might have to build this yourself. See the [Build Instructions](BuildInstructions.md) documentation.
+This external works with [nn_tilde v1.5.6 (torch v2.0.0/2.0.1)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6). If you have a `nn~` built from another torch version, you might have to build this yourself. See the [Build Instructions](BuildInstructions.md) documentation.  
+
+We only have MaxMSP version at the moment, sorry. Windows and arm64 macOS supported.
 
 ## Installation
 
+### macOS
 
+Uncompress the `.tar.gz` file in the `Package` folder of your Max installation, which is usually in `~/Documents/Max 9/Packages/`.
+
+Reopen Max and you can find all nn.terrain objects. You might get a quarantine warning, proceed will disable this warning. If they still have trouble opening, or doesn't work correctly with nn_tilde, you might want to build the externals yourself, see [Build Instructions](BuildInstructions.md).  
+
+### Windows
+
+Uncompress the `.tar.gz` file in the `Package` folder of your Max installation, which is usually in `~/Documents/Max 9/Packages/`.
+
+Copy all `.dll` files in the package next to the ˋMax.exeˋ executable (if you have already done this for nn_tilde, you don't need to do this again).
 
 ## Usage
 Here we briefly walk through the features/functionalities, while detailed walkthroughs can be found in the `.maxhelp` help file for each object.  
@@ -234,7 +246,7 @@ Since the control space is 2D, the latent space can be visualised by sampling th
 You can create trajectories to navigate the terrain. This trajectory playback can be controled be a signal input. 
  - Set the 'UI Tasks' (`task`) attribute of nn.terrain.gui to 'play'.
  - This behaviour is similar to the `play~` object in Max.
-<img src="assets/play.gif" width="320px"></img>
+ - <img src="assets/play.gif" width="320px"></img>
 
 
 ### Stylus Mode  
@@ -246,9 +258,9 @@ https://github.com/user-attachments/assets/2dd7edea-583d-410b-8b09-7aa1eec09bfa
 
 ### Point-by-Point Steering  
 
-## TODOs   
+[todo] It also supports the [point-by-point steering approach](https://vigliensoni.com/portfolio/42-vigliensoni23steering/) proposed by Vigliensoni and Fiebrink (2023).
 
-We're currently testing the model on acids-ircam's [nn_tilde](https://github.com/acids-ircam/nn_tilde).  
+## TODOs   
 
 - [✕︎] Load and inference scripted mapping model exported bt torchscript.   
 - [✔︎] Display terrain visualisation.  
@@ -256,7 +268,7 @@ We're currently testing the model on acids-ircam's [nn_tilde](https://github.com
   - [✔︎] Multi-channel (yes but no documentation atm)   
 - [✔︎] Interactive training of terrain models in Max MSP.   
 - [✔︎] Customised configuration of Fourier-CPPNs (Tancik et al., 2020).  
-- [✕︎] Documentation, example patches, tutorials...  
+- [✕︎] Example patches, tutorials...  
 - [✕︎] PureData
 
 ## Build Instructions  
