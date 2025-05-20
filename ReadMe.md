@@ -10,15 +10,15 @@ Once ready, a release tag will be added to the repository, with the external obj
 
 ## What's a Neural Audio Autoencoder and why Latent Terrain?
 
-A neural audio autoencoder (such as [RAVE](https://github.com/acids-ircam/RAVE)) has two components: an encoder and a decoder.    
+A neural audio autoencoder (such as [RAVE](https://github.com/acids-ircam/RAVE)) is an AI audio generation tool, it has two components: an encoder and a decoder.    
  - The `encoder` compresses a piece of audio signal into a sequence of latent vectors (a **latent trajectory**). This compression happens in the time domain, so that the sampling rate goes from 44100Hz (audio sampling rate) to 21.5Hz (latent space sampling rate).   
 
  - ![img](assets/trajectory.jpg)   
- - > This is the latent trajectory of the first latent space dimension.  
+ - > ^ This is the latent trajectory of the first latent space dimension.  
 
- - The `decoder` takes the latent trajectory and produces the piece of audio signal. The decoder can also be used as a parametric synthesiser by **manually producing the latent vectors**.  
+ - The `decoder` takes the latent trajectory and produces the piece of audio signal. The decoder can also be used as a parametric synthesiser by manually navigating the latent space (i.e., **latent space walk**).  
 
-The aim of latent terrain is to make the latent vectors generation process more fun. It allows users to **tailor the latent space** to a low-dimensional (e.g., on a 2D plane) control space. And this dimensionality reduction process is **nonlinear** (i.e., able to produce complex sequential patterns), **continuous** (i.e., allows for smooth interpolations), and **tailorable** (i.e., DIY your own materials with interactive machine learning).
+Latent terrain allows you to navigate latent space of a generative AI like walking on a terrain surface. It tailors the latent space to a low-dimensional (e.g., a 2D plane) control space. And this terrain surface is **nonlinear** (i.e., able to produce complex sequential patterns), **continuous** (i.e., allows for smooth interpolations), and **tailorable** (i.e., DIY your own materials with interactive machine learning).
 
 This repository is a set of Max externals to build, visualise, and program latent terrain:
 
