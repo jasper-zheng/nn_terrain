@@ -14,10 +14,10 @@ Once ready, a release tag will be added to the repository, with the external obj
 - [Compatibility & Installation](#compatibility-and-installation)
 - [Usage](#usage)
   - [Building a customised terrain](#building-a-customised-terrain)
-    - [Terrain parameters](#terrain-parameters)
+    <!-- - [Terrain parameters](#terrain-parameters)
     - [Training examples preparation](#training-examples-preparation)
     - [Training](#training)
-    - [Saving (Checkpoints)](#saving-checkpoints)
+    - [Saving (Checkpoints)](#saving-checkpoints) -->
   - [Visualising a terrain](#visualising-a-terrain)
   - [Programming trajectory playback](#programming-trajectory-playback)
   - [Stylus mode](#stylus-mode)
@@ -26,7 +26,7 @@ Once ready, a release tag will be added to the repository, with the external obj
 - [Build Instructions](BuildInstructions.md)
 - [Acknowledgements](#acknowledgements)
 
-## Needs help!
+## Need help!
 
 Hi, this is Shuoyang (Jasper). `nn.terrain` is part of my ongoing PhD work on **Discovering Musical Affordances in Neural Audio Synthesis**, and part of the work has been (will be) on putting AI audio generators into the hands of composers/musicians.
 
