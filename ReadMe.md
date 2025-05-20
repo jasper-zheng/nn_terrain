@@ -26,6 +26,14 @@ Once ready, a release tag will be added to the repository, with the external obj
 - [Build Instructions](BuildInstructions.md)
 - [Acknowledgements](#acknowledgements)
 
+## Needs help!
+
+Hi, this is Shuoyang (Jasper). `nn.terrain` is part of my ongoing PhD work on **Discovering Musical Affordances in Neural Audio Synthesis**, and part of the work has been (will be) on putting AI audio generators into the hands of composers/musicians.
+
+Therefore, I would love to have you involved in it - if you have any feedback, a features request, a demo / a device / or a ^@#*$- made with nn.terrain, I would love to hear. If you would like to collaborate on anything, please leave a message in this form: https://forms.office.com/e/EJ4WHfru1A
+
+
+
 ## What's a Neural Audio Autoencoder and why Latent Terrain? 
 
 A neural audio autoencoder (such as [RAVE](https://github.com/acids-ircam/RAVE)) is an AI audio generation tool, it has two components: an encoder and a decoder.    
