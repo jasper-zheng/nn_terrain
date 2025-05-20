@@ -1,7 +1,7 @@
 # Latent Terrain: Coordinates-to-Latents Generator for Neural Audio Autoencoders
 
-> At the final stage of packaging up the repository, will get everything done by the end of May.  
-Once ready, a release tag will be added to the repository, with the external objects, example Max patches, instructions to compile.
+> Instruction Max patches can be found in the `.maxhelp` help file.
+> More demo/example patches will be available soon.
 
 <img src="assets/overview.gif" width="600px"></img>
 
