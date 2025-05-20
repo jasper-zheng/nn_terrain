@@ -5,20 +5,18 @@ Once ready, a release tag will be added to the repository, with the external obj
 
 <img src="assets/overview.gif" width="600px"></img>
 
-*Latent terrain* is a coordinates-to-latents mapping model for neural audio autoencoders (such as [RAVE](https://github.com/acids-ircam/RAVE)), can be used to build a mountainous and steep surface map for the autoencoder's latent space. A terrain produces continuous latent vectors in real-time, taking coordinates in the control space as inputs.  
+*Latent terrain* is a coordinates-to-latents mapping model for neural audio autoencoders, can be used to build a mountainous and steep surface map for the autoencoder's latent space. A terrain produces continuous latent vectors in real-time, taking coordinates in the control space as inputs.  
 
 
 ## What's a Neural Audio Autoencoder and why Latent Terrain?
 
 A neural audio autoencoder (such as [RAVE](https://github.com/acids-ircam/RAVE)) is an AI audio generation tool, it has two components: an encoder and a decoder.    
  - The `encoder` compresses a piece of audio signal into a sequence of latent vectors (a **latent trajectory**). This compression happens in the time domain, so that the sampling rate goes from 44100Hz (audio sampling rate) to 21.5Hz (latent space sampling rate).   
+![img](assets/trajectory.jpg)   
 
- - ![img](assets/trajectory.jpg)   
- - > ^ This is the latent trajectory of the first latent space dimension.  
+ - The `decoder` takes the latent trajectory to produce a piece of audio signal. The decoder can also be used as a parametric synthesiser by manually navigating the latent space (i.e., **latent space walk**).  
 
- - The `decoder` takes the latent trajectory and produces the piece of audio signal. The decoder can also be used as a parametric synthesiser by manually navigating the latent space (i.e., **latent space walk**).  
-
-Latent terrain allows you to navigate latent space of a generative AI like walking on a terrain surface. It tailors the latent space to a low-dimensional (e.g., a 2D plane) control space. And this terrain surface is **nonlinear** (i.e., able to produce complex sequential patterns), **continuous** (i.e., allows for smooth interpolations), and **tailorable** (i.e., DIY your own materials with interactive machine learning).
+*Latent terrain* allows you to navigate latent space of the generative AI like walking on a terrain surface. It tailors the latent space to a low-dimensional (e.g., a 2D plane) control space. And this terrain surface is **nonlinear** (i.e., able to produce complex sequential patterns), **continuous** (i.e., allows for smooth interpolations), and **tailorable** (i.e., DIY your own materials with interactive machine learning).
 
 This repository is a set of Max externals to build, visualise, and program latent terrain:
 
@@ -39,7 +37,7 @@ This repository is a set of Max externals to build, visualise, and program laten
 
 ## Demos
 
-The projection from a latent space to a latent terrain is done by pairing latent trajectories and spatial trajectories on a 2D plane (or any low-dimensional space). This pairing can be trained very quickly (~15s) using supervised machine learning, by providing examples of inputs (spatial trajectories) and their corresponding outputs (latent trajectories). 
+The projection from a latent space to a latent terrain is done by pairing latent trajectories and spatial trajectories on a 2D plane (or any low-dimensional space). After providing examples of inputs (spatial trajectories) and their corresponding outputs (latent trajectories), the terrain can be trained very quickly (~15s) using supervised machine learning.
 
 https://github.com/user-attachments/assets/17a306d2-791a-4322-9ec6-aa788713cbac
 
@@ -76,7 +74,7 @@ This external works with [nn_tilde v1.5.6 (torch v2.0.0/2.0.1)](https://github.c
 [todo]
 
 ## Usage
-Here we briefly walk through the features/functionalities, while detailed usage can be found in the `.maxhelp` help file for each object.  
+Here we briefly walk through the features/functionalities, while detailed walkthroughs can be found in the `.maxhelp` help file for each object.  
 
 
 ### Building a customised terrain
@@ -87,7 +85,7 @@ A terrain is built by pairing latent trajectories and coordinate trajectories. A
 
 First, we'll define the dimensionality of the latent space and control space. This can be set by the first two arguments of the object. For instance, `nn.terrain~ 2 8` will create a terrain that takes 2 input signals and produces a 8-dimensional latent vector.  
 
-Some other arguments of the object:
+Arguments of `nn.terrain~`:
 
 <table>
 <thead>
@@ -132,14 +130,74 @@ Some other arguments of the object:
 </tbody>
 </table>
 
-#### Training examples preparation  
+
+
+
+
+#### Training examples preparation   
+
+ - Gethering **latent trajectories**:
+   - Create a `nn.terrain.encode` and put audio sample(s) in `buffer~` or `polybuffer~`
+   - Use `append` message to add buffers to the encoder, message `encode` to convert them to latent trajectory in a dictionary file.
+   - Additionally, see `nn.terrain.encode`'s help file for how to encode samples from a `playlist~` object.
+![img](assets/dataset1.jpg)
+
+ - Gethering **spatial trajectories**:
+   - Create a `nn.terrain.gui` and set the `UI Task (task)` attribute to `Dataset`
+   - Define the target length of trajectories (in ms) using a list message or an `append` message. 
+   - Draw lines as trajectories.  
+![img](assets/dataset2.jpg)
 
 #### Training  
+ - Terrain training can be done within the `nn.terrain~` object:
+   - Send the data dictionaries we got in previous step to `nn.terrain~`
+   - The terrain will be trained for 10 epochs once a `train` message is received (this number can be changed by the `training_epoch` attribute).
+   - `route` the last outlet to `loss` and `epoch` to inspect the training loss.
+   ![img](assets/training.jpg)
+   - <table>
+     <thead>
+      <tr>
+      <th>Object</th>
+      <th>Training Attributes</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr><td rowspan=8>nn.terrain~</td>
+      <td>training_batchsize</td>
+      <td>Batch size used to train the neural network in the terrain (i.e., how many coordinate-latent pairs). Just a matter of memory consumption, won't affect the result too much.</td>
+      </tr>
+
+      <tr><td>training_epoch</td>
+      <td>How many epochs will be trained once a <code>train</code> message is received.</td>
+      </tr>
+
+      <tr><td>training_lr</td>
+      <td>Learning rate used when training.</td>
+      </tr>
+
+      <tr><td>training_worker</td>
+      <td>The same effect as PyTorch dataloader's <code>num_workers</code>, won't affect the result too much.</td>
+      </tr>
+
+     </tbody>
+     </table>
+ - After you feel good about the training loss, the terrain is good to go.
 
 #### Saving (Checkpoints)
 
+ - Use the `checkpoint` message to save the tarrain to a `.pt` file. Saving name and path can be set in attributes.
+ - Load a terrain `.pt` file by giving its file name as an argument.
+![img](assets/save.jpg)
+
 ### Visualising a terrain 
 
+Since the control space is 2D, the latent space can be visualised by sampling the control space across a closed interval (i.e., width and height in this example). Use the `plot_interval` message to do this:  
+ - `plot_interval` for 2D plane takes 6 arguments:
+ - lower and upper bound values of the x and y axes in the control space (these usually are the same as the `values_bound` attribute of `nn.terrain.gui`)
+ - resolution of the x and y axes (these usually are the same as the width and height of `nn.terrain.gui`)
+![img](assets/plot.jpg)
 ### Programming trajectory playback  
 
 ### Stylus Mode  
