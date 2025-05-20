@@ -20,20 +20,49 @@ A neural audio autoencoder (such as [RAVE](https://github.com/acids-ircam/RAVE))
 
 This repository is a set of Max externals to build, visualise, and program latent terrain:
 
-#### nn.terrain~  
+<table>
+<thead>
+<tr>
+<th>Object</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+
+<tr><td><code>nn.terrain~</code></td>
+<td> 
+
  - Load, build, train, and save a terrain.  
+
  - Perform the coordinates-to-latents mapping. 
+ </td>
+</tr>
 
-#### nn.terrain.encode  
- - Encode audio buffers into latent trajectories using a pre-trained audio autoencoder, to be used as training data for nn.terrain~.
+<tr><td><code>nn.terrain.encode</code></td>
+<td>
 
-#### nn.terrain.record  
- - Record latent trajectories to be used as training data for nn.terrain~.  
+ - Encode audio buffers into latent trajectories using a pre-trained audio autoencoder, to be used as training data for `nn.terrain~`.
+</td>
+</tr>
 
-#### nn.terrain.gui  
- - Edit spatial trajectories to be used as training data for nn.terrain~. 
+<tr><td><code>nn.terrain.record</code></td>
+<td>
+
+ - Record latent trajectories to be used as training data for `nn.terrain~`.  
+</td>
+</tr>
+
+<tr><td><code>nn.terrain.gui</code></td>
+<td>
+
+ - Edit spatial trajectories to be used as training data for `nn.terrain~`. 
  - Visualise the terrain.
  - Create and program trajectory playbacks.
+</td>
+</tr>
+
+</tbody>
+</table>
 
 ## Demos
 
@@ -65,13 +94,15 @@ A presentation at the IRCAM Forum Workshops 2025 can be found in [this article](
 <!-- 
 https://github.com/user-attachments/assets/39dc648f-7c11-4669-895a-1f46999ddca1 -->
 
-## Installation
 
-### Compatibility
+
+## Compatibility
 
 This external works with [nn_tilde v1.5.6 (torch v2.0.0/2.0.1)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6). If you have a `nn~` built from another torch version, you might have to build this yourself. See the [Build Instructions](BuildInstructions.md) documentation.
 
-[todo]
+## Installation
+
+
 
 ## Usage
 Here we briefly walk through the features/functionalities, while detailed walkthroughs can be found in the `.maxhelp` help file for each object.  
@@ -200,9 +231,15 @@ Since the control space is 2D, the latent space can be visualised by sampling th
 ![img](assets/plot.jpg)
 ### Programming trajectory playback  
 
+You can create trajectories to navigate the terrain. This trajectory playback can be controled be a signal input. 
+ - Set the 'UI Tasks' (`task`) attribute of nn.terrain.gui to 'play'.
+ - This behaviour is similar to the `play~` object in Max.
+<img src="assets/play.gif" width="320px"></img>
+
+
 ### Stylus Mode  
 
-Set the `UI Tasks` attribute of nn.terrain.gui to the stylus mode to use it as a trackpad. If you have a tablet/stylus, it should also output the pen pressure.
+Set the 'UI Tasks' (`task`) attribute of nn.terrain.gui to 'stylus' to use it as a trackpad. If you are using a tablet/stylus, it also supports the pen pressure.
 
 
 https://github.com/user-attachments/assets/2dd7edea-583d-410b-8b09-7aa1eec09bfa
