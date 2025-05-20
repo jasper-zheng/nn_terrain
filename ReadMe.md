@@ -1,4 +1,4 @@
-# Coordinates-to-Latents Generator for Neural Audio Autoencoders
+# Latent Terrain: Coordinates-to-Latents Generator for Neural Audio Autoencoders
 
 > At the final stage of packaging up the repository, will get everything done by the end of May.  
 Once ready, a release tag will be added to the repository, with the external objects, example Max patches, instructions to compile.
@@ -6,6 +6,19 @@ Once ready, a release tag will be added to the repository, with the external obj
 <img src="assets/overview.gif" width="600px"></img>
 
 *Latent terrain* is a coordinates-to-latents mapping model for neural audio autoencoders (such as [RAVE](https://github.com/acids-ircam/RAVE)), can be used to build a mountainous and steep surface map for the autoencoder's latent space. A terrain produces continuous latent vectors in real-time, taking coordinates in the control space as inputs.  
+
+
+## What's a Neural Audio Autoencoder and why Latent Terrain?
+
+A neural audio autoencoder (such as [RAVE](https://github.com/acids-ircam/RAVE)) has two components: an encoder and a decoder.    
+ - The `encoder` compresses a piece of audio signal into a sequence of latent vectors (a **latent trajectory**). This compression happens in the time domain, so that the sampling rate goes from 44100Hz (audio sampling rate) to 21.5Hz (latent space sampling rate).   
+
+ - ![img](assets/trajectory.jpg)   
+ - > This is the latent trajectory of the first latent space dimension.  
+
+ - The `decoder` takes the latent trajectory and produces the piece of audio signal. The decoder can also be used as a parametric synthesiser by **manually producing the latent vectors**.  
+
+The aim of latent terrain is to make the latent vectors generation process more fun. It allows users to **tailor the latent space** to a low-dimensional (e.g., on a 2D plane) control space. And this dimensionality reduction process is **nonlinear** (i.e., able to produce complex sequential patterns), **continuous** (i.e., allows for smooth interpolations), and **tailorable** (i.e., DIY your own materials with interactive machine learning).
 
 This repository is a set of Max externals to build, visualise, and program latent terrain:
 
@@ -65,12 +78,59 @@ This external works with [nn_tilde v1.5.6 (torch v2.0.0/2.0.1)](https://github.c
 ## Usage
 Here we briefly walk through the features/functionalities, while detailed usage can be found in the `.maxhelp` help file for each object.  
 
-### Loading a saved terrain
-
 
 ### Building a customised terrain
 
-#### Terrain parameters
+A terrain is built by pairing latent trajectories and coordinate trajectories. And then using a supervised machine learning algorithm to learn this pairing. Here are the steps:
+
+#### Terrain parameters  
+
+First, we'll define the dimensionality of the latent space and control space. This can be set by the first two arguments of the object. For instance, `nn.terrain~ 2 8` will create a terrain that takes 2 input signals and produces a 8-dimensional latent vector.  
+
+Some other arguments of the object:
+
+<table>
+<thead>
+<tr>
+<th>Object</th>
+<th>Arguments</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+
+<tr><td rowspan=8>nn.terrain~</td>
+<td>control_dim</td>
+<td>Number of input channels</td>
+</tr>
+
+<tr><td>latent_dim</td>
+<td>Number of output channels, this should usually be the dimensionality of the autoencoder's latent space.</td>
+</tr>
+
+<tr><td>gauss_scale</td>
+<td> 
+(optional)  
+
+ - Gaussian scale of the Fourier feature mapping. A higher Gaussian scale leads to a noisy terrain, lower leads to smoother less-mountainous terrain. 
+ - A float value between 0.05 - 0.3 is suggested.   
+ - If the Gaussian scale is 0, the Fourier feature mapping layer will be removed, resulting in a very smooth (low-frequency) terrain, useful for point-by-point mode.</td>
+</tr>
+
+<tr><td>network_channel</td>
+<td>(optional) The number of neurons in each hidden layer. Defined by the network_channel argument. By default 128</td>
+</tr>
+
+<tr><td>feature_size</td>
+<td>(optional) The size of the random Fourier feature mapping, a higher feature size is suggested when using a high-dimensional control space. By default 256</td>
+</tr>
+
+<tr><td>buffer_size</td>
+<td>(optional) The inference of the terrain will happen once per buffer size, keeping it the same with the buffer size of nn~ is suggested.</td>
+</tr>
+
+</tbody>
+</table>
 
 #### Training examples preparation  
 
@@ -89,7 +149,7 @@ Set the `UI Tasks` attribute of nn.terrain.gui to the stylus mode to use it as a
 
 https://github.com/user-attachments/assets/2dd7edea-583d-410b-8b09-7aa1eec09bfa
 
-
+### Point-by-Point Steering  
 
 ## TODOs   
 
