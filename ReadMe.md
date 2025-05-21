@@ -28,7 +28,7 @@
 
 ## Need help!
 
-Hi, this is Shuoyang (Jasper). `nn.terrain` is part of my ongoing PhD work on **Discovering Musical Affordances in Neural Audio Synthesis**, and part of the work has been (will be) on putting AI audio generators into the hands of composers/musicians.
+Hi, this is Shuoyang (Jasper). `nn.terrain` is part of my ongoing PhD work on **Discovering Musical Affordances in Neural Audio Synthesis** with Anna Xambó Sedó and Nick Bryan-Kinns, and part of the work has been (will be) on putting AI audio generators into the hands of composers/musicians.
 
 Therefore, I would love to have you involved in it - if you have any feedback, a features request, a demo / a device / or a ^@#*$- made with nn.terrain, I would love to hear. If you would like to collaborate on anything, please leave a message in this form: https://forms.office.com/e/EJ4WHfru1A
 
