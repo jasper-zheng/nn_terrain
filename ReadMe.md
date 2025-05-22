@@ -203,13 +203,13 @@ Arguments of `nn.terrain~`:
 
 #### Training examples preparation   
 
- - Gethering **latent trajectories**:
+ - Gathering **latent trajectories**:
    - Create a `nn.terrain.encode` and put audio sample(s) in `buffer~` or `polybuffer~`
    - Use `append` message to add buffers to the encoder, message `encode` to convert them to latent trajectory in a dictionary file.
    - Additionally, see `nn.terrain.encode`'s help file for how to encode samples from a `playlist~` object.
 ![img](assets/dataset1.jpg)
 
- - Gethering **spatial trajectories**:
+ - Gathering **spatial trajectories**:
    - Create a `nn.terrain.gui` and set the `UI Task (task)` attribute to `Dataset`
    - Define the target length of trajectories (in ms) using a list message or an `append` message. 
    - Draw lines as trajectories.  
