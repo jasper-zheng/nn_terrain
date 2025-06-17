@@ -100,6 +100,14 @@ Sound synthesising with latent terrain is similar to wave terrain synthesis, ope
 
 https://github.com/user-attachments/assets/2da6380f-272a-40ff-a595-07f7d4008e3b
 
+Stylus Mode:  
+
+
+
+https://github.com/user-attachments/assets/d38bca46-60d8-4abf-82ce-b72baec60a81
+
+
+
 <!-- Constructing a terrain by defining the trajectories of audio fragments:  
 ![cppn](./assets/terrain_training_cppn_s.gif)   
 
