@@ -214,18 +214,20 @@ Arguments of `nn.terrain~`:
  - Gathering **latent trajectories**:
    - Create a `nn.terrain.encode` and put audio sample(s) in `buffer~` or `polybuffer~`
    - Use `append` message to add buffers to the encoder, message `encode` to convert them to latent trajectory in a dictionary file.
+   - **The first outlet will produce a dictionary of latents**
    - Additionally, see `nn.terrain.encode`'s help file for how to encode samples from a `playlist~` object.
 ![img](assets/dataset1.jpg)
 
  - Gathering **spatial trajectories**:
    - Create a `nn.terrain.gui` and set the `UI Task (task)` attribute to `Dataset`
    - Define the target length of trajectories (in ms) using a list message or an `append` message. 
-   - Draw lines as trajectories.  
+   - Draw some lines as spatial trajectories.
+   - **The last outlet will produce a dictionary of coordinates**
 ![img](assets/dataset2.jpg)
 
 #### Training  
  - Terrain training can be done within the `nn.terrain~` object:
-   - Send the data dictionaries we got in previous step to `nn.terrain~`
+   - Send the two data dictionaries we got in previous steps to `nn.terrain~`
    - The terrain will be trained for 10 epochs once a `train` message is received (this number can be changed by the `training_epoch` attribute).
    - `route` the last outlet to `loss` and `epoch` to inspect the training loss.
    ![img](assets/training.jpg)
