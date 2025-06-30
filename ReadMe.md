@@ -92,7 +92,7 @@ This repository is a set of Max externals to build, visualise, and program laten
 
 ## Demos
 
-The projection from a latent space to a latent terrain is done by pairing latent trajectories and spatial trajectories on a 2D plane (or any low-dimensional space). After providing examples of inputs (spatial trajectories) and their corresponding outputs (latent trajectories), the terrain can be trained very quickly (~15s) using supervised machine learning.
+The projection from a latent space to a latent terrain is done by pairing latent trajectories and spatial trajectories on a 2D plane (or any low-dimensional space). After providing examples of inputs (spatial trajectories) and their corresponding outputs (latent trajectories), the terrain can be trained very quickly (~15s) using supervised machine learning. (See the Usage section for details).
 
 https://github.com/user-attachments/assets/17a306d2-791a-4322-9ec6-aa788713cbac
 
