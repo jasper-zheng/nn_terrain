@@ -3,7 +3,7 @@
 > Instruction Max patches can be found in the `.maxhelp` help file.
 > More demo/example patches will be available soon.
 
-<img src="assets/overview.gif" width="600px"></img>
+<img src="assets/overview.gif" width="500px"></img>
 
 *Latent terrain* is a coordinates-to-latents mapping model for neural audio autoencoders, can be used to build a mountainous and steep surface map for the autoencoder's latent space. A terrain produces continuous latent vectors in real-time, taking coordinates in the control space as inputs.  
 
@@ -31,6 +31,12 @@
 Hi, this is Shuoyang (Jasper). `nn.terrain` is part of my ongoing PhD work on **Discovering Musical Affordances in Neural Audio Synthesis** with Anna Xambó Sedó and Nick Bryan-Kinns, and part of the work has been (will be) on putting AI audio generators into the hands of composers/musicians.
 
 Therefore, I would love to have you involved in it - if you have any feedback, a features request, a demo / a device / or a ^@#*$- made with nn.terrain, I would love to hear. If you would like to collaborate on anything, please leave a message in this form: https://forms.office.com/e/EJ4WHfru1A
+
+## Latent space walk with latent terrain  
+
+
+
+https://github.com/user-attachments/assets/ef805bb6-da8c-4ad5-a14b-3aa6c2f63cef
 
 
 
