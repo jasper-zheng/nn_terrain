@@ -32,16 +32,6 @@ Hi, this is Shuoyang (Jasper). `nn.terrain` is part of my ongoing PhD work on **
 
 Therefore, I would love to have you involved in it - if you have any feedback, a features request, a demo / a device / or a ^@#*$- made with nn.terrain, I would love to hear. If you would like to collaborate on anything, please leave a message in this form: https://forms.office.com/e/EJ4WHfru1A
 
-## Latent space walk with latent terrain  
-
-
-
-https://github.com/user-attachments/assets/ef805bb6-da8c-4ad5-a14b-3aa6c2f63cef
-
-This one uses a [scripted Music2Latent](https://github.com/jasper-zheng/music2latent-scripted) model.
-
-> M. Pasini, S. Lattner, and G. Fazekas, “Music2Latent: Consistency Autoencoders for Latent Audio Compression”, in Proc. of the 25th Int. Society for Music Information Retrieval Conf., San Francisco, United States, 2024.
-
 
 ## What's a Neural Audio Autoencoder and why Latent Terrain? 
 
@@ -105,37 +95,28 @@ The projection from a latent space to a latent terrain is done by pairing latent
 
 https://github.com/user-attachments/assets/17a306d2-791a-4322-9ec6-aa788713cbac
 
+### Latent space walk with latent terrain (Stylus mode)  
+
+https://github.com/user-attachments/assets/ef805bb6-da8c-4ad5-a14b-3aa6c2f63cef
+
+The above one uses a [scripted Music2Latent](https://github.com/jasper-zheng/music2latent-scripted) model.
+
+> M. Pasini, S. Lattner, and G. Fazekas, "Music2Latent: Consistency Autoencoders for Latent Audio Compression", in Proc. of the 25th Int. Society for Music Information Retrieval Conf., San Francisco, United States, 2024.
+
+https://github.com/user-attachments/assets/d38bca46-60d8-4abf-82ce-b72baec60a81
+
+This one uses [RAVE](https://github.com/acids-ircam/RAVE).
+> A. Caillon and P. Esling, "RAVE: A variational autoencoder for fast and high-quality neural audio synthesis", Dec. 15, 2021, arXiv: arXiv:2111.05011. doi: 10.48550/arXiv.2111.05011.
+
+
+### Playback mode  
+
 Sound synthesising with latent terrain is similar to wave terrain synthesis, operating in the latent space of an audio autoencoder. An audio fragment can be synthesised by pathing through the terrain surface.  
 
 https://github.com/user-attachments/assets/2da6380f-272a-40ff-a595-07f7d4008e3b
 
-Stylus Mode:  
-
-
-
-https://github.com/user-attachments/assets/d38bca46-60d8-4abf-82ce-b72baec60a81
-
-
-
-<!-- Constructing a terrain by defining the trajectories of audio fragments:  
-![cppn](./assets/terrain_training_cppn_s.gif)   
-
-It also supports the point-by-point steering approach proposed by Vigliensoni and Fiebrink (2023):    
-![cppn](./assets/terrain_training_points_s.gif)    -->
-
-<!-- *Latent Terrain* is an algorithmic approach to dissecting the latent space of a neural audio autoencoder (e.g., [RAVE](https://github.com/acids-ircam/RAVE)) into a lower-dimensional (e.g., 2D), mountainous, and steep space. The dissected structure is a streamable "terrain", which can be used to access latent vectors given coordinates in the lower-dimensional space.
-
-This is a (work-in-progress) Max external for sound synthesising with latent terrain, as well as creating letent terrains on-the-fly, using interactive machine learning.  
-
-The external, demo Max patches, documentation and tutorials will be released soon. -->
-
-
 
 A presentation at the IRCAM Forum Workshops 2025 can be found in [this article](https://forum.ircam.fr/article/detail/latent-terrain-dissecting-the-latent-space-of-neural-audio-autoencoder-by-shuoyang-jasper-zheng/).  
-
-
-<!-- 
-https://github.com/user-attachments/assets/39dc648f-7c11-4669-895a-1f46999ddca1 -->
 
 
 
