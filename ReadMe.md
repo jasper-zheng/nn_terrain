@@ -38,6 +38,9 @@ Therefore, I would love to have you involved in it - if you have any feedback, a
 
 https://github.com/user-attachments/assets/ef805bb6-da8c-4ad5-a14b-3aa6c2f63cef
 
+This one uses a [scripted Music2Latent](https://github.com/jasper-zheng/music2latent-scripted) model.
+
+> M. Pasini, S. Lattner, and G. Fazekas, “Music2Latent: Consistency Autoencoders for Latent Audio Compression”, in Proc. of the 25th Int. Society for Music Information Retrieval Conf., San Francisco, United States, 2024.
 
 
 ## What's a Neural Audio Autoencoder and why Latent Terrain? 
