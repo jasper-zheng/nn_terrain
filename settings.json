@@ -4,7 +4,7 @@
     "author": "Jasper Shuoyang Zheng",
     "faviconUrl": "/assets/myfavicon.png",
     "blogTitle": "Tutorials",
-    "displayTagsListLink": true,
+    "displayTagsListLink": false,
     "customLinks": [
         {
             "url": "https://github.com/jasper-zheng/nn_terrain",

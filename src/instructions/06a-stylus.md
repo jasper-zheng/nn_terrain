@@ -1,0 +1,11 @@
+---
+title: With a Stylus
+description: Interacting with a terrain using a stylus (or mouse/cursor).
+layout: libdoc_page.liquid
+permalink: instructions/interact/stylus/index.html
+eleventyNavigation:
+    key: Stylus Mode
+    parent: Composing and Interacting with Terrains
+date: 2025-05-14
+tocEnabled: false
+---
