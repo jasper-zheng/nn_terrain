@@ -7,18 +7,18 @@
   --ita-colors-neutral-400: #E5E5E5;
   --ita-colors-neutral-500: #BFBFBF;
   --ita-colors-neutral-600: #999999;
-  --ita-colors-neutral-700: #444444;
-  --ita-colors-neutral-800: #252525;
-  --ita-colors-neutral-900: #000000;
-  --ita-colors-primary-100: #fafcff;
-  --ita-colors-primary-200: #daeafb;
-  --ita-colors-primary-300: #a5d0fd;
-  --ita-colors-primary-400: #5dabfe;
-  --ita-colors-primary-500: #0165d0;
-  --ita-colors-primary-600: #0156b2;
-  --ita-colors-primary-700: #03458c;
-  --ita-colors-primary-800: #02366f;
-  --ita-colors-primary-900: #01254b;
+  --ita-colors-neutral-700: #444444; /* date and authors ; */
+  --ita-colors-neutral-800: #252525; /* path background ; */
+  --ita-colors-neutral-900: #000000; /* menu items ; */
+  --ita-colors-primary-100: rgb(252, 252, 252); /* page background ; */
+  --ita-colors-primary-200: #ececec; /* tags and code background ; */
+  --ita-colors-primary-300: #d4d4d4; /* background dots, quote border ; */
+  --ita-colors-primary-400: #606060; /* tag border ; */
+  --ita-colors-primary-500: #f99e16; /* buttons, tag text ; */
+  --ita-colors-primary-600: #444444; /* github links ; */
+  --ita-colors-primary-700: #e28b09; /* text hover ; */
+  --ita-colors-primary-800: #626262; /* code texts ; */
+  --ita-colors-primary-900: #2a2a2a; /* body texts and headings ; */
   --ita-colors-success-100: #f2fbec;
   --ita-colors-success-500: #5cab33;
   --ita-colors-success-900: #2b650c;

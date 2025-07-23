@@ -3,26 +3,63 @@
                 "title": "Tag",
                 "content": " syntax-highlighting "
             },{
-                "url": "/nn_terrain/tags/blockquote",
-                "title": "Tag",
-                "content": " blockquote "
-            },{
                 "url": "/nn_terrain/tags/open-graph-image",
                 "title": "Tag",
                 "content": " open-graph-image "
-            },{
-                "url": "/nn_terrain/tags/widgets",
-                "title": "Tag",
-                "content": " widgets "
             },
+                {
+                    "url": "/nn_terrain/installation/",
+                    "title": "Download and Installation",
+                    "content": "I am the first page linked into the primary navigation  "
+                },
+                {
+                    "url": "/nn_terrain/instructions/overview/",
+                    "title": "Overview",
+                    "content": "What is neural audio autoencoder and why using latent terrain?  Howdy! I am the page child of hello page.― ChildLet’s go back to hello page or go to hello grandchild.&amp;gt; Howdy! I am the page child of hello page.&amp;gt; &amp;gt; ― **Child**Let’s go back to [hello page](/hello-page.md &amp;quot;Go back to hello page&amp;quot;) or go to [hello grandchild](/hello-grandchild.md &amp;quot;Go to hello grandchild page&amp;quot;)."
+                },
+                {
+                    "url": "/nn_terrain/instructions/load-terrain/",
+                    "title": "Using pre-trained terrains",
+                    "content": "Feeling like using some already built terrains? They can be used as presets.  Howdy! I am the page child of hello page.― ChildLet’s go back to hello page or go to hello grandchild.&amp;gt; Howdy! I am the page child of hello page.&amp;gt; &amp;gt; ― **Child**Let’s go back to [hello page](/hello-page.md &amp;quot;Go back to hello page&amp;quot;) or go to [hello grandchild](/hello-grandchild.md &amp;quot;Go to hello grandchild page&amp;quot;)."
+                },
                 {
                     "url": "/nn_terrain/instructions/",
                     "title": "Instructions",
-                    "content": "I am the first page linked into the primary navigation syntax-highlighting "
+                    "content": "Some instructions for getting started exploring AI audio generation with latent terrain.  "
+                },
+                {
+                    "url": "/nn_terrain/instructions/visualisation/",
+                    "title": "Creating visualisations",
+                    "content": "Given a terrain with 2D inputs, we can visualise it as a map.  Looking at a terrain from above, we&#39;ll get a greyscale surface map, where brighter pixels denote higher latent value."
+                },
+                {
+                    "url": "/nn_terrain/instructions/build-terrain/",
+                    "title": "Building from scratch",
+                    "content": "Building and training a customised terrain using supervised machine learning.  "
+                },
+                {
+                    "url": "/nn_terrain/instructions/record-latents/",
+                    "title": "Recording latent trajectories",
+                    "content": "Feeling like using some already built terrains? They can be used as presets.  "
+                },
+                {
+                    "url": "/nn_terrain/instructions/interact/",
+                    "title": "Composing and interacting with a terrain",
+                    "content": "Feeling like using some already built terrains? They can be used as presets.  "
+                },
+                {
+                    "url": "/nn_terrain/instructions/interact/stylus/",
+                    "title": "With a Stylus",
+                    "content": "Interacting with a terrain using a stylus (or mouse/cursor).  "
+                },
+                {
+                    "url": "/nn_terrain/instructions/interact/playback/",
+                    "title": "Trajectory Playback",
+                    "content": "Interacting and composing with a terrain by trajectoy playback.  "
                 },
                 {
                     "url": "/nn_terrain/pre-trained/",
-                    "title": "Pre-Trained Terrains",
+                    "title": "Pre-Trained Terrains (Presets)",
                     "content": "I am the first page linked into the primary navigation syntax-highlighting "
                 },
                 {
@@ -31,14 +68,14 @@
                     "content": "I am the first blog post post open-graph-image Howdy! I am the first blog post of this project. To create content with LibDoc, you can use markdown, inline HTML and widgets.Learn how to adjust blog settings.The image above is also used as Open Graph Image."
                 },
                 {
-                    "url": "/nn_terrain/",
-                    "title": "Latent Terrain Synthesis",
-                    "content": "Building new musical instruments that compose and interact with AI audio autoencoders. widgets MaxMSP externals available here, example MaxMSP/Max4Live devices will be available soon.Let’s start!ConfigureStart entering your own settings into settings.json at the root of the project. Configuration documentation.WriteEasily write documentation with Markdown and HTML. Create content.Get helpLibDoc’s website contains a comprehensive documentation about how to install, configure and :LibDoc’s homepage The website containing LibDocs’s presentation and comprehensive documentation.Front matter Documentation of all front matter settings related to a LibDoc page.Primary navigation Detailed features of LibDoc’s primary navigation.SEO How LibDoc’s configuration and pages parameters are applied for Search Engine Optimization.Credits LibDoc could not work without these resources."
+                    "url": "/nn_terrain/compile/",
+                    "title": "Compile from Source",
+                    "content": "I am the first page linked into the primary navigation  "
                 },
                 {
-                    "url": "/nn_terrain/instructions/load-preset/",
-                    "title": "Loading a Pre-Trained Terrain",
-                    "content": "I am the page child of hello page syntax-highlighting blockquote Howdy! I am the page child of hello page.― ChildLet’s go back to hello page or go to hello grandchild.&amp;gt; Howdy! I am the page child of hello page.&amp;gt; &amp;gt; ― **Child**Let’s go back to [hello page](/hello-page.md &amp;quot;Go back to hello page&amp;quot;) or go to [hello grandchild](/hello-grandchild.md &amp;quot;Go to hello grandchild page&amp;quot;)."
+                    "url": "/nn_terrain/",
+                    "title": "Latent Terrain Synthesis",
+                    "content": "Building new musical instruments that compose and interact with AI audio generators.  MaxMSP externals available here, example MaxMSP/Max4Live devices will be available soon.OverviewLatent terrain is a coordinates-to-latents mapping model for neural audio autoencoders (such as RAVE, Music2Latent). It can be used to build a surface map for the autoencoder&#39;s latent space. It aims to open up the creative possibilities of latent space navigation.A terrain produces continuous latent vectors in real-time, taking coordinates in the control space as inputs.An example latent space walk with Music2Latent: --&gt;Audio autoencodersIn theory, latent terrain can work with any audio autoencoder as long as it offers latent variables. However, only a limited number of them have been implemented for MaxMSP, and we have only tested the following models:RAVE Realtime Audio Variational autoEncoder for fast and high-quality neural audio synthesis, by Antoine Caillon and Philippe Esling.Music2Latent-Scripted Music2Latent is a Consistency Autoencoder to encode and decode audio samples, by Marco Pasini, Stefan Lattner, and George Fazekas. We&#39;re using a scripted folk of the original repository.We plan to test the following model in the future:FlowDecvschaos2Get in touchLibDoc’s website contains a comprehensive documentation about how to install, configure and :LibDoc’s homepage The website containing LibDocs’s presentation and comprehensive documentation.Front matter Documentation of all front matter settings related to a LibDoc page.Primary navigation Detailed features of LibDoc’s primary navigation.SEO How LibDoc’s configuration and pages parameters are applied for Search Engine Optimization.Credits LibDoc could not work without these resources."
                 },
                 {
                     "url": "/nn_terrain/BuildInstructions/",
@@ -53,6 +90,6 @@
                 {
                     "url": "/nn_terrain/tags/",
                     "title": "./core/libdoc_tags.liquid",
-                    "content": "  syntax-highlighting blockquote open-graph-image widgets"
+                    "content": "  syntax-highlighting open-graph-image"
                 }
 ]
