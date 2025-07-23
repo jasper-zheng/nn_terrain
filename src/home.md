@@ -1,13 +1,13 @@
 ---
-title: Hello World!
-description: I am the home page of this project
+title: Latent Terrain Synthesis
+description: Building new musical instruments that compose and interact with AI audio autoencoders.
 layout: libdoc_page.liquid
 permalink: index.html
 date: git Last Modified
 tags:
     - widgets
 ---
-{% alert 'It seems to be the beginning of a great documentation story!', 'success', 'Howdy!' %}
+{% alert 'MaxMSP externals available [here](https://github.com/jasper-zheng/nn_terrain/releases/tag/v1.5.6), example MaxMSP/Max4Live devices will be available soon.', 'success', 'News' %}
 
 ## Let’s start!
 

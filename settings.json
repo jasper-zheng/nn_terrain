@@ -1,14 +1,15 @@
 {
-    "siteTitle": "My Project Title",
-    "siteDescription": "This is the description of my project title",
-    "author": "John Doe",
+    "siteTitle": "Latent Terrain",
+    "siteDescription": "Building new musical instruments that compose and interact with AI audio autoencoders.",
+    "author": "Jasper Shuoyang Zheng",
     "faviconUrl": "/assets/myfavicon.png",
-    "blogTitle": "Blog",
+    "blogTitle": "Tutorials",
+    "displayTagsListLink": true,
     "customLinks": [
         {
-            "url": "https://github.com/ita-design-system/eleventy-libdoc",
+            "url": "https://github.com/jasper-zheng/nn_terrain",
             "text": "GitHub"
         }
     ],
-    "editThisPageRootUrl": "https://github.com/ita-design-system/eleventy-libdoc/blob/main"
+    "editThisPageRootUrl": "https://github.com/jasper-zheng/nn_terrain/tree/pages"
 }

@@ -1,11 +1,11 @@
 ---
-title: Hello Child!
+title: Loading a Pre-Trained Terrain
 description: I am the page child of hello page
 layout: libdoc_page.liquid
-permalink: hello-page/hello-child/index.html
+permalink: instructions/load-preset/index.html
 eleventyNavigation:
-    key: Hello Child
-    parent: Hello Page
+    key: Load Terrains
+    parent: Instructions
 date: git Last Modified
 tags:
     - syntax-highlighting
