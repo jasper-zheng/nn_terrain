@@ -1,0 +1,31 @@
+---
+# title: Tags list
+# description: List of all available tags
+layout: libdoc_page.liquid
+permalink: "tags/index.html"
+author: false
+date: false
+# eleventyExcludeFromCollections: true
+# eleventyNavigation:
+#     key: Tags list
+#     order: 0
+---
+<div>
+    <nav id="nav_primary_tags_list"
+        class="blwidth-1 blstyle-dashed bcolor-neutral-500">
+        <p class="d-flex fw-wrap gap-3 | m-0 pl-5 pr-5 ">
+            {% for tagName in collections.myTags %}
+                <a  href="/tags/{{ tagName }}/"
+                    class="
+                    d-flex ai-center gap-2
+                    pl-2 pr-3 pt-1 pb-1
+                    fs-3 fvs-wght-600 lsp-2 td-none
+                    bwidth-1 bstyle-solid  brad-1 bradtl-3 bradbl-3
+                    {% if tag == tagName %}bc-success-100 c-success-500 bcolor-success-500{% else %}bc-primary-200 c-primary-500 bcolor-primary-400{% endif %}">
+                    <span class="icon-tag-simple"></span>
+                    <span>{{ tagName }}</span>
+                </a>
+            {% endfor %}
+        </p>
+    </nav>
+</div>

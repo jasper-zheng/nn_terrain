@@ -30,3 +30,10 @@ docs
 out
 help
 logs
+
+node_modules
+_site
+.cache
+_data/envlocal.json
+.env
+/assets/___dummy_content

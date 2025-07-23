@@ -1,0 +1,14 @@
+{
+    "siteTitle": "My Project Title",
+    "siteDescription": "This is the description of my project title",
+    "author": "John Doe",
+    "faviconUrl": "/assets/myfavicon.png",
+    "blogTitle": "Blog",
+    "customLinks": [
+        {
+            "url": "https://github.com/ita-design-system/eleventy-libdoc",
+            "text": "GitHub"
+        }
+    ],
+    "editThisPageRootUrl": "https://github.com/ita-design-system/eleventy-libdoc/blob/main"
+}

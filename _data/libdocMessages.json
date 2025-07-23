@@ -1,0 +1,214 @@
+{
+    "copiedToClipboard": {
+        "en": "Copied to clipboard",
+        "fr": "Copié dans le presse-papiers"
+    },
+    "code": {
+        "en": "Code",
+        "fr": "Code"
+    },
+    "colorSchemes": {
+        "en": "Color schemes",
+        "fr": "Modes d’apparences"
+    },
+    "colorSchemeAuto": {
+        "en": "Automatic",
+        "fr": "Automatique"
+    },
+    "colorSchemeDescriptionAuto": {
+        "en": "Based on you operating system preference",
+        "fr": "Basé sur les règles d’affichage de votre système"
+    },
+    "colorSchemeLight": {
+        "en": "Light",
+        "fr": "Clair"
+    },
+    "colorSchemeDescriptionLight": {
+        "en": "Always apply light mode",
+        "fr": "Toujours appliquer le mode clair"
+    },
+    "colorSchemeDark": {
+        "en": "Dark",
+        "fr": "Sombre"
+    },
+    "colorSchemeDescriptionDark": {
+        "en": "Always apply dark mode",
+        "fr": "Toujours appliquer le mode sombre"
+    },
+    "copied": {
+        "en": "Copied",
+        "fr": "Copié"
+    },
+    "copy": {
+        "en": "Copy",
+        "fr": "Copier"
+    },
+    "copyCode": {
+        "en": "Copy code",
+        "fr": "Copier le code"
+    },
+    "copyHTML": {
+        "en": "Copy HTML",
+        "fr": "Copier le HTML"
+    },
+    "copyURL": {
+        "en": "Copy URL",
+        "fr": "Copier l’URL"
+    },
+    "enable": {
+        "en": "Enable",
+        "fr": "Activer"
+    },
+    "goToTopOfPage": {
+        "en": "Go to top of page",
+        "fr": "Aller en haut de page"
+    },
+    "editThisPage": {
+        "en": "Edit this page",
+        "fr": "Modifier la page"
+    },
+    "height": {
+        "en": "Height",
+        "fr": "Hauteur"
+    },
+    "homepage": {
+        "en": "Homepage",
+        "fr": "Page d’accueil"
+    },
+    "homepageShort": {
+        "en": "Home",
+        "fr": "Accueil"
+    },
+    "inANewTab": {
+        "en": "In a new tab",
+        "fr": "Dans un nouvel onglet"
+    },
+    "lastModified": {
+        "en": "Last modified",
+        "fr": "Dernière modification"
+    },
+    "menu": {
+        "en": "Menu",
+        "fr": "Menu"
+    },
+    "noscriptAlert": {
+        "en": "It seems that your browser JavaScript is disabled, LibDoc is set to fallback mode with reduced features.",
+        "fr": "Il semble que JavaScript soit désactivé de votre naviigateur, LibDoc est en mode restreint avec des fonctionnalités réduites."
+    },
+    "open": {
+        "en": "Open",
+        "fr": "Ouvrir"
+    },
+    "openInANewTab": {
+        "en": "Open in a new tab",
+        "fr": "Ouvrir dans un nouvel onglet"
+    },
+    "page": {
+        "en": "Page",
+        "fr": "Page"
+    },
+    "pages": {
+        "en": "Pages",
+        "fr": "Pages"
+    },
+    "pagesTagged": {
+        "en": "Pages tagged",
+        "fr": "Pages taguées"
+    },
+    "preferences": {
+        "en": "Preferences",
+        "fr": "Préférences"
+    },
+    "reload": {
+        "en": "Reload",
+        "fr": "Recharger"
+    },
+    "reloaded": {
+        "en": "Reloaded",
+        "fr": "Rechargé"
+    },
+    "result": {
+        "en": "result",
+        "fr": "Résultat"
+    },
+    "sandbox": {
+        "en": "Sandbox",
+        "fr": "Bac à sable"
+    },
+    "sandboxResizeHelper": {
+        "en": "Click and drag to resize code and result",
+        "fr": "Cliquer déplacer pour redimensionner code et résultat"
+    },
+    "search": {
+        "en": "Search",
+        "fr": "Rechercher"
+    },
+    "searchClear": {
+        "en": "Clear input",
+        "fr": "Effacer la saisie"
+    },
+    "searchMinimumCharacters": {
+        "en": "3 characters min.",
+        "fr": "3 caractères min."
+    },
+    "searchResultsNoResultForQuery": {
+        "en": "No result for query",
+        "fr": "Aucun résultat pour la requête"
+    },
+    "searchOccurrencesCurrent": {
+        "en": "Current search occurrence",
+        "fr": "Occurrence actuelle"
+    },
+    "searchOccurrencesNext": {
+        "en": "Next search occurrence",
+        "fr": "Occurrence suivante"
+    },
+    "searchOccurrencesPrevious": {
+        "en": "Previous search occurrence",
+        "fr": "Occurrence précédente"
+    },
+    "searchOccurrencesStop": {
+        "en": "Stop search occurrences",
+        "fr": "Fermet la recherches d’occurrences"
+    },
+    "searchPlaceholder": {
+        "en": "Enter text to search",
+        "fr": "Texte à rechercher"
+    },
+    "searchSubmit": {
+        "en": "Submit search",
+        "fr": "Lancer la recherche"
+    },
+    "tableOfContent": {
+        "en": "Table of content",
+        "fr": "Sommaire"
+    },
+    "tableOfContentAbbr": {
+        "en": "TOC",
+        "fr": "Sommaire"
+    },
+    "tag": {
+        "en": "Tag",
+        "fr": "Tag"
+    },
+    "tagsList": {
+        "en": "Tags list",
+        "fr": "Liste des tags"
+    },
+    "tagsListDescription": {
+        "en": "List of every tag available",
+        "fr": "Liste de l’ensemble des tags disponibles"
+    },
+    "toggleFloatingToc": {
+        "en": "Toggle floating Table of content",
+        "fr": "Basculer la table des matières flottante"
+    },
+    "top": {
+        "en": "Top",
+        "fr": "Haut"
+    },
+    "width": {
+        "en": "Width",
+        "fr": "Largeur"
+    }
+}
