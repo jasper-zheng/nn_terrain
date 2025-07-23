@@ -1,0 +1,54 @@
+<h1>Build Instructions</h1>
+<p>If the externals have trouble opening in Max, or doesn't work correctly with nn_tilde, you might want to build the externals yourself:</p>
+<h2>Prerequisites</h2>
+<p>MacOS (arm64):</p>
+<ul>
+<li>Xcode 11 or 12 (you can get from the App Store for free).</li>
+<li>Download arm64 LibTorch <a href="https://pytorch.org/get-started/locally/">here</a> and unzip it to a known directory. LibTorch's torch version should be the same as nn_tilde.</li>
+<li>Install a recent version of <a href="https://cmake.org/download/">CMake</a> (version 3.19 or higher).</li>
+</ul>
+<p>Windows:</p>
+<ul>
+<li>Download LibTorch <a href="https://pytorch.org/get-started/locally/">here</a> and unzip it to a known directory. LibTorch's torch version should be the same as nn_tilde.
+<ul>
+<li>If you would like to enable GPU training/inference, you'll need to select the CUDA version of LibTorch, and have the corresponding <a href="https://developer.nvidia.com/cuda-toolkit">CUDA ToolKit</a>.</li>
+</ul>
+</li>
+<li>Install a recent version of <a href="https://cmake.org/download/">CMake</a> (version 3.19 or higher).</li>
+</ul>
+<h2>Build on MacOS</h2>
+<p>Recursively clone this repository into <strong>Max's Packages folder</strong>. Terminal command:</p>
+<pre><code>git clone https://github.com/jasper-zheng/nn_terrain.git --recursive
+</code></pre>
+<p>In Terminal, cd into the <code>nn_terrain</code> folder you cloned, and make a new folder named <code>build</code>. and cd into that folder:</p>
+<pre><code>cd nn_terrain
+mkdir build
+cd build
+</code></pre>
+<p>Run the command below to generate an Xcode project, replace <code>path/to/libtorch</code> to the libtorch folder you've downloaded:</p>
+<pre><code>cmake ../src/ -G Xcode -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64  
+</code></pre>
+<p>An Xcode project will be created in this <code>build</code> folder, you can either open the Xcode project and build it from there, or build by running the command below:</p>
+<pre><code>cmake --build .
+</code></pre>
+<p>The <code>.mxo</code> files will be created in the <code>src/externals</code> folder, move them <code>~/Documents/Max 9/Packages/nn_terrain/externals/</code></p>
+<p>Additionally, taken from <a href="https://github.com/Cycling74/min-devkit/tree/main">min-devkit</a>:</p>
+<blockquote>
+<p>If you are running on a Mac with Apple Silicon, you might see an error cannot be loaded due to system security policy when loading your externals in Max. To resolve this, you can ad-hoc codesign your external with codesign <code>--force --deep -s - myobject.mxo</code>.</p>
+</blockquote>
+<h2>Build on Windows</h2>
+<p>Recursively clone this repository into <strong>Max's Packages folder</strong>. Terminal command:</p>
+<pre><code>git clone https://github.com/jasper-zheng/nn_terrain.git --recurse-submodules
+</code></pre>
+<p>In Terminal, cd into the <code>nn_terrain</code> folder you cloned, and make a new folder named <code>build</code>. and cd into that folder:</p>
+<pre><code>cd nn_terrain
+mkdir build
+cd build
+</code></pre>
+<p>Then run the command below to generate a project buildsystem, replace <code>path\to\libtorch</code> to the libtorch folder you've downloaded, and make sure <code>Visual Studio 17 2022</code> is set to your build system generator (run <code>cmake --help</code> to get a list of available options).</p>
+<pre><code>cmake ..\src -A x64 -DCMAKE_PREFIX_PATH=&quot;path\to\libtorch&quot; -G &quot;Visual Studio 17 2022&quot;
+</code></pre>
+<p>Having generated the projects, now you can build by opening the .sln file in Visual Studio, or build on the command line using:</p>
+<pre><code>cmake --build . --config Release
+</code></pre>
+<p>The externals will be created in the <code>src/externals</code> folder, move them <code>~/Documents/Max 9/Packages/nn_terrain/externals/</code></p>
