@@ -1,8 +1,4 @@
 [{
-                "url": "/nn_terrain/tags/open-graph-image",
-                "title": "Tag",
-                "content": " open-graph-image "
-            },{
                 "url": "/nn_terrain/tags/syntax-highlighting",
                 "title": "Tag",
                 "content": " syntax-highlighting "
@@ -11,44 +7,43 @@
                 "title": "Tag",
                 "content": " blockquote "
             },{
+                "url": "/nn_terrain/tags/open-graph-image",
+                "title": "Tag",
+                "content": " open-graph-image "
+            },{
                 "url": "/nn_terrain/tags/widgets",
                 "title": "Tag",
                 "content": " widgets "
             },
+                {
+                    "url": "/nn_terrain/instructions/",
+                    "title": "Instructions",
+                    "content": "I am the first page linked into the primary navigation syntax-highlighting "
+                },
+                {
+                    "url": "/nn_terrain/pre-trained/",
+                    "title": "Pre-Trained Terrains",
+                    "content": "I am the first page linked into the primary navigation syntax-highlighting "
+                },
                 {
                     "url": "/nn_terrain/posts/hello-post/",
                     "title": "Hello Post!",
                     "content": "I am the first blog post post open-graph-image Howdy! I am the first blog post of this project. To create content with LibDoc, you can use markdown, inline HTML and widgets.Learn how to adjust blog settings.The image above is also used as Open Graph Image."
                 },
                 {
-                    "url": "/nn_terrain/hello-page/hello-child/",
-                    "title": "Hello Child!",
-                    "content": "I am the page child of hello page syntax-highlighting blockquote Howdy! I am the page child of hello page.― ChildLet’s go back to hello page or go to hello grandchild.&amp;gt; Howdy! I am the page child of hello page.&amp;gt; &amp;gt; ― **Child**Let’s go back to [hello page](/hello-page.md &amp;quot;Go back to hello page&amp;quot;) or go to [hello grandchild](/hello-grandchild.md &amp;quot;Go to hello grandchild page&amp;quot;)."
-                },
-                {
-                    "url": "/nn_terrain/hello-page/hello-child/hello-grandchild/",
-                    "title": "Hello Grandchild!",
-                    "content": "I am the page child of hello child blockquote Howdy! I am the page child of hello child.― GrandchildLet’s go back to hello child."
-                },
-                {
-                    "url": "/nn_terrain/hello-page/",
-                    "title": "Hello Page!",
-                    "content": "I am the first page linked into the primary navigation syntax-highlighting Howdy! I am the first page! Let’s go to child page.Howdy! I am the first page! Let’s go to [child page](/hello-child.md &amp;quot;Go to hello child&amp;quot;)."
-                },
-                {
                     "url": "/nn_terrain/",
-                    "title": "Hello World!",
-                    "content": "I am the home page of this project widgets It seems to be the beginning of a great documentation story!Let’s start!ConfigureStart entering your own settings into settings.json at the root of the project. Configuration documentation.WriteEasily write documentation with Markdown and HTML. Create content.Get helpLibDoc’s website contains a comprehensive documentation about how to install, configure and :LibDoc’s homepage The website containing LibDocs’s presentation and comprehensive documentation.Front matter Documentation of all front matter settings related to a LibDoc page.Primary navigation Detailed features of LibDoc’s primary navigation.SEO How LibDoc’s configuration and pages parameters are applied for Search Engine Optimization.Credits LibDoc could not work without these resources."
+                    "title": "Latent Terrain Synthesis",
+                    "content": "Building new musical instruments that compose and interact with AI audio autoencoders. widgets MaxMSP externals available here, example MaxMSP/Max4Live devices will be available soon.Let’s start!ConfigureStart entering your own settings into settings.json at the root of the project. Configuration documentation.WriteEasily write documentation with Markdown and HTML. Create content.Get helpLibDoc’s website contains a comprehensive documentation about how to install, configure and :LibDoc’s homepage The website containing LibDocs’s presentation and comprehensive documentation.Front matter Documentation of all front matter settings related to a LibDoc page.Primary navigation Detailed features of LibDoc’s primary navigation.SEO How LibDoc’s configuration and pages parameters are applied for Search Engine Optimization.Credits LibDoc could not work without these resources."
+                },
+                {
+                    "url": "/nn_terrain/instructions/load-preset/",
+                    "title": "Loading a Pre-Trained Terrain",
+                    "content": "I am the page child of hello page syntax-highlighting blockquote Howdy! I am the page child of hello page.― ChildLet’s go back to hello page or go to hello grandchild.&amp;gt; Howdy! I am the page child of hello page.&amp;gt; &amp;gt; ― **Child**Let’s go back to [hello page](/hello-page.md &amp;quot;Go back to hello page&amp;quot;) or go to [hello grandchild](/hello-grandchild.md &amp;quot;Go to hello grandchild page&amp;quot;)."
                 },
                 {
                     "url": "/nn_terrain/BuildInstructions/",
                     "title": "./BuildInstructions.md",
                     "content": "  Build InstructionsIf the externals have trouble opening in Max, or doesn&#39;t work correctly with nn_tilde, you might want to build the externals yourself:PrerequisitesMacOS (arm64):Xcode 11 or 12 (you can get from the App Store for free).Download arm64 LibTorch here and unzip it to a known directory. LibTorch&#39;s torch version should be the same as nn_tilde.Install a recent version of CMake (version 3.19 or higher).Windows:Download LibTorch here and unzip it to a known directory. LibTorch&#39;s torch version should be the same as nn_tilde.If you would like to enable GPU training/inference, you&#39;ll need to select the CUDA version of LibTorch, and have the corresponding CUDA ToolKit.Install a recent version of CMake (version 3.19 or higher).Build on MacOSRecursively clone this repository into Max&#39;s Packages folder. Terminal command:git clone https://github.com/jasper-zheng/nn_terrain.git --recursiveIn Terminal, cd into the nn_terrain folder you cloned, and make a new folder named build. and cd into that folder:cd nn_terrainmkdir buildcd buildRun the command below to generate an Xcode project, replace path/to/libtorch to the libtorch folder you&#39;ve downloaded:cmake ../src/ -G Xcode -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64 An Xcode project will be created in this build folder, you can either open the Xcode project and build it from there, or build by running the command below:cmake --build .The .mxo files will be created in the src/externals folder, move them ~/Documents/Max 9/Packages/nn_terrain/externals/Additionally, taken from min-devkit:If you are running on a Mac with Apple Silicon, you might see an error cannot be loaded due to system security policy when loading your externals in Max. To resolve this, you can ad-hoc codesign your external with codesign --force --deep -s - myobject.mxo.Build on WindowsRecursively clone this repository into Max&#39;s Packages folder. Terminal command:git clone https://github.com/jasper-zheng/nn_terrain.git --recurse-submodulesIn Terminal, cd into the nn_terrain folder you cloned, and make a new folder named build. and cd into that folder:cd nn_terrainmkdir buildcd buildThen run the command below to generate a project buildsystem, replace pathtolibtorch to the libtorch folder you&#39;ve downloaded, and make sure Visual Studio 17 2022 is set to your build system generator (run cmake --help to get a list of available options).cmake ..src -A x64 -DCMAKE_PREFIX_PATH=&amp;quot;pathtolibtorch&amp;quot; -G &amp;quot;Visual Studio 17 2022&amp;quot;Having generated the projects, now you can build by opening the .sln file in Visual Studio, or build on the command line using:cmake --build . --config ReleaseThe externals will be created in the src/externals folder, move them ~/Documents/Max 9/Packages/nn_terrain/externals/"
-                },
-                {
-                    "url": "/nn_terrain/README 2/",
-                    "title": "./README 2.md",
-                    "content": "  Eleventy LibDocEleventy LibDoc website | 11ty websiteEleventy LibDoc is an easy to use and content focused starter project for Eleventy to craft slick and responsive documentation. It was was developed with accessibility awareness and low-tech mindset which allows to reach good page speed performances. It contains vanilla JS self-made components like search, primary navigation, table of content, code highlighting and sandboxes. Every page created with LibDoc is printable and can work properly even without Javascript by maintaining only essential features.[!NOTE]Eleventy LibDoc is still under active development and therefore before reaching v1.0.0:Full backward compatibility is not guaranteed.Many features are subject to change.Getting startedClone or fork https://github.com/ita-design-system/eleventy-libdocRun npm installEnter your own settings in settings.json. Configuration.Build npx @11ty/eleventy --serve or npx @11ty/eleventy (if you already have your own web server).View deployment of this repositoryKey featuresContent focused LibDoc is easy to install, deploy and use.Accessibility LibDoc was developed with accessibility awareness.Performance Low front-end dependencies and vanilla JS self-made components make LibDoc cross-browser compatibility and good performances. View performances.Search Quickly get search results and easily navigate through search occurrences with a dedicated UI.Smart navigation On page change, the primary navigation menu keeps its position.Smart table of content In addition of a pure static table of content, LibDoc generates a floating TOC always visible that also displays the current window scroll position.Fallback if no Javascript available LibDoc can work even without Javascript with reduced features.Image transcoding LibDoc transcodes and resizes your source images into production ready formats.Printable Every page created with LibDoc can be printed.Light and dark modes LibDoc’s interface is available with both light and dark mode color schemes.Slick code highlighting Display your code in a nice style and adjust which code languages you really use.Sandboxes Showcase small demos or full HTML pages into a responsive dual pane.DocumentationLibDoc’s homepage The website containing LibDocs’s presentation and comprehensive documentation.Configuration List and descriptions of every LibDoc parameter.Creating content How LibDoc can display your content in multiple ways.Front matter Documentation of all front matter settings related to a LibDoc page.Primary navigation Detailed features of LibDoc’s primary navigation.SEO How LibDoc’s configuration and pages parameters are applied for Search Engine Optimization.Credits LibDoc could not work without these resources."
                 },
                 {
                     "url": "/nn_terrain/posts/",
@@ -58,6 +53,6 @@
                 {
                     "url": "/nn_terrain/tags/",
                     "title": "./core/libdoc_tags.liquid",
-                    "content": "  open-graph-image syntax-highlighting blockquote widgets"
+                    "content": "  syntax-highlighting blockquote open-graph-image widgets"
                 }
 ]
