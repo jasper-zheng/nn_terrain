@@ -374,17 +374,22 @@
                 </aside>
             
             </noscript>
-            <blockquote>
-<p>Howdy! I am the page child of hello page.</p>
-<p>― <strong>Child</strong></p>
-</blockquote>
-<p>Let’s go back to <a href="/nn_terrain/hello-page.md" title="Go back to hello page">hello page</a> or go to <a href="/nn_terrain/hello-grandchild.md" title="Go to hello grandchild page">hello grandchild</a>.</p>
-<pre><code class="language-markdown">&gt; Howdy! I am the page child of hello page.
-&gt; 
-&gt; ― **Child**
-
-Let’s go back to [hello page](/hello-page.md &quot;Go back to hello page&quot;) or go to [hello grandchild](/hello-grandchild.md &quot;Go to hello grandchild page&quot;).
-</code></pre>
+            <p>A neural audio autoencoder (such as <a href="https://github.com/acids-ircam/RAVE">RAVE</a>) is an AI audio generation tool, it has two components: an encoder and a decoder.</p>
+<ul>
+<li>The <code>encoder</code> compresses a piece of audio signal into a sequence of latent vectors (a <strong>latent trajectory</strong>). This compression happens in the time domain, so that the sampling rate goes from 44100Hz (audio sampling rate) to 21.5Hz (latent space sampling rate).</li>
+<li>The <code>decoder</code> takes the latent trajectory to produce a piece of audio signal. The decoder can also be used as a parametric synthesiser by navigating the latent space (i.e., <strong>latent space walk</strong>).</li>
+<li>A <strong>latent terrain</strong> is a surface map created from the latent trajectory, just like looking at a latent trajectory from above.</li>
+</ul>
+<figure class="wide">
+    <picture class="eleventy-image"><source type="image/avif" srcset="/nn_terrain/instructions/overview/trajectory-EeA4pznGWu-__730__.avif 730w, /nn_terrain/instructions/overview/trajectory-EeA4pznGWu-__1400__.avif 1400w, /nn_terrain/instructions/overview/trajectory-EeA4pznGWu-__2800__.avif 2800w" sizes="auto"><img loading="lazy" decoding="async" src="/nn_terrain/instructions/overview/trajectory-EeA4pznGWu-__730__.webp" alt="Pierra Menta" width="2800" height="697" srcset="/nn_terrain/instructions/overview/trajectory-EeA4pznGWu-__730__.webp 730w, /nn_terrain/instructions/overview/trajectory-EeA4pznGWu-__1400__.webp 1400w, /nn_terrain/instructions/overview/trajectory-EeA4pznGWu-__2800__.webp 2800w" sizes="auto"></picture>
+    <figcaption>
+        Audio sample, latent trajectory, and latent terrain.
+    </figcaption>
+</figure>
+<p>It allows you to navigate latent space of the generative AI like walking on a terrain surface, tailoring the latent space to a low-dimensional (e.g., a 2D plane) control space.</p>
+<p>And this terrain surface is <strong>nonlinear</strong> (i.e., able to produce complex sequential patterns), <strong>continuous</strong> (i.e., allows for smooth interpolations), and <strong>tailorable</strong> (i.e., DIY your own materials with interactive machine learning).</p>
+<p>An example <strong>latent space walk</strong> with Music2Latent:</p>
+<p><video controls="" loop="" playsinline="" aria-labelledby="video-label" src="../../assets/terrain-walk.mp4" width="95%"></video></p>
 
             <footer class="minh-100vh">
                 <div class="pt-11 | blwidth-1 blstyle-dashed bcolor-neutral-500"></div>

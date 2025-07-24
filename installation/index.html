@@ -7,7 +7,7 @@
     
 
     <meta itemprop="name" content="Download and Installation">
-    <meta name="description" itemprop="description" content="I am the first page linked into the primary navigation">
+    <meta name="description" itemprop="description" content="Installing the nn.terrain~ externals to MaxMSP/Max4Live.">
     <meta name="application-name" content="Download and Installation">
     <meta name="author" content="Jasper Shuoyang Zheng">
     <link rel="icon" type="image/png" href="/nn_terrain/assets/myfavicon.png">
@@ -21,13 +21,13 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="/installation/">
     <meta property="og:title" content="Download and Installation">
-    <meta property="og:description" content="I am the first page linked into the primary navigation">
+    <meta property="og:description" content="Installing the nn.terrain~ externals to MaxMSP/Max4Live.">
     <meta property="og:image" content="https://raw.githubusercontent.com/ita-design-system/ita-medias/refs/heads/main/ogimage-11ty-libdoc.png">
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Download and Installation">
-    <meta name="twitter:description" content="I am the first page linked into the primary navigation">
+    <meta name="twitter:description" content="Installing the nn.terrain~ externals to MaxMSP/Max4Live.">
     <meta name="twitter:url" content="/installation/">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/ita-design-system/ita-medias/refs/heads/main/ogimage-11ty-libdoc.png">
     
@@ -324,7 +324,7 @@
                 </h1>
                 
                     <p class="d-flex ai-center fw-wrap gap-2 | pt-5 pl-5 pb-5 m-0 | fvs-wght-400 tws-balance fs-7 lsp-3 lh-5 | blwidth-1 blstyle-dashed bcolor-neutral-500" pt-3="xs" pb-3="xs" fs-6="sm" fs-5="xs">
-                        I am the first page linked into the primary navigation
+                        Installing the nn.terrain~ externals to MaxMSP/Max4Live.
                     </p>
                 
                 
@@ -355,6 +355,39 @@
                     </div>
                 
                 
+                    <details id="toc_main" open="">
+                        <summary class="d-flex ai-center | pt-5 pb-5 | fvs-wght-500 fs-3 | bwidth-1 bstyle-dashed bcolor-neutral-500 btwidth-0 brwidth-0 cur-pointer">
+                            <span class="pl-5 | bbwidth-1 bbstyle-dashed bcolor-neutral-500"></span>
+                            <span class="d-flex ai-center gap-1 | lsp-2">
+                                <span class="icon-minus-circle | fs-6 | c-primary-500"></span>
+                                <span class="icon-plus-circle | fs-6 | c-primary-500"></span>
+                                Table of content
+                            </span>
+                        </summary>
+                        
+                    <ol class="cgap-3em | m-0 pl-0 pb-5 o-auto | lh-1 | ls-none bwidth-1 bstyle-dashed bcolor-neutral-500 btwidth-0 brwidth-0" d-flex="xs,sm" fd-column="xs,sm" fw-wrap="xs,sm" columns-3="md" columns-2="sm" maxh-300px="sm" maxh-200px="xs">
+                        <li class="d-flex">
+                            <a href="#download" class="pl-5 pt-1 pb-1 | fs-4 lsp-3 lh-5 fvs-wght-400 | blwidth-1 blstyle-dashed bcolor-neutral-500">
+                                Download
+                            </a>
+                        </li>
+                        <li class="d-flex">
+                            <a href="#installation" class="pl-5 pt-1 pb-1 | fs-4 lsp-3 lh-5 fvs-wght-400 | blwidth-1 blstyle-dashed bcolor-neutral-500">
+                                Installation
+                            </a>
+                        </li>
+                        <li class="d-flex">
+                            <a href="#with-nn-v156" class="pl-5 pt-1 pb-1 | fs-4 lsp-3 lh-5 fvs-wght-400 | blwidth-1 blstyle-dashed bcolor-neutral-500">
+                                With nn~ v1.5.6
+                            </a>
+                        </li>
+                        <li class="d-flex">
+                            <a href="#with-nn-v160" class="pl-5 pt-1 pb-1 | fs-4 lsp-3 lh-5 fvs-wght-400 | blwidth-1 blstyle-dashed bcolor-neutral-500">
+                                With nn~ v1.6.0
+                            </a>
+                        </li></ol>
+                    </details>
+                
             </header>
             <noscript>
                 
@@ -366,11 +399,132 @@
                 </aside>
             
             </noscript>
-            <!-- Howdy! I am the first page! Let’s go to [child page](/hello-child.md "Go to hello child").
+            <p>This repository is a set of MaxMSP/Max4Live externals to build, visualise, and program latent terrain:</p>
+<div class="o-auto w-100 table-wrapper"><table>
+<thead>
+<tr>
+<th>Object</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><code>nn.terrain~</code></td>
+<td> 
+<ul>
+<li>Load, build, train, and save a terrain.</li>
+<li>Perform the coordinates-to-latents mapping.</li>
+</ul>
+ </td>
+</tr>
+<tr><td><code>nn.terrain.encode</code></td>
+<td>
+<ul>
+<li>Using a pre-trained autoencoder to encode audio buffers into <strong>latent trajectories</strong>, as training data for <code>nn.terrain~</code>.</li>
+</ul>
+</td>
+</tr>
+<tr><td><code>nn.terrain.record</code></td>
+<td>
+<ul>
+<li>Manually recording <strong>latent trajectories</strong>, as training data for <code>nn.terrain~</code>.</li>
+</ul>
+</td>
+</tr>
+<tr><td><code>nn.terrain.gui</code></td>
+<td>
+<ul>
+<li>Edit <strong>spatial trajectories</strong>, as training data for <code>nn.terrain~</code>.</li>
+<li>Visualise the terrain.</li>
+<li>Create and program trajectory playbacks.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p>All externals above are designed to work together with <code>nn~</code>, which is a MaxMSP/Max4Live external developed by acids-ircam to load and use deep learning realtime audio processing models:</p>
+<div class="o-auto w-100 table-wrapper"><table>
+<thead>
+<tr>
+<th>Object</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><code>nn~</code></td>
+<td> 
+<ul>
+<li>Hosting the decoder of an AI audio autoencoder, to decode latents to audio in realtime.</li>
+</ul>
+ </td>
+</tr>
+</tbody>
+</table></div>
 
-```markdown
-Howdy! I am the first page! Let’s go to [child page](/hello-child.md "Go to hello child").
-``` -->
+                        <h2 id="download" pl-9="xs,sm">
+                            <a href="#download" title="Download" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                                <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
+                            </a>
+                    Download</h2>
+<p>Depending on which version of <code>nn~</code> you're using:</p>
+<ul>
+<li>If you're using <a href="https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6">nn~ v1.5.6 (torch v2.0.0/2.0.1)</a> (the 2023 version): <br>Please download <a href="https://github.com/jasper-zheng/nn_terrain/releases/tag/v1.5.6">nn.terrain~ v1.5.6</a>.</li>
+<li>If you're using <a href="https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6">nn~ v1.6.0 (torch v2.5.0/2.5.1)</a> (the 2025 version): <br>Please download <a href="https://github.com/jasper-zheng/nn_terrain_tilde/releases/tag/1.6.0-macos">nn.terrain~ v1.6.0</a>.</li>
+</ul>
+<p>While the 1.6.0 <code>nn~</code> offers amazing add-on functionalities, I personally use the 1.5.6 version more often because it does exactly what I need already, and it's more stable with <code>nn.terrain~</code>.</p>
+<p>If you're unsure which version you're using, this can be checked from your Max console when an <code>nn~</code> instance is first opened in Max:</p>
+<p><picture class="eleventy-image"><source type="image/avif" srcset="/nn_terrain/installation/nn-version-2o-EKXbxKu-__730__.avif 730w, /nn_terrain/installation/nn-version-2o-EKXbxKu-__940__.avif 940w" sizes="auto"><img loading="lazy" decoding="async" src="/nn_terrain/installation/nn-version-2o-EKXbxKu-__730__.webp" alt="max console" width="940" height="162" srcset="/nn_terrain/installation/nn-version-2o-EKXbxKu-__730__.webp 730w, /nn_terrain/installation/nn-version-2o-EKXbxKu-__940__.webp 940w" sizes="auto"></picture></p>
+<p>If you have a customised <code>nn~</code> like me, you might need to consider compiling your own <code>nn.terrain~</code> from source, please see instructions <a href="/nn_terrain/compile">Compile from Source</a>.</p>
+
+                        <h2 id="installation" pl-9="xs,sm">
+                            <a href="#installation" title="Installation" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                                <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
+                            </a>
+                    Installation</h2>
+<p><code>nn.terrain~</code> needs to be installed in different ways, depending on which version of <code>nn~</code> you're using:</p>
+
+                        <h3 id="with-nn-v156" pl-9="xs,sm">
+                            <a href="#with-nn-v156" title="With nn~ v1.5.6" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                                <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
+                            </a>
+                    With nn~ v1.5.6</h3>
+<ul>
+<li><strong>macOS</strong>
+<ul>
+<li>Uncompress the <code>.tar.gz</code> file into the <code>Package</code> folder of your Max documents, which is usually in <code>~/Documents/Max 9/Packages</code>.</li>
+<li>Reopen Max and you can find all <code>nn.terrain</code> objects.</li>
+<li>You might get a quarantine warning, proceed will disable this warning.</li>
+</ul>
+</li>
+<li><strong>Windows</strong>
+<ul>
+<li>Uncompress the <code>.tar.gz</code> file into the <code>Package</code> folder of your Max documents, which is usually in <code>~/Documents/Max 9/Packages/</code></li>
+<li>Copy all <code>.dll</code> files in the package next to the <code>Max.exe</code> executable (if you have already done this for <code>nn~</code>, you don't need to do this again).</li>
+</ul>
+</li>
+</ul>
+
+                        <h3 id="with-nn-v160" pl-9="xs,sm">
+                            <a href="#with-nn-v160" title="With nn~ v1.6.0" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                                <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
+                            </a>
+                    With nn~ v1.6.0</h3>
+<ul>
+<li><strong>macOS</strong>
+<ul>
+<li>Uncompress the <code>.tar.gz</code> file</li>
+<li>In <code>~/Documents/Max 9/Packages</code>, <strong>copy and merge</strong> the unzipped folders to the <code>nn_tilde</code> folder, make sure that all externals (e.g., <code>nn.terrain~.mxo</code>) are placed next to <code>nn~.mxo</code> in the same folder.</li>
+<li>Reopen Max and you can find all <code>nn.terrain</code> objects.</li>
+<li>You might get a quarantine warning, proceed will disable this warning.</li>
+</ul>
+</li>
+<li><strong>Windows</strong>
+<ul>
+<li>To be updated soon.</li>
+</ul>
+</li>
+</ul>
+<p>If the externals have trouble opening in Max, or doesn't work correctly with <code>nn~</code> you might considering compiling the externals yourself, see <a href="/nn_terrain/compile">Compile from Source</a>.</p>
+
             <footer class="minh-100vh">
                 <div class="pt-11 | blwidth-1 blstyle-dashed bcolor-neutral-500"></div>
                 <nav class="d-flex ai-center rgap-7 | blwidth-1 blstyle-dashed bcolor-neutral-500" fw-wrap="xs">

@@ -7,7 +7,7 @@
     
 
     <meta itemprop="name" content="Compile from Source">
-    <meta name="description" itemprop="description" content="I am the first page linked into the primary navigation">
+    <meta name="description" itemprop="description" content="Building nn.terrain~ externals from the source code.">
     <meta name="application-name" content="Compile from Source">
     <meta name="author" content="Jasper Shuoyang Zheng">
     <link rel="icon" type="image/png" href="/nn_terrain/assets/myfavicon.png">
@@ -21,13 +21,13 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="/compile/">
     <meta property="og:title" content="Compile from Source">
-    <meta property="og:description" content="I am the first page linked into the primary navigation">
+    <meta property="og:description" content="Building nn.terrain~ externals from the source code.">
     <meta property="og:image" content="https://raw.githubusercontent.com/ita-design-system/ita-medias/refs/heads/main/ogimage-11ty-libdoc.png">
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Compile from Source">
-    <meta name="twitter:description" content="I am the first page linked into the primary navigation">
+    <meta name="twitter:description" content="Building nn.terrain~ externals from the source code.">
     <meta name="twitter:url" content="/compile/">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/ita-design-system/ita-medias/refs/heads/main/ogimage-11ty-libdoc.png">
     
@@ -324,7 +324,7 @@
                 </h1>
                 
                     <p class="d-flex ai-center fw-wrap gap-2 | pt-5 pl-5 pb-5 m-0 | fvs-wght-400 tws-balance fs-7 lsp-3 lh-5 | blwidth-1 blstyle-dashed bcolor-neutral-500" pt-3="xs" pb-3="xs" fs-6="sm" fs-5="xs">
-                        I am the first page linked into the primary navigation
+                        Building nn.terrain~ externals from the source code.
                     </p>
                 
                 
@@ -355,6 +355,34 @@
                     </div>
                 
                 
+                    <details id="toc_main" open="">
+                        <summary class="d-flex ai-center | pt-5 pb-5 | fvs-wght-500 fs-3 | bwidth-1 bstyle-dashed bcolor-neutral-500 btwidth-0 brwidth-0 cur-pointer">
+                            <span class="pl-5 | bbwidth-1 bbstyle-dashed bcolor-neutral-500"></span>
+                            <span class="d-flex ai-center gap-1 | lsp-2">
+                                <span class="icon-minus-circle | fs-6 | c-primary-500"></span>
+                                <span class="icon-plus-circle | fs-6 | c-primary-500"></span>
+                                Table of content
+                            </span>
+                        </summary>
+                        
+                    <ol class="cgap-3em | m-0 pl-0 pb-5 o-auto | lh-1 | ls-none bwidth-1 bstyle-dashed bcolor-neutral-500 btwidth-0 brwidth-0" d-flex="xs,sm" fd-column="xs,sm" fw-wrap="xs,sm" columns-3="md" columns-2="sm" maxh-300px="sm" maxh-200px="xs">
+                        <li class="d-flex">
+                            <a href="#prerequisites" class="pl-5 pt-1 pb-1 | fs-4 lsp-3 lh-5 fvs-wght-400 | blwidth-1 blstyle-dashed bcolor-neutral-500">
+                                Prerequisites
+                            </a>
+                        </li>
+                        <li class="d-flex">
+                            <a href="#build-on-macos" class="pl-5 pt-1 pb-1 | fs-4 lsp-3 lh-5 fvs-wght-400 | blwidth-1 blstyle-dashed bcolor-neutral-500">
+                                Build on MacOS
+                            </a>
+                        </li>
+                        <li class="d-flex">
+                            <a href="#build-on-windows" class="pl-5 pt-1 pb-1 | fs-4 lsp-3 lh-5 fvs-wght-400 | blwidth-1 blstyle-dashed bcolor-neutral-500">
+                                Build on Windows
+                            </a>
+                        </li></ol>
+                    </details>
+                
             </header>
             <noscript>
                 
@@ -366,11 +394,73 @@
                 </aside>
             
             </noscript>
-            <!-- Howdy! I am the first page! Let’s go to [child page](/hello-child.md "Go to hello child").
+            <p>If the externals have trouble opening in Max, or doesn't work correctly with nn_tilde, you might want to build the externals yourself:</p>
 
-```markdown
-Howdy! I am the first page! Let’s go to [child page](/hello-child.md "Go to hello child").
-``` -->
+                        <h2 id="prerequisites" pl-9="xs,sm">
+                            <a href="#prerequisites" title="Prerequisites" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                                <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
+                            </a>
+                    Prerequisites</h2>
+<p><strong>MacOS:</strong></p>
+<ul>
+<li>Xcode 11 or 12 (you can get from the App Store for free).</li>
+<li>Download LibTorch <a href="https://pytorch.org/get-started/locally/">here</a> and unzip it to a known directory. LibTorch's torch version should be the same as nn_tilde.</li>
+<li>Install a recent version of <a href="https://cmake.org/download/">CMake</a> (version 3.19 or higher).</li>
+</ul>
+<p><strong>Windows:</strong></p>
+<ul>
+<li>Download LibTorch <a href="https://pytorch.org/get-started/locally/">here</a> and unzip it to a known directory. LibTorch's torch version should be the same as nn_tilde.
+<ul>
+<li>If you would like to enable GPU training/inference, you'll need to select the CUDA version of LibTorch, and have the corresponding <a href="https://developer.nvidia.com/cuda-toolkit">CUDA ToolKit</a>.</li>
+</ul>
+</li>
+<li>Install a recent version of <a href="https://cmake.org/download/">CMake</a> (version 3.19 or higher).</li>
+</ul>
+
+                        <h2 id="build-on-macos" pl-9="xs,sm">
+                            <a href="#build-on-macos" title="Build on MacOS" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                                <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
+                            </a>
+                    Build on MacOS</h2>
+<p>Recursively clone this repository into <strong>Max's Packages folder</strong>. Terminal command:</p>
+<pre><code>git clone https://github.com/jasper-zheng/nn_terrain.git --recursive
+</code></pre>
+<p>In Terminal, cd into the <code>nn_terrain</code> folder you cloned, and make a new folder named <code>build</code>. and cd into that folder:</p>
+<pre><code>cd nn_terrain
+mkdir build
+cd build
+</code></pre>
+<p>Run the command below to generate an Xcode project, replace <code>path/to/libtorch</code> to the libtorch folder you've downloaded:</p>
+<pre><code>cmake ../src/ -G Xcode -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64  
+</code></pre>
+<p>An Xcode project will be created in this <code>build</code> folder, you can either open the Xcode project and build it from there, or build by running the command below:</p>
+<pre><code>cmake --build .
+</code></pre>
+<p>The <code>.mxo</code> files will be created in the <code>src/externals</code> folder, move them <code>~/Documents/Max 9/Packages/nn_terrain/externals/</code></p>
+<p>Additionally, taken from <a href="https://github.com/Cycling74/min-devkit/tree/main">min-devkit</a>:</p>
+<p>If you are running on a Mac with Apple Silicon, you might see an error cannot be loaded due to system security policy when loading your externals in Max. To resolve this, you can ad-hoc codesign your external with codesign <code>--force --deep</code>, this can be added in Xcode &quot;Build Settings&quot; page, in the &quot;Signing&quot; section, in &quot;Other Code Signing Flags&quot;.</p>
+
+                        <h2 id="build-on-windows" pl-9="xs,sm">
+                            <a href="#build-on-windows" title="Build on Windows" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                                <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
+                            </a>
+                    Build on Windows</h2>
+<p>Recursively clone this repository into <strong>Max's Packages folder</strong>. Terminal command:</p>
+<pre><code>git clone https://github.com/jasper-zheng/nn_terrain.git --recurse-submodules
+</code></pre>
+<p>In Terminal, cd into the <code>nn_terrain</code> folder you cloned, and make a new folder named <code>build</code>. and cd into that folder:</p>
+<pre><code>cd nn_terrain
+mkdir build
+cd build
+</code></pre>
+<p>Then run the command below to generate a project buildsystem, replace <code>path\to\libtorch</code> to the libtorch folder you've downloaded, and make sure <code>Visual Studio 17 2022</code> is set to your build system generator (run <code>cmake --help</code> to get a list of available options).</p>
+<pre><code>cmake ..\src -A x64 -DCMAKE_PREFIX_PATH=&quot;path\to\libtorch&quot; -G &quot;Visual Studio 17 2022&quot;
+</code></pre>
+<p>Having generated the projects, now you can build by opening the .sln file in Visual Studio, or build on the command line using:</p>
+<pre><code>cmake --build . --config Release
+</code></pre>
+<p>The externals will be created in the <code>src/externals</code> folder, move them <code>~/Documents/Max 9/Packages/nn_terrain/externals/</code></p>
+
             <footer class="minh-100vh">
                 <div class="pt-11 | blwidth-1 blstyle-dashed bcolor-neutral-500"></div>
                 <nav class="d-flex ai-center rgap-7 | blwidth-1 blstyle-dashed bcolor-neutral-500" fw-wrap="xs">
