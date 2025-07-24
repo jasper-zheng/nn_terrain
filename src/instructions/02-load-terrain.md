@@ -1,6 +1,6 @@
 ---
 title: Using pre-trained terrains
-description: Feeling like using some already built terrains? They can be used as presets.
+description: Feeling like using some already built terrains? They can be loaded like presets.
 layout: libdoc_page.liquid
 permalink: instructions/load-terrain/index.html
 eleventyNavigation:
