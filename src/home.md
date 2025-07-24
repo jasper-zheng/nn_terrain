@@ -16,7 +16,7 @@ A terrain produces continuous latent vectors in real-time, taking coordinates in
 An example **latent space walk** with Music2Latent:
 
 <!-- <video src="../assets/walk.mp4"></video> -->
-<video controls="" loop="" playsinline="" aria-labelledby="video-label" src="../assets/terrain-walk.mp4" width="95%"></video>
+<video controls="" loop="" playsinline="" aria-labelledby="video-label" src="./assets/terrain-walk.mp4" width="95%"></video>
 
 
 ## Audio autoencoders 
