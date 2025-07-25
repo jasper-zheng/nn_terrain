@@ -6,6 +6,7 @@ permalink: instructions/record-latents/index.html
 eleventyNavigation:
     key: Recording Latents Trajectories
     parent: Instructions
-date: 2025-05-14
+    order: 5
+date: git Last Modified
 tocEnabled: false
 ---

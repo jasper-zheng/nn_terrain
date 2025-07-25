@@ -6,7 +6,8 @@ permalink: instructions/overview/index.html
 eleventyNavigation:
     key: Overview
     parent: Instructions
-date: 2025-05-11
+    order: 1
+date: git Last Modified
 tocEnabled: false
 ---
 
@@ -19,7 +20,7 @@ A neural audio autoencoder (such as [RAVE](https://github.com/acids-ircam/RAVE))
     <img src="../../assets/trajectory.png"
         alt="Pierra Menta">
     <figcaption>
-        Audio sample, latent trajectory, and latent terrain.
+        Audio sample, latent trajectories, and latent terrain.
     </figcaption>
 </figure>
 

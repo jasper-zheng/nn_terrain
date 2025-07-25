@@ -6,6 +6,7 @@ permalink: instructions/interact/index.html
 eleventyNavigation:
     key: Composing and Interacting with Terrains
     parent: Instructions
-date: 2025-05-14
+    order: 6
+date: git Last Modified
 tocEnabled: false
 ---

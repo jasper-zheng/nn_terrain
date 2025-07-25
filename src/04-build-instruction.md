@@ -5,7 +5,8 @@ layout: libdoc_page.liquid
 permalink: compile/index.html
 eleventyNavigation:
     key: Compile from Source
-date: 2025-05-18
+    order: 4
+date: git Last Modified
 
 ---
 
@@ -27,13 +28,13 @@ If the externals have trouble opening in Max, or doesn't work correctly with nn_
 
 Recursively clone this repository into **Max's Packages folder**. Terminal command:
 
-```
+```bash
 git clone https://github.com/jasper-zheng/nn_terrain.git --recursive
 ```
 
 In Terminal, cd into the `nn_terrain` folder you cloned, and make a new folder named `build`. and cd into that folder:
 
-```
+```bash
 cd nn_terrain
 mkdir build
 cd build
@@ -41,13 +42,13 @@ cd build
 
 Run the command below to generate an Xcode project, replace `path/to/libtorch` to the libtorch folder you've downloaded:
 
-```
+```bash
 cmake ../src/ -G Xcode -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64  
 ```
 
 An Xcode project will be created in this `build` folder, you can either open the Xcode project and build it from there, or build by running the command below:
 
-```
+```bash
 cmake --build .
 ```
 
@@ -62,13 +63,13 @@ If you are running on a Mac with Apple Silicon, you might see an error cannot be
 
 Recursively clone this repository into **Max's Packages folder**. Terminal command:
 
-```
+```bash
 git clone https://github.com/jasper-zheng/nn_terrain.git --recurse-submodules
 ```
 
 In Terminal, cd into the `nn_terrain` folder you cloned, and make a new folder named `build`. and cd into that folder:
 
-```
+```bash
 cd nn_terrain
 mkdir build
 cd build
@@ -76,13 +77,13 @@ cd build
 
 Then run the command below to generate a project buildsystem, replace `path\to\libtorch` to the libtorch folder you've downloaded, and make sure `Visual Studio 17 2022` is set to your build system generator (run `cmake --help` to get a list of available options).
 
-```
+```bash
 cmake ..\src -A x64 -DCMAKE_PREFIX_PATH="path\to\libtorch" -G "Visual Studio 17 2022"
 ```
 
 Having generated the projects, now you can build by opening the .sln file in Visual Studio, or build on the command line using:
 
-```
+```bash
 cmake --build . --config Release
 ```
 

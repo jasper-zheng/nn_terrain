@@ -5,7 +5,8 @@ layout: libdoc_page.liquid
 permalink: installation/index.html
 eleventyNavigation:
     key: Download and Installation
-date: 2025-05-09
+    order: 1
+date: git Last Modified
 ---
 
 This repository is a set of MaxMSP/Max4Live externals to build, visualise, and program latent terrain:

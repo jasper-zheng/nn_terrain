@@ -11,5 +11,11 @@
             "text": "GitHub"
         }
     ],
-    "editThisPageRootUrl": "https://github.com/jasper-zheng/nn_terrain/tree/pages"
+    "editThisPageRootUrl": "https://github.com/jasper-zheng/nn_terrain/tree/pages",
+    "hljsLanguages": [
+        "xml",
+        "json",
+        "markdown",
+        "bash"
+    ]
 }

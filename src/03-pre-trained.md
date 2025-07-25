@@ -5,7 +5,8 @@ layout: libdoc_page.liquid
 permalink: pre-trained/index.html
 eleventyNavigation:
     key: Pre-Trained Terrains (Presets)
-date: 2025-05-15
+    order: 3
+date: git Last Modified
 tags:
     - syntax-highlighting
 ---

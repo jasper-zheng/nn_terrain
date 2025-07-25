@@ -6,7 +6,8 @@ permalink: instructions/visualisation/index.html
 eleventyNavigation:
     key: Creating Visualisations
     parent: Instructions
-date: 2025-05-13
+    order: 3
+date: git Last Modified
 tocEnabled: false
 ---
 
