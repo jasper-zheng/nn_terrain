@@ -29,7 +29,7 @@ An example **latent space walk** with Music2Latent:
 Latent terrain can work with any [audio autoencoder](https://github.com/acids-ircam/creative_ml/blob/main/08_variational_ae_flows.pdf) as long as it offers latent variables. However, only a limited number of them have been implemented for MaxMSP, and we have only tested the following models:  
 
 * [RAVE](https://github.com/acids-ircam/RAVE) <br>Realtime Audio Variational autoEncoder for fast and high-quality neural audio synthesis, by Antoine Caillon and Philippe Esling.   
-* [Music2Latent-Scripted](https://github.com/jasper-zheng/music2latent-scripted) <br>Music2Latent is a Consistency Autoencoder to encode and decode audio samples, by Marco Pasini, Stefan Lattner, and George Fazekas. We're using a scripted folk of the original repository.   
+* [Music2Latent-Scripted](https://github.com/jasper-zheng/music2latent-scripted) <br>Music2Latent is a Consistency Autoencoder to encode and decode audio samples, by Marco Pasini, Stefan Lattner, and George Fazekas. We're using a scripted fork of the original repository.   
 
 We plan to test the following model in the future:  
 * [FlowDec](https://github.com/facebookresearch/FlowDec)
@@ -51,4 +51,4 @@ Therefore, I would love to have you involved in it - if you have any feedback, a
 
 ## Acknowledgements
 
-Shuoyang Zheng, the author of this work, is supported by UK Research and Innovation [EP/S022694/1].
+Shuoyang Zheng, the author of this work, is supported by the UKRI Centre for Doctoral Training in Artificial Intelligence and Music [EP/S022694/1].
