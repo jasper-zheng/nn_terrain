@@ -245,10 +245,9 @@
 <li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Instructions</a><ol class="d-flex fd-column fg-1 order-1 | m-0 pl-5 o-hidden | ls-none"><li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/overview/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Overview</a></li>
 <li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/load-terrain/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Using Pre-Trained Terrains</a></li>
 <li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/visualisation/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Creating Visualisations</a></li>
-<li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/build-terrain/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Building from Scratch</a></li>
+<li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/build-terrain/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Building Terrains from Scratch</a></li>
 <li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/record-latents/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Recording Latents Trajectories</a></li>
-<li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/interact/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Composing and Interacting with Terrains</a><ol class="d-flex fd-column fg-1 order-1 | m-0 pl-5 o-hidden | ls-none"><li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/interact/stylus/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Stylus Mode</a></li>
-<li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/interact/playback/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Playback Mode</a></li></ol></li></ol></li>
+<li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/interact/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Composing and Interacting with Terrains</a></li></ol></li>
 <li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/pre-trained/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Pre-Trained Terrains (Presets)</a></li>
 <li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/compile/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Compile from Source</a></li></ol>
                 </div>
@@ -337,7 +336,7 @@
                                 <span ws-nowrap="sm,md">
                                     
                                     Last modified
-                                    2025-07-24
+                                    2025-07-25
                                 </span>
                             </p>
                         
@@ -372,23 +371,33 @@ MaxMSP externals available <a href="https://github.com/jasper-zheng/nn_terrain/r
 </div>
 </aside>
 
-                        <h2 id="overview" pl-9="xs,sm">
-                            <a href="#overview" title="Overview" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                        <h2 id="welcome" pl-9="xs,sm">
+                            <a href="#welcome" title="Welcome" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
                                 <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
                             </a>
-                    Overview</h2>
-<p>Latent terrain is a coordinates-to-latents mapping model for neural audio autoencoders (such as <a href="https://github.com/acids-ircam/RAVE">RAVE</a>, <a href="https://github.com/SonyCSLParis/music2latent">Music2Latent</a>). It can be used to build a surface map for the autoencoder's latent space. It aims to open up the creative possibilities of <strong>latent space navigation</strong>.</p>
-<p>A terrain produces continuous latent vectors in real-time, taking coordinates in the control space as inputs.</p>
+                    Welcome</h2>
+<p>Latent terrain is a coordinates-to-latents mapping model for neural audio autoencoders (such as <a href="https://github.com/acids-ircam/RAVE">RAVE</a>, <a href="https://github.com/SonyCSLParis/music2latent">Music2Latent</a>). A terrain is a surface map for the autoencoder's latent space, taking coordinates in a control space as inputs, and produces continuous latent vectors in real-time.</p>
+<p>Latent terrain aims to open up the creative possibilities of <strong>latent space navigation</strong>, allowing one to adapt an autoencoder to easier-to-navigate interfaces (such as gestural controllers, stylus and tablets, XY-pads, and more), and build new musical instruments that compose and interact with AI audio generators.</p>
 <p>An example <strong>latent space walk</strong> with Music2Latent:</p>
-<!-- <video src="../assets/walk.mp4"></video> -->
 <p><video controls="" loop="" playsinline="" aria-labelledby="video-label" src="assets/terrain-walk.mp4" width="95%"></video></p>
 
-                        <h2 id="audio-autoencoders" pl-9="xs,sm">
-                            <a href="#audio-autoencoders" title="Audio autoencoders" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                        <h3 id="example-applications" pl-9="xs,sm">
+                            <a href="#example-applications" title="Example applications" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
                                 <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
                             </a>
-                    Audio autoencoders</h2>
-<p>In theory, latent terrain can work with any <a href="https://github.com/acids-ircam/creative_ml/blob/main/08_variational_ae_flows.pdf">audio autoencoder</a> as long as it offers latent variables. However, only a limited number of them have been implemented for MaxMSP, and we have only tested the following models:</p>
+                    Example applications</h3>
+<ul>
+<li><a href="#">Steering a neural audio autoencoder</a> (tutorial coming soon).</li>
+<li><a href="#">Building 1D/2D latent granular synthesiser</a> (tutorial coming soon).</li>
+<li>Latent looping device.</li>
+</ul>
+
+                        <h2 id="supported-autoencoders" pl-9="xs,sm">
+                            <a href="#supported-autoencoders" title="Supported autoencoders" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                                <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
+                            </a>
+                    Supported autoencoders</h2>
+<p>Latent terrain can work with any <a href="https://github.com/acids-ircam/creative_ml/blob/main/08_variational_ae_flows.pdf">audio autoencoder</a> as long as it offers latent variables. However, only a limited number of them have been implemented for MaxMSP, and we have only tested the following models:</p>
 <ul>
 <li><a href="https://github.com/acids-ircam/RAVE">RAVE</a> <br>Realtime Audio Variational autoEncoder for fast and high-quality neural audio synthesis, by Antoine Caillon and Philippe Esling.</li>
 <li><a href="https://github.com/jasper-zheng/music2latent-scripted">Music2Latent-Scripted</a> <br>Music2Latent is a Consistency Autoencoder to encode and decode audio samples, by Marco Pasini, Stefan Lattner, and George Fazekas. We're using a scripted folk of the original repository.</li>
@@ -399,22 +408,32 @@ MaxMSP externals available <a href="https://github.com/jasper-zheng/nn_terrain/r
 <li><a href="https://github.com/acids-ircam/vschaos2">vschaos2</a></li>
 </ul>
 
+                        <h2 id="get-started" pl-9="xs,sm">
+                            <a href="#get-started" title="Get started" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                                <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
+                            </a>
+                    Get started</h2>
+<ul>
+<li><a href="/nn_terrain/installation">Download and Installation</a></li>
+<li><a href="/nn_terrain/instructions">Instructions</a></li>
+<li><a href="/nn_terrain/pre-trained">Pre-Trained Terrains (Presets)</a></li>
+<li><a href="/nn_terrain/compile">Compiling from Source</a></li>
+</ul>
+
                         <h2 id="get-in-touch" pl-9="xs,sm">
                             <a href="#get-in-touch" title="Get in touch" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
                                 <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
                             </a>
                     Get in touch</h2>
-<p>LibDoc’s website contains a comprehensive documentation about how to install, configure and :</p>
-<ul>
-<li><a href="https://eleventy-libdoc.netlify.app">LibDoc’s homepage</a> <br>The website containing LibDocs’s presentation and comprehensive documentation.
-<ul>
-<li><a href="https://eleventy-libdoc.netlify.app/front-matter/">Front matter</a> <br>Documentation of all front matter settings related to a LibDoc page.</li>
-<li><a href="https://eleventy-libdoc.netlify.app/primary-navigation/">Primary navigation</a> <br>Detailed features of LibDoc’s primary navigation.</li>
-<li><a href="https://eleventy-libdoc.netlify.app/configuration/seo/">SEO</a> <br>How LibDoc’s configuration and pages parameters are applied for Search Engine Optimization.</li>
-<li><a href="https://eleventy-libdoc.netlify.app/configuration/credits/">Credits</a> LibDoc could not work without these resources.</li>
-</ul>
-</li>
-</ul>
+<p>Hi, this is Shuoyang (Jasper). <code>nn.terrain~</code> is part of my ongoing PhD work on <strong>Discovering Musical Affordances in Neural Audio Synthesis</strong>, supervised by Anna Xambó Sedó and Nick Bryan-Kinns, and part of the work has been (will be) on putting AI audio generators into the hands of composers/musicians.</p>
+<p>Therefore, I would love to have you involved in it - if you have any feedback, a features request, a demo / a device / or anything made with nn.terrain, I would love to hear. If you would like to collaborate on anything, please leave a message in this <a href="https://forms.office.com/e/EJ4WHfru1A">feedback form</a>.</p>
+
+                        <h2 id="acknowledgements" pl-9="xs,sm">
+                            <a href="#acknowledgements" title="Acknowledgements" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                                <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
+                            </a>
+                    Acknowledgements</h2>
+<p>Shuoyang Zheng, the author of this work, is supported by UK Research and Innovation [EP/S022694/1].</p>
 
             <footer class="minh-100vh">
                 <div class="pt-11 | blwidth-1 blstyle-dashed bcolor-neutral-500"></div>
@@ -441,17 +460,11 @@ MaxMSP externals available <a href="https://github.com/jasper-zheng/nn_terrain/r
     
         <script src="/nn_terrain/core/assets/js/hljs/languages/xml.min.js"></script>
     
-        <script src="/nn_terrain/core/assets/js/hljs/languages/javascript.min.js"></script>
-    
         <script src="/nn_terrain/core/assets/js/hljs/languages/json.min.js"></script>
-    
-        <script src="/nn_terrain/core/assets/js/hljs/languages/yaml.min.js"></script>
-    
-        <script src="/nn_terrain/core/assets/js/hljs/languages/liquid.min.js"></script>
     
         <script src="/nn_terrain/core/assets/js/hljs/languages/markdown.min.js"></script>
     
-        <script src="/nn_terrain/core/assets/js/hljs/languages/css.min.js"></script>
+        <script src="/nn_terrain/core/assets/js/hljs/languages/bash.min.js"></script>
     
     <script src="/nn_terrain/core/assets/js/ui.js"></script>
 </body>

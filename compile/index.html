@@ -245,10 +245,9 @@
 <li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Instructions</a><ol class="d-flex fd-column fg-1 order-1 | m-0 pl-5 o-hidden | ls-none"><li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/overview/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Overview</a></li>
 <li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/load-terrain/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Using Pre-Trained Terrains</a></li>
 <li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/visualisation/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Creating Visualisations</a></li>
-<li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/build-terrain/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Building from Scratch</a></li>
+<li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/build-terrain/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Building Terrains from Scratch</a></li>
 <li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/record-latents/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Recording Latents Trajectories</a></li>
-<li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/interact/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Composing and Interacting with Terrains</a><ol class="d-flex fd-column fg-1 order-1 | m-0 pl-5 o-hidden | ls-none"><li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/interact/stylus/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Stylus Mode</a></li>
-<li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/interact/playback/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Playback Mode</a></li></ol></li></ol></li>
+<li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/instructions/interact/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Composing and Interacting with Terrains</a></li></ol></li>
 <li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/pre-trained/" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Pre-Trained Terrains (Presets)</a></li>
 <li class="d-flex fw-wrap ai-center"><a href="/nn_terrain/compile/" aria-current="page" class="d-flex ai-center fg-1 | pos-relative | w-100 pt-2 pb-2 pr-6 | fs-3 td-none lh-5 tws-balance fvs-wght-500 | c-neutral-900 nav_primary__anchor">Compile from Source</a></li></ol>
                 </div>
@@ -336,8 +335,8 @@
                                 <span class="icon-calendar-dots fs-6"></span>
                                 <span ws-nowrap="sm,md">
                                     
-                                    
-                                    2025-05-18
+                                    Last modified
+                                    2025-07-25
                                 </span>
                             </p>
                         
@@ -423,18 +422,18 @@
                             </a>
                     Build on MacOS</h2>
 <p>Recursively clone this repository into <strong>Max's Packages folder</strong>. Terminal command:</p>
-<pre><code>git clone https://github.com/jasper-zheng/nn_terrain.git --recursive
+<pre><code class="language-bash">git clone https://github.com/jasper-zheng/nn_terrain.git --recursive
 </code></pre>
 <p>In Terminal, cd into the <code>nn_terrain</code> folder you cloned, and make a new folder named <code>build</code>. and cd into that folder:</p>
-<pre><code>cd nn_terrain
+<pre><code class="language-bash">cd nn_terrain
 mkdir build
 cd build
 </code></pre>
 <p>Run the command below to generate an Xcode project, replace <code>path/to/libtorch</code> to the libtorch folder you've downloaded:</p>
-<pre><code>cmake ../src/ -G Xcode -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64  
+<pre><code class="language-bash">cmake ../src/ -G Xcode -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64  
 </code></pre>
 <p>An Xcode project will be created in this <code>build</code> folder, you can either open the Xcode project and build it from there, or build by running the command below:</p>
-<pre><code>cmake --build .
+<pre><code class="language-bash">cmake --build .
 </code></pre>
 <p>The <code>.mxo</code> files will be created in the <code>src/externals</code> folder, move them <code>~/Documents/Max 9/Packages/nn_terrain/externals/</code></p>
 <p>Additionally, taken from <a href="https://github.com/Cycling74/min-devkit/tree/main">min-devkit</a>:</p>
@@ -446,18 +445,18 @@ cd build
                             </a>
                     Build on Windows</h2>
 <p>Recursively clone this repository into <strong>Max's Packages folder</strong>. Terminal command:</p>
-<pre><code>git clone https://github.com/jasper-zheng/nn_terrain.git --recurse-submodules
+<pre><code class="language-bash">git clone https://github.com/jasper-zheng/nn_terrain.git --recurse-submodules
 </code></pre>
 <p>In Terminal, cd into the <code>nn_terrain</code> folder you cloned, and make a new folder named <code>build</code>. and cd into that folder:</p>
-<pre><code>cd nn_terrain
+<pre><code class="language-bash">cd nn_terrain
 mkdir build
 cd build
 </code></pre>
 <p>Then run the command below to generate a project buildsystem, replace <code>path\to\libtorch</code> to the libtorch folder you've downloaded, and make sure <code>Visual Studio 17 2022</code> is set to your build system generator (run <code>cmake --help</code> to get a list of available options).</p>
-<pre><code>cmake ..\src -A x64 -DCMAKE_PREFIX_PATH=&quot;path\to\libtorch&quot; -G &quot;Visual Studio 17 2022&quot;
+<pre><code class="language-bash">cmake ..\src -A x64 -DCMAKE_PREFIX_PATH=&quot;path\to\libtorch&quot; -G &quot;Visual Studio 17 2022&quot;
 </code></pre>
 <p>Having generated the projects, now you can build by opening the .sln file in Visual Studio, or build on the command line using:</p>
-<pre><code>cmake --build . --config Release
+<pre><code class="language-bash">cmake --build . --config Release
 </code></pre>
 <p>The externals will be created in the <code>src/externals</code> folder, move them <code>~/Documents/Max 9/Packages/nn_terrain/externals/</code></p>
 
@@ -466,7 +465,7 @@ cd build
                 <nav class="d-flex ai-center rgap-7 | blwidth-1 blstyle-dashed bcolor-neutral-500" fw-wrap="xs">
                     <div class="pl-5 | bbwidth-1 bbstyle-dashed bcolor-neutral-500"></div>
                     
-                        <a href="https://github.com/jasper-zheng/nn_terrain/tree/pages/src/build-instruction.md" target="_blank" class="btn btn-primary-light">
+                        <a href="https://github.com/jasper-zheng/nn_terrain/tree/pages/src/04-build-instruction.md" target="_blank" class="btn btn-primary-light">
                             <span class="icon-pencil-simple"></span>
                             Edit this page
                         </a>
@@ -486,17 +485,11 @@ cd build
     
         <script src="/nn_terrain/core/assets/js/hljs/languages/xml.min.js"></script>
     
-        <script src="/nn_terrain/core/assets/js/hljs/languages/javascript.min.js"></script>
-    
         <script src="/nn_terrain/core/assets/js/hljs/languages/json.min.js"></script>
-    
-        <script src="/nn_terrain/core/assets/js/hljs/languages/yaml.min.js"></script>
-    
-        <script src="/nn_terrain/core/assets/js/hljs/languages/liquid.min.js"></script>
     
         <script src="/nn_terrain/core/assets/js/hljs/languages/markdown.min.js"></script>
     
-        <script src="/nn_terrain/core/assets/js/hljs/languages/css.min.js"></script>
+        <script src="/nn_terrain/core/assets/js/hljs/languages/bash.min.js"></script>
     
     <script src="/nn_terrain/core/assets/js/ui.js"></script>
 </body>
