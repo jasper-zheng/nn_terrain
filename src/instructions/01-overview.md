@@ -18,7 +18,7 @@ A neural audio autoencoder (such as [RAVE](https://github.com/acids-ircam/RAVE))
 
 <figure class="wide">
     <img src="../../assets/trajectory.png"
-        alt="Pierra Menta">
+        alt="Trajectories">
     <figcaption>
         Audio sample, latent trajectories, and latent terrain.
     </figcaption>
