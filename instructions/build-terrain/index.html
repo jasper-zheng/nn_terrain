@@ -7,7 +7,7 @@
     
 
     <meta itemprop="name" content="Building terrains from scratch">
-    <meta name="description" itemprop="description" content="Building and training a customised terrain using supervised machine learning.">
+    <meta name="description" itemprop="description" content="Instructions on building and training a customised terrain using supervised machine learning.">
     <meta name="application-name" content="Building terrains from scratch">
     <meta name="author" content="Jasper Shuoyang Zheng">
     <link rel="icon" type="image/png" href="/nn_terrain/assets/myfavicon.png">
@@ -21,13 +21,13 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="/instructions/build-terrain/">
     <meta property="og:title" content="Building terrains from scratch">
-    <meta property="og:description" content="Building and training a customised terrain using supervised machine learning.">
+    <meta property="og:description" content="Instructions on building and training a customised terrain using supervised machine learning.">
     <meta property="og:image" content="https://raw.githubusercontent.com/ita-design-system/ita-medias/refs/heads/main/ogimage-11ty-libdoc.png">
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Building terrains from scratch">
-    <meta name="twitter:description" content="Building and training a customised terrain using supervised machine learning.">
+    <meta name="twitter:description" content="Instructions on building and training a customised terrain using supervised machine learning.">
     <meta name="twitter:url" content="/instructions/build-terrain/">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/ita-design-system/ita-medias/refs/heads/main/ogimage-11ty-libdoc.png">
     
@@ -331,7 +331,7 @@
                 </h1>
                 
                     <p class="d-flex ai-center fw-wrap gap-2 | pt-5 pl-5 pb-5 m-0 | fvs-wght-400 tws-balance fs-7 lsp-3 lh-5 | blwidth-1 blstyle-dashed bcolor-neutral-500" pt-3="xs" pb-3="xs" fs-6="sm" fs-5="xs">
-                        Building and training a customised terrain using supervised machine learning.
+                        Instructions on building and training a customised terrain using supervised machine learning.
                     </p>
                 
                 
@@ -344,7 +344,7 @@
                                 <span ws-nowrap="sm,md">
                                     
                                     Last modified
-                                    2025-07-25
+                                    2025-07-27
                                 </span>
                             </p>
                         
@@ -374,6 +374,29 @@
             
             </noscript>
             
+                        <h2 id="what-we-need" pl-9="xs,sm">
+                            <a href="#what-we-need" title="What we need" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                                <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
+                            </a>
+                    What we need</h2>
+<p>To built a terrain from scratch, we need pairs of <strong>latent trajectories</strong> and <strong>spatial trajectories</strong>.</p>
+<ul>
+<li><strong>Latent trajectories</strong> are sequences of latent vectors encoded from audio buffers.</li>
+<li><strong>Spatial trajectories</strong> are sequences of coordiantes in a control space. For instance:
+<ul>
+<li>Trajectory of mouse in an XY track pad</li>
+<li>Trajectory of hand gestures in an XYZ 3D space</li>
+<li>Timestamps in a timeline playback system</li>
+</ul>
+</li>
+</ul>
+<p>A terrain is a <strong>supervised machine learning</strong> model that learns this coordiantes-to-latents pairs, so that it can produce new latent vectors given any coordiantes in the control space.</p>
+<figure>
+    <picture class="eleventy-image"><source type="image/avif" srcset="/nn_terrain/instructions/build-terrain/latent-coord-pairs-vPsqcaaOo2-__730__.avif 730w, /nn_terrain/instructions/build-terrain/latent-coord-pairs-vPsqcaaOo2-__1400__.avif 1400w, /nn_terrain/instructions/build-terrain/latent-coord-pairs-vPsqcaaOo2-__2546__.avif 2546w" sizes="auto"><img loading="lazy" decoding="async" src="/nn_terrain/instructions/build-terrain/latent-coord-pairs-vPsqcaaOo2-__730__.webp" alt="Trajectories" width="2546" height="1586" srcset="/nn_terrain/instructions/build-terrain/latent-coord-pairs-vPsqcaaOo2-__730__.webp 730w, /nn_terrain/instructions/build-terrain/latent-coord-pairs-vPsqcaaOo2-__1400__.webp 1400w, /nn_terrain/instructions/build-terrain/latent-coord-pairs-vPsqcaaOo2-__2546__.webp 2546w" sizes="auto"></picture>
+    <figcaption>
+        Latent trajectories, spatial trajectories, and latent terrain.
+    </figcaption>
+</figure>
             <footer class="minh-100vh">
                 <div class="pt-11 | blwidth-1 blstyle-dashed bcolor-neutral-500"></div>
                 <nav class="d-flex ai-center rgap-7 | blwidth-1 blstyle-dashed bcolor-neutral-500" fw-wrap="xs">

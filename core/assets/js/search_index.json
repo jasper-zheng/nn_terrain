@@ -1,17 +1,12 @@
 [{
-                "url": "/nn_terrain/tags/open-graph-image",
-                "title": "Tag",
-                "content": " open-graph-image "
-            },{
                 "url": "/nn_terrain/tags/syntax-highlighting",
                 "title": "Tag",
                 "content": " syntax-highlighting "
+            },{
+                "url": "/nn_terrain/tags/open-graph-image",
+                "title": "Tag",
+                "content": " open-graph-image "
             },
-                {
-                    "url": "/nn_terrain/posts/hello-post/",
-                    "title": "Hello Post!",
-                    "content": "I am the first blog post post open-graph-image Howdy! I am the first blog post of this project. To create content with LibDoc, you can use markdown, inline HTML and widgets.Learn how to adjust blog settings.The image above is also used as Open Graph Image."
-                },
                 {
                     "url": "/nn_terrain/installation/",
                     "title": "Download and Installation",
@@ -55,7 +50,7 @@
                 {
                     "url": "/nn_terrain/instructions/build-terrain/",
                     "title": "Building terrains from scratch",
-                    "content": "Building and training a customised terrain using supervised machine learning.  "
+                    "content": "Instructions on building and training a customised terrain using supervised machine learning.  What we needTo built a terrain from scratch, we need pairs of latent trajectories and spatial trajectories.Latent trajectories are sequences of latent vectors encoded from audio buffers.Spatial trajectories are sequences of coordiantes in a control space. For instance:Trajectory of mouse in an XY track padTrajectory of hand gestures in an XYZ 3D spaceTimestamps in a timeline playback systemA terrain is a supervised machine learning model that learns this coordiantes-to-latents pairs, so that it can produce new latent vectors given any coordiantes in the control space. Latent trajectories, spatial trajectories, and latent terrain."
                 },
                 {
                     "url": "/nn_terrain/instructions/record-latents/",
@@ -68,6 +63,11 @@
                     "content": "Feeling like using some already built terrains? They can be used as presets.  "
                 },
                 {
+                    "url": "/nn_terrain/posts/hello-post/",
+                    "title": "Nothing to tutor at the moment",
+                    "content": "The first blog post post open-graph-image Howdy! I am the first blog post of this project. To create content with LibDoc, you can use markdown, inline HTML and widgets.Learn how to adjust blog settings.The image above is also used as Open Graph Image."
+                },
+                {
                     "url": "/nn_terrain/BuildInstructions/",
                     "title": "./BuildInstructions.md",
                     "content": "  Build InstructionsIf the externals have trouble opening in Max, or doesn&#39;t work correctly with nn_tilde, you might want to build the externals yourself:PrerequisitesMacOS (arm64):Xcode 11 or 12 (you can get from the App Store for free).Download arm64 LibTorch here and unzip it to a known directory. LibTorch&#39;s torch version should be the same as nn_tilde.Install a recent version of CMake (version 3.19 or higher).Windows:Download LibTorch here and unzip it to a known directory. LibTorch&#39;s torch version should be the same as nn_tilde.If you would like to enable GPU training/inference, you&#39;ll need to select the CUDA version of LibTorch, and have the corresponding CUDA ToolKit.Install a recent version of CMake (version 3.19 or higher).Build on MacOSRecursively clone this repository into Max&#39;s Packages folder. Terminal command:git clone https://github.com/jasper-zheng/nn_terrain.git --recursiveIn Terminal, cd into the nn_terrain folder you cloned, and make a new folder named build. and cd into that folder:cd nn_terrainmkdir buildcd buildRun the command below to generate an Xcode project, replace path/to/libtorch to the libtorch folder you&#39;ve downloaded:cmake ../src/ -G Xcode -DCMAKE_PREFIX_PATH=/path/to/libtorch -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64 An Xcode project will be created in this build folder, you can either open the Xcode project and build it from there, or build by running the command below:cmake --build .The .mxo files will be created in the src/externals folder, move them ~/Documents/Max 9/Packages/nn_terrain/externals/Additionally, taken from min-devkit:If you are running on a Mac with Apple Silicon, you might see an error cannot be loaded due to system security policy when loading your externals in Max. To resolve this, you can ad-hoc codesign your external with codesign --force --deep -s - myobject.mxo.Build on WindowsRecursively clone this repository into Max&#39;s Packages folder. Terminal command:git clone https://github.com/jasper-zheng/nn_terrain.git --recurse-submodulesIn Terminal, cd into the nn_terrain folder you cloned, and make a new folder named build. and cd into that folder:cd nn_terrainmkdir buildcd buildThen run the command below to generate a project buildsystem, replace pathtolibtorch to the libtorch folder you&#39;ve downloaded, and make sure Visual Studio 17 2022 is set to your build system generator (run cmake --help to get a list of available options).cmake ..src -A x64 -DCMAKE_PREFIX_PATH=&amp;quot;pathtolibtorch&amp;quot; -G &amp;quot;Visual Studio 17 2022&amp;quot;Having generated the projects, now you can build by opening the .sln file in Visual Studio, or build on the command line using:cmake --build . --config ReleaseThe externals will be created in the src/externals folder, move them ~/Documents/Max 9/Packages/nn_terrain/externals/"
@@ -75,11 +75,11 @@
                 {
                     "url": "/nn_terrain/posts/",
                     "title": "./core/libdoc_blog.liquid",
-                    "content": "  2025-05-15 Olivier 3lanc Hello Post! I am the first blog post 1"
+                    "content": "  2025-07-27 Jasper Shuoyang Zheng Nothing to tutor at the moment The first blog post 1"
                 },
                 {
                     "url": "/nn_terrain/tags/",
                     "title": "./core/libdoc_tags.liquid",
-                    "content": "  open-graph-image syntax-highlighting"
+                    "content": "  syntax-highlighting open-graph-image"
                 }
 ]
