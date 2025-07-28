@@ -1,8 +1,4 @@
 [{
-                "url": "/nn_terrain/tags/syntax-highlighting",
-                "title": "Tag",
-                "content": " syntax-highlighting "
-            },{
                 "url": "/nn_terrain/tags/open-graph-image",
                 "title": "Tag",
                 "content": " open-graph-image "
@@ -20,7 +16,7 @@
                 {
                     "url": "/nn_terrain/pre-trained/",
                     "title": "Pre-Trained Terrains (Presets)",
-                    "content": "I am the first page linked into the primary navigation syntax-highlighting "
+                    "content": "Some already built terrains to get started with.  Make sure to have both:an autoencoder (typically a .ts file)a terrain model (a .pt file).Autoencoder: Percussion - RAVE v1Pre-trained autoencoder author: Antoine CaillonAutoencoder can be downloaded from RAVE official repository percussion.ts.Terrain: percussion-terrain-demo.ptConfig: 2 inputs 4 outputs, range: -16, -4, 16, 4"
                 },
                 {
                     "url": "/nn_terrain/compile/",
@@ -75,11 +71,11 @@
                 {
                     "url": "/nn_terrain/posts/",
                     "title": "./core/libdoc_blog.liquid",
-                    "content": "  2025-07-27 Jasper Shuoyang Zheng Nothing to tutor at the moment The first blog post 1"
+                    "content": "  2025-07-28 Jasper Shuoyang Zheng Nothing to tutor at the moment The first blog post 1"
                 },
                 {
                     "url": "/nn_terrain/tags/",
                     "title": "./core/libdoc_tags.liquid",
-                    "content": "  syntax-highlighting open-graph-image"
+                    "content": "  open-graph-image"
                 }
 ]
