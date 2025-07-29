@@ -12,6 +12,7 @@
         }
     ],
     "editThisPageRootUrl": "https://github.com/jasper-zheng/nn_terrain/tree/pages",
+    "ogImageUrl": "https://github.com/jasper-zheng/nn_terrain/blob/pages/assets/open-graphic.jpg?raw=true",
     "hljsLanguages": [
         "xml",
         "json",
