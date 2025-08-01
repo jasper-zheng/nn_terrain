@@ -19,8 +19,15 @@ Make sure to have both:
 
 ### Autoencoder: Percussion - RAVE v1
 Pre-trained autoencoder author: Antoine Caillon  
-Autoencoder can be downloaded from RAVE official repository [percussion.ts](https://acids-ircam.github.io/rave_models_download).
+Download from RAVE official repository [percussion.ts](https://acids-ircam.github.io/rave_models_download).
 
 * **Terrain**: [percussion-terrain-demo.pt](https://github.com/jasper-zheng/nn_terrain/raw/refs/heads/main/pre-trained/percussion-terrain-demo.pt)<br>
 **Config**: 2 inputs 4 outputs, range: `-16, -4, 16, 4`<br>
 <img class="damier" src="https://github.com/jasper-zheng/nn_terrain/blob/main/pre-trained/percussion-terrain-demo.png?raw=true" alt="Trajectories">
+
+
+
+
+### Autoencoder: Music2Latent-Scripted
+Original model is the work by Marco Pasini at SonyCSLParis.  
+Scripted model can be downloaded from [music2latent.ts](https://github.com/jasper-zheng/music2latent-scripted.git).
