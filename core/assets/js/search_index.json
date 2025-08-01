@@ -16,7 +16,7 @@
                 {
                     "url": "/nn_terrain/pre-trained/",
                     "title": "Pre-Trained Terrains (Presets)",
-                    "content": "Some already built terrains to get started with.  Make sure to have both:an autoencoder (typically a .ts file)a terrain model (a .pt file).Autoencoder: Percussion - RAVE v1Pre-trained autoencoder author: Antoine CaillonAutoencoder can be downloaded from RAVE official repository percussion.ts.Terrain: percussion-terrain-demo.ptConfig: 2 inputs 4 outputs, range: -16, -4, 16, 4"
+                    "content": "Some already built terrains to get started with.  Make sure to have both:an autoencoder (typically a .ts file)a terrain model (a .pt file).Autoencoder: Percussion - RAVE v1Pre-trained autoencoder author: Antoine CaillonDownload from RAVE official repository percussion.ts.Terrain: percussion-terrain-demo.ptConfig: 2 inputs 4 outputs, range: -16, -4, 16, 4Autoencoder: Music2Latent-ScriptedOriginal model is the work by Marco Pasini at SonyCSLParis.Scripted model can be downloaded from music2latent.ts."
                 },
                 {
                     "url": "/nn_terrain/compile/",
@@ -71,7 +71,7 @@
                 {
                     "url": "/nn_terrain/posts/",
                     "title": "./core/libdoc_blog.liquid",
-                    "content": "  2025-07-29 Jasper Shuoyang Zheng Nothing to tutor at the moment The first blog post 1"
+                    "content": "  2025-08-01 Jasper Shuoyang Zheng Nothing to tutor at the moment The first blog post 1"
                 },
                 {
                     "url": "/nn_terrain/tags/",
