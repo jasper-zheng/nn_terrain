@@ -12,6 +12,10 @@ An example latent space walk with Music2Latent:
 
 
 
+https://github.com/user-attachments/assets/4fbac683-968f-446e-9e41-905f8eb3de49
+
+
+
 
 All documentation, installation and building instruction, please see our new web documents: [https://jasper-zheng.github.io/nn_terrain/](https://jasper-zheng.github.io/nn_terrain/)
 <!-- 
