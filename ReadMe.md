@@ -81,6 +81,13 @@ https://github.com/user-attachments/assets/2dd7edea-583d-410b-8b09-7aa1eec09bfa
 
 If the externals have trouble opening in Max, or doesn't work correctly with nn_tilde, you might want to build the externals yourself, see the [Build Instructions](BuildInstructions.md) documentation. -->
 
+## Get in touch
+
+Hi, this is Shuoyang (Jasper). `nn.terrain~` is part of my ongoing PhD work on **Discovering Musical Affordances in Neural Audio Synthesis**, supervised by Anna Xambó Sedó and Nick Bryan-Kinns, and part of the work has been (will be) on putting AI audio generators into the hands of composers/musicians.
+
+Therefore, I would love to have you involved in it - if you have any feedback, a features request, a demo / a device / or anything made with nn.terrain, I would love to hear. If you would like to collaborate on anything, please leave a message in this [feedback form](https://forms.office.com/e/EJ4WHfru1A).  
+
+
 ## Acknowledgements
 
  - Shuoyang Zheng, the author of this work, is supported by UK Research and Innovation [EP/S022694/1].
