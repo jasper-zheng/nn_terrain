@@ -117,15 +117,8 @@ public:
     bool cppn_init = false;
     c74::min::path t_path;
     
-    std::string d_method{"decode"};
-    std::string e_method{"encode"};
-    
-//    std::vector<std::string> settable_attributes;
-//    bool has_settable_attribute(std::string attribute);
-    
-//    c74::min::path m_path;
     int m_in_dim{2}, m_in_ratio{2048}, m_out_dim{8}, m_out_ratio{1}, m_cmax{128}, m_mapping_size{256};
-    float m_gauss_scale{0.2};
+    float m_gauss_scale{0.1};
     
     
     // BUFFER RELATED MEMBERS
@@ -141,8 +134,8 @@ public:
     std::binary_semaphore m_data_available_lock{0};
     std::binary_semaphore m_result_available_lock{1};
 
-//    void display_args();
     atoms create_dataloader();
+    bool load_param_from_file(string model_path, torch::serialize::InputArchive &archive);
     void operator()(audio_bundle input, audio_bundle output);
     void perform(audio_bundle input, audio_bundle output);
     void cppn_infer(float *, std::vector<float *>);
@@ -158,13 +151,6 @@ public:
                          float y_lo, float y_hi, int y_res, int c);
     void create_sampled_tensor_in();
     
-//    void freeze_and_compile_terrain(int width_x, int height_y, string terrain_name);
-    
-//    float x{0.0f}, y{0.0f}, p{0.0f};
-    
-    //caution
-//    std::unique_ptr<float[]> latent_codes = std::make_unique<float[]>(8);
-    
     float twoPi = 4 * acos(0.0);
     
     int inputPhase{0};
@@ -175,14 +161,14 @@ public:
     
     argument<int> control_dim_arg {this, "control_dim", "Dimensionality of the input space.", true};
     argument<int> latent_dim_arg {this, "latent_dim", "Dimensionality of the autoencoder's latent space.", true};
-    argument<float> t_gauss_scale_arg {this, "gauss_scale", "(Optional) Gaussian scale of the neural network. A float value between 0-1 is suggested, by default is 0.2. A higher Gaussian scale leads to a noisy terrain. If the Gaussian scale is 0, the Fourier feature mapping layer will be removed, resulting in a smooth (low frequency) terrain."};
+    argument<float> t_gauss_scale_arg {this, "gauss_scale", "(Optional) Gaussian scale of the neural network. A float value between 0-1 is suggested, by default is 0.1. A higher Gaussian scale leads to a noisy terrain. If the Gaussian scale is 0, the Fourier feature mapping layer will be removed, will result in a smooth (low frequency) terrain."};
     argument<int> t_cmax_arg {this, "network_channel", "(Optional) Number of channels in the neural network's fully connected layers, by default is 128"};
     argument<int> mapping_size_arg {this, "feature_size", "(Optional) Size of the random Fourier feature mapping, higher feature size is suggested when using high dimensional control space, by default is 256."};
-    argument<int> buffer_arg {this, "buffer_size", "(Optional) Size of the internal buffer (can't be lower than the decoder method's ratio)."};
+    argument<int> buffer_arg {this, "buffer_size", "(Optional) Size of the internal buffer (the same as decoder's compression ratio is suggested)."};
     
     argument<symbol> model_path_arg {this, "checkpoint_path", "If only one argument is given, it should be the path to a model checkpoint."};
     
-    attribute<bool> enable_cppn {this, "enable_terrain", false, title{": Enable Terrain"},
+    attribute<bool> enable_cppn {this, "enable_terrain", false, title{"Enable Terrain"},
         description{"Enable / disable cppn computation"},
         setter{
             [this](const c74::min::atoms &args, const int inlet) -> c74::min::atoms {
@@ -196,20 +182,19 @@ public:
         }
     };
     
-    message<> m_sample_interval {this, "plot_interval", "Sample the terrain across a closed interval to plot into the GUI, only 2D interval dimension is supported at the moment.   <br /><br />Args:  <br />1D [not implemented]: lo, hi, resolution;  <br />2D: x_lo, x_hi, x_resolution, y_lo, y_hi, y_resolution, color_channel (optional, default 1)",
+    message<> m_sample_interval {this, "plot_interval", "Sample the terrain across a closed interval to plot into the GUI, only 2D interval dimension is supported at the moment.   <br /><br />Args:  <br />1D [not implemented]: lo, hi, resolution;  <br />2D: values at left, top, right, bottom, x_resolution, y_resolution, color_channel (optional, default 1)",
         MIN_FUNCTION {
             //args:
             // x_lo, x_hi, y_lo, y_hi, stride, latent_clamp_min, latent_clamp_max
             // lo, hi, stride, latent_clamp_min, latent_clamp_max
             if (args.size() == 3) {
-//                cout << args[0] << " " << args[1] << " " << args[2] << " " << args[3] << " " << args[4] << endl;
                 cerr << "plot_interval: 1D sampling not implemented" << endl;
                 return {};
             } else if (args.size() == 6) {
-                sample_interval(args[0], args[1], args[2], args[3], args[4], args[5], 1);
+                sample_interval(args[0], args[2], args[4], args[1], args[3], args[5], 1);
                 return {};
             } else if (args.size() == 7) {
-                sample_interval(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+                sample_interval(args[0], args[2], args[4], args[1], args[3], args[5], args[6]);
                 return {};
             }
             cerr << "plot_interval: wrong number of arguments" << endl;
@@ -217,17 +202,17 @@ public:
         }
     };
 
-    attribute<int,threadsafe::undefined,limit::clamp> plot_resolution {this, "plot_resolution", 1, title{": Plot Resolution"}, description {"(int) 1~16"},range{{1, 16}}};
+    attribute<int,threadsafe::undefined,limit::clamp> plot_resolution {this, "plot_resolution", 1, title{"Plot Resolution"}, description {"(int) 1~16"},range{{1, 16}}};
     
-    attribute<number,threadsafe::undefined,limit::clamp> lr{ this, "training_lr", 0.001, title{": Training Learning Rate"}, description{"learning rate when training the nn"}, range{{0.0001, 0.1}} };
-    attribute<int,threadsafe::undefined,limit::clamp> batch_size{ this, "training_batchsize", 32, title{": Training Batch Size"}, description{"batch size when training the nn"}, range{{4, 128}} };
-    attribute<int,threadsafe::undefined,limit::clamp> worker{ this, "training_worker", 2, title{": Training Workers"},  description{"number of worker in dataloader"}, range{{0, 4}} };
+    attribute<number,threadsafe::undefined,limit::clamp> lr{ this, "training_lr", 0.001, title{"Training Learning Rate"}, description{"learning rate when training the nn"}, range{{0.0001, 0.1}}, category{"Training"}};
+    attribute<int,threadsafe::undefined,limit::clamp> batch_size{ this, "training_batchsize", 32, title{"Training Batch Size"}, description{"batch size when training the nn"}, range{{4, 128}}, category{"Training"}};
+    attribute<int,threadsafe::undefined,limit::clamp> worker{ this, "training_worker", 2, title{"Training Workers"},  description{"number of worker in dataloader"}, range{{0, 4}}, category{"Training"}};
 
-    attribute<int> epoch_per_cycle {this, "training_epoch", 10, title{": Training Epoch"}, description {"(int) train the model for this many epochs when one train message is received"}};
+    attribute<int> epoch_per_cycle {this, "training_epoch", 10, title{"Training Epoch"}, description {"(int) train the model for this many epochs when one train message is received"}, category{"Training"}};
     
     message<> maxclass_setup{
         this, "maxclass_setup", [this](const c74::min::atoms &args, const int inlet) -> c74::min::atoms {
-            cout << "torch version: " << TORCH_VERSION << endl;
+            cout << "nn.terrain~ version: 1.5.6 - torch version: " << TORCH_VERSION << endl;
             return {};
         }
     };
@@ -252,7 +237,7 @@ public:
     bool dataloader_ready = false;
     
     message<> dictionary { this, "dictionary",
-        "Use a dictionary to gather training data for the terrain",
+        "Use a dictionary to gather training data for the terrain (will replace what has been loaded before). ",
         MIN_FUNCTION {
             c74::max::t_symbol    **keys = NULL;
             long        numkeys = 0;
@@ -272,6 +257,7 @@ public:
                         coord_dict.clear();
                     } else {
                         coord_dict = d_data_dict;
+                        cout << coord_len << " spatial trajectories loaded." << endl;
                     }
                     dataset_updated = true;
                 } else if (key_str == "latents"){
@@ -280,10 +266,13 @@ public:
                         latent_dict.clear();
                     } else {
                         latent_dict = d_data_dict;
+                        cout << latent_len << " latent trajectories loaded." << endl;
                     }
                     dataset_updated = true;
+                } else if (key_str == "anchors"){
+                    
                 } else {
-                    cerr << "unknown key, or some dictionaries are empty " << key_str << endl;
+                    cerr << "unknown key, or some dictionaries are empty: " << key_str << endl;
                 }
             }
             // freeing memory for keys
@@ -311,7 +300,6 @@ public:
             net_args_dict["number_of_channels"] = m_cmax;
             net_args_dict["features_size"] = m_mapping_size;
             net_args_dict["number_of_parameters"] = static_cast<int>(cppn_model->m_model->parameters().size());
-//            net_args_dict["saving_path"] = (std::filesystem::path(std::to_string(external_path)) / (std::to_string(saving_name)+".pt")).string();
             
             m_outlets[m_outlets.size()-1]->send("summary", "dictionary", net_args_dict.name());
             return {};
@@ -322,7 +310,7 @@ public:
     min_dict dataset_co_dict {symbol(true)};
     min_dict dataset_lt_dict {symbol(true)};
     atoms dataset_summary;
-    message<> dataset_summary_m {this, "dataset_summary", "Training pairs summary",
+    message<> dataset_summary_m {this, "dataset_summary", "Coordinates-latents pairs summary",
         MIN_FUNCTION {
             try{
                 if (dataset_updated){
@@ -330,7 +318,7 @@ public:
                 }
                 
                 if (dataset_summary[0] == 0){
-                    cerr << "no data loaded" << endl;
+                    cwarn << "no data loaded" << endl;
                     return {};
                 }
                 symbol shape_key{"shape"};
@@ -366,11 +354,11 @@ public:
                         cppn_model->use_gpu(bool(args[0]));
                         optimizer = std::make_unique<torch::optim::Adam>(cppn_model->m_model->parameters(), static_cast<float>(lr));
                         
-                        if (total_epochs>0){
-                            cwarn << "Changing device after any training will re-initialise the optimizer, be careful." << endl;
-                        }
+//                        if (total_epochs>0){
+//                            cwarn << "Changing device after any training will re-initialise the optimizer, be careful." << endl;
+//                        }
                         if (bool(args[0])){
-                            cwarn << "The terrain model is suggested to be operated on the CPU because it's a very small neural network without any convolutional layer." << endl;
+                            cwarn << "The terrain model is a very small neural network without any convolutional layer, it's performance on CPU can be better in some cases" << endl;
                         }
 //                        cout << "cppn gpu: " << bool(args[0]) << endl;
                     }
@@ -380,6 +368,63 @@ public:
         }
     };
     
+    message<> new_cppn {this, "new", "Create a new terrain model.   <br /><br />Args:  <br />path (optional): path to a model checkpoint, if not given, a new model will be created;  <br />gaussian_scale: Gaussian scale of the neural network;  <br />network_channel: number of channels in the neural network's fully connected layers;  <br />feature_size: size of the random Fourier feature mapping.",
+        MIN_FUNCTION {
+            //args:
+            // x_lo, x_hi, y_lo, y_hi, stride, latent_clamp_min, latent_clamp_max
+            // lo, hi, stride, latent_clamp_min, latent_clamp_max
+            torch::serialize::InputArchive archive;
+            
+            if (args.size() != 3 && args.size() != 1) {
+                cerr << "wrong number of argments" << endl;
+                return {};
+            }
+            if (args.size() == 1) {
+                if (args[0].a_type == 3){
+                    std::string model_path = std::string(args[0]);
+                    if (!load_param_from_file(model_path, archive)) {
+                        cerr << "error loading model from file: " << model_path << endl;
+                        return {};
+                    }
+                } else {
+                    cerr << "argument should be a path" << endl;
+                    return {};
+                }
+            } else if (args.size() == 3) {
+                m_cmax = int(args[1]);
+                m_gauss_scale = float(args[0]);
+                m_mapping_size = int(args[2]);
+            }
+            cppn_model.reset();
+            cppn_model = std::make_unique<FCPPN>();
+            
+            if (!cppn_model->create(m_in_dim, m_out_dim, m_cmax, m_gauss_scale, m_mapping_size)) {
+                cerr << "error during creating model" << endl;
+                error();
+                return {};
+            }
+            
+            if (args.size() == 1) { // if loading from a checkpoint
+                try{
+                    cppn_model->m_model->load(archive);
+                } catch (const std::exception& e) {
+                    cerr << "Error loading weights: " << e.what() << endl;
+                    return {};
+                }
+            }
+            
+            cppn_model->m_model->eval();
+            
+            torch::Tensor test_inputs = torch::ones({1, m_in_dim}, torch::kFloat);
+            
+            auto output_tensor = cppn_model->m_model->forward(test_inputs);
+            
+            optimizer.reset();
+            optimizer = std::make_unique<torch::optim::Adam>(cppn_model->m_model->parameters(), static_cast<float>(lr));
+            cout << "terrain setup finished" << endl;
+            return {};
+        }
+    };
     
     
     int total_epochs = 0;
@@ -397,8 +442,6 @@ public:
                     return {};
                 }
             }
-//            return {};
-//            cout << "Training the terrain model with " << epoch_per_cycle <<" batch" << endl;
             
             cppn_model->m_model->train();
             
@@ -441,7 +484,7 @@ public:
             return {};
         }
     };
-    attribute<symbol> external_path{ this, "saving_path", "none", title{": Saving Path"}, setter{ MIN_FUNCTION{
+    attribute<symbol> external_path{ this, "saving_path", "none", title{"Saving Path"}, category{"Saving"}, setter{ MIN_FUNCTION{
         if (args[0] == "none") {
             symbol min_path_this = min_devkit_path();
             return { min_path_this };
@@ -457,9 +500,8 @@ public:
         }
         } }
     };
-//    std::string external_path;
     
-    attribute<symbol> saving_name{ this, "saving_name", "UntitledTerrain", title{": Saving Name"}, setter{ MIN_FUNCTION{
+    attribute<symbol> saving_name{ this, "saving_name", "UntitledTerrain", title{"Saving Name"}, category{"Saving"}, setter{ MIN_FUNCTION{
         std::string str = std::string(args[0]);
         str.erase(std::remove(str.begin(), str.end(), ' '), str.end()); // remove spaces
         if (str.empty()) {
@@ -491,8 +533,6 @@ public:
     };
     
 private:
-//    double m_playback_position        { 0.0 };    // normalized range
-//    size_t m_record_position        { 0 };        // native range
     double m_one_over_samplerate    { 1.0 };
     
 };
@@ -502,7 +542,7 @@ atoms nn_terrain::create_dataloader() {
     int latent_count = static_cast<int>(c74::max::dictionary_getentrycount(latent_dict.m_instance));
     
     if (coord_count==0 || latent_count==0){
-        cerr << "coordinates or latents not set" << endl;
+        cwarn << "coordinates or latents not set" << endl;
         return {{0}};
     }
     
@@ -582,14 +622,6 @@ atoms nn_terrain::create_dataloader() {
     training_coords = torch::cat(coord_trim, 1).permute({1,0});
     training_latents = torch::cat(latent_trim, 1).permute({1,0});
     
-//    for (int i(0); i < training_coords.ndimension(); i++){
-//        cout << "coords dim " << i << ": " << training_coords.size(i) << endl;
-//    }
-//    for (int i(0); i < training_latents.ndimension(); i++){
-//        cout << "latents dim " << i << ": " << training_latents.size(i) << endl;
-//    }
-        
-    
     std::vector<int> traj_info = {
         static_cast<int>(training_coords.size(0)),
         static_cast<int>(training_coords.size(1))
@@ -641,9 +673,6 @@ void model_perform_loop(nn_terrain *nn_instance) {
 
   while (!nn_instance->m_should_stop_perform_thread) {
       if (nn_instance->m_data_available_lock.try_acquire_for(std::chrono::milliseconds(200))) {
-//          nn_instance->m_model->perform(in_model, out_model,
-//                                        nn_instance->m_buffer_size,
-//                                        nn_instance->d_method, 1);
           nn_instance->m_result_available_lock.release();
       }
   }
@@ -802,7 +831,7 @@ void nn_terrain::cppn_infer(float* float_in, std::vector<float *> out_buffer){
     if (!cppn_init){
         return;
     }
-    at::Tensor tensor_in = torch::from_blob(float_in, {1, 2}, torch::kFloat);
+    at::Tensor tensor_in = torch::from_blob(float_in, {1, m_in_dim}, torch::kFloat);
     
     std::unique_lock<std::mutex> model_lock(cppn_model->m_model_mutex);
     tensor_in = tensor_in.to(cppn_model->m_device);
@@ -834,6 +863,34 @@ void nn_terrain::cppn_infer(float* float_in, std::vector<float *> out_buffer){
 }
 
 
+bool nn_terrain::load_param_from_file(string model_path, torch::serialize::InputArchive &archive) {
+    if (model_path.substr(model_path.length() - 3) != ".pt")
+        model_path = model_path + ".pt";
+    min_path m_path = min_path(model_path);
+    
+    try {
+        // Load the archive from the specified file path
+        archive.load_from(std::string(m_path));
+        
+        // Load initialization arguments
+        torch::Tensor in_dim_tensor, out_dim_tensor, c_max_tensor, gauss_scale_tensor, mapping_size_tensor;
+        archive.read("m_in_dim", in_dim_tensor);
+        archive.read("m_out_dim", out_dim_tensor);
+        archive.read("m_cmax", c_max_tensor);
+        archive.read("m_gauss_scale", gauss_scale_tensor);
+        archive.read("m_mapping_size", mapping_size_tensor);
+        
+        m_in_dim = in_dim_tensor.item<int>();
+        m_out_dim = out_dim_tensor.item<int>();
+        m_cmax = c_max_tensor.item<int>();
+        m_gauss_scale = gauss_scale_tensor.item<float>();
+        m_mapping_size = mapping_size_tensor.item<int>();
+    } catch (const std::exception& e) {
+        cerr << "Error loading from checkpoint: " << e.what() << endl;
+        return false;
+    }
+    return true;
+}
 
 nn_terrain::nn_terrain(const atoms &args){
     
@@ -855,29 +912,8 @@ nn_terrain::nn_terrain(const atoms &args){
     if (args.size() == 1) { // ONE ARGUMENT IS GIVEN
         if (args[0].a_type == 3){
             std::string model_path = std::string(args[0]);
-            if (model_path.substr(model_path.length() - 3) != ".pt")
-                model_path = model_path + ".pt";
-            min_path m_path = min_path(model_path);
-            
-            try {
-                // Load the archive from the specified file path
-                archive.load_from(std::string(m_path));
-                
-                // Load initialization arguments
-                torch::Tensor in_dim_tensor, out_dim_tensor, c_max_tensor, gauss_scale_tensor, mapping_size_tensor;
-                archive.read("m_in_dim", in_dim_tensor);
-                archive.read("m_out_dim", out_dim_tensor);
-                archive.read("m_cmax", c_max_tensor);
-                archive.read("m_gauss_scale", gauss_scale_tensor);
-                archive.read("m_mapping_size", mapping_size_tensor);
-                
-                m_in_dim = in_dim_tensor.item<int>();
-                m_out_dim = out_dim_tensor.item<int>();
-                m_cmax = c_max_tensor.item<int>();
-                m_gauss_scale = gauss_scale_tensor.item<float>();
-                m_mapping_size = mapping_size_tensor.item<int>();
-            } catch (const std::exception& e) {
-                cerr << "Error loading from checkpoint: " << e.what() << endl;
+            if (!load_param_from_file(model_path, archive)) {
+                cerr << "error loading model from file: " << model_path << endl;
                 return;
             }
         } else {
@@ -928,7 +964,7 @@ nn_terrain::nn_terrain(const atoms &args){
     if (args.size() >= 5) { // Five ARGUMENTS ARE GIVEN
         if (args[4].a_type == 1) {
             if (int(args[4]) <= 2048 && int(args[4]) >= 16) {
-                m_cmax = int(args[4]);
+                m_mapping_size = int(args[4]);
             } else {
                 cerr << "fifth arg should be positive integers between [16, 2048]" << endl;
                 return;
@@ -948,7 +984,7 @@ nn_terrain::nn_terrain(const atoms &args){
     
     cppn_model = std::make_unique<FCPPN>();
     
-    if (cppn_model->create(m_in_dim, m_out_dim, m_cmax, m_gauss_scale, m_mapping_size)) {
+    if (!cppn_model->create(m_in_dim, m_out_dim, m_cmax, m_gauss_scale, m_mapping_size)) {
         cerr << "error during creating model" << endl;
         error();
         return;
@@ -994,7 +1030,7 @@ nn_terrain::nn_terrain(const atoms &args){
       m_out_model.push_back(std::make_unique<float[]>(m_buffer_size));
       m_latent_out.push_back(std::make_unique<float[]>(m_buffer_size));
   }
-    m_outlets.push_back(std::make_unique<outlet<>>(this, "(dictionary) sampled interval", "dictionary"));
+    m_outlets.push_back(std::make_unique<outlet<>>(this, "(dictionary) plotted interval", "dictionary"));
     m_outlets.push_back(std::make_unique<outlet<>>(this, "(message) logging information, route option: summary, dataset, dataset_length, epoch, loss", "message"));
     
 

@@ -31,18 +31,20 @@ typedef struct traj_info_type {
 class nn_terrain : public object<nn_terrain>, public vector_operator<> {
     
 public:
-    MIN_DESCRIPTION{"Recording a multichannel signal as latent vectors, for nn.terrain."};
+    MIN_DESCRIPTION{"Recording a multichannel signal as latent trajectories or spatial trajectories, to gather training dataset for nn.terrain."};
     MIN_TAGS        { "" };
     MIN_AUTHOR{"Jasper Shuoyang Zheng"};
     MIN_RELATED        { "nn.terrain, nn.terrain.encode, nn.terrain.record, nn~" };
 
     std::vector<std::unique_ptr<inlet<>>> m_inlets;
     
-    outlet<>    dataset_output      { this, "(dictionary) Recorded latent vectors, to be sent to nn.terrain", "dictionary"};
     
-    outlet<>    latent_len_output   { this, "(list) Number of latents along each trajectory", "list"};
-    outlet<>    latent_len_all_output   { this, "(int) Total number of latents along all trajectories", "int"};
-    outlet<>    traj_num_output   { this, "(int) Number of trajectories", "int"};
+    
+    outlet<>    latent_len_output   { this, "(list) Number of vectors along each trajectory", "list"};
+//    outlet<>    latent_len_all_output   { this, "(int) Total number of latents along all trajectories", "int"};
+    outlet<>    traj_num_output   { this, "(int) Number of trajectories recorded", "int"};
+    
+    outlet<>    dataset_output      { this, "(dictionary) Recorded dataset vectors, to be sent to nn.terrain~", "dictionary"};
 
     nn_terrain(const atoms &args = {});
     ~nn_terrain();
@@ -60,9 +62,8 @@ public:
     void perform(audio_bundle input, audio_bundle output);
     
     
-    argument<int> latent_dim_arg {this, "latent_dim", "(int) Dimensionality of the latent vector.", true};
+    argument<int> latent_dim_arg {this, "dimensionality", "(int) Dimensionality of the latents or coordinates.", true};
     argument<int> buffer_arg {this, "buffer_size", "(Optional) Record the signal once per buffer, 2048 by default."};
-
     
     int latent_dim = 8;
     
@@ -81,9 +82,10 @@ public:
     };
     
     min_dict training_data = {symbol(true)};
-//    min_dict coord_dict = {symbol(true)};
-//    min_dict buffer_dict = {symbol(true)};
     min_dict latent_dict = {symbol(true)};
+    
+//    min_dict c_training_data = {symbol(true)};
+//    min_dict coord_dict = {symbol(true)};
     
     atoms latent_lengths;
     
@@ -91,26 +93,23 @@ public:
     int record_count = 0;
     
     
-    attribute<bool> record_latents {this, "record", false,
+    attribute<bool> record_latents {this, "record", false, title{"Record on/off"},
         description {"Record input signal as latents vectors, once per buffer_size."},
         setter{[this](const c74::min::atoms &args, const int inlet) -> c74::min::atoms {
             if (args[0] && !record_latents){
                 // start a new trajectory
                 m_in_model.clear();
                 m_in_buffer = std::make_unique<circular_buffer<double, float>[]>(latent_dim);
-                
                 vector<vector<float>> traj;
                 for (int i(0); i < latent_dim; i++){
                     m_in_buffer[i].initialize(m_buffer_size); //4096
                     m_in_model.push_back(std::make_unique<float[]>(m_buffer_size));
-                    
                     vector<float> latents;
                     traj.push_back(latents);
                 }
                 m_trajs.push_back(new traj_info{traj, 0});
             } else if (!args[0] && record_latents){
                 if (record_count_batch > 0 && !m_trajs.empty()){
-//                    latent_lengths.push_back(record_count_batch);
                     record_count_batch = 0;
                     send_recordings();
                 }
@@ -119,31 +118,43 @@ public:
         }
     }};
     
-    attribute<int,threadsafe::undefined,limit::clamp> record_limit {this, "record_limit", 2048,
-        description {"Maximum number of latents to record; once reached, recording stops."},range{{1, 16384}}};
-  
-    message<> clear_latents {this, "clear", "Clear recorded latents",
+    attribute<int,threadsafe::undefined,limit::clamp> record_limit {this, "record_limit", 2048, title{"Recording Limits"},
+        description {"Maximum number of vectors to record; once reached, recording stops."},range{{1, 16384}}};
+    enum class tasks {latents, coordinates, enum_count};
+    enum_map tasks_info = {"Latents", "Coordinates"};
+    attribute<tasks> record_as { this, "record_as", tasks::latents, tasks_info, title{"Record As"}, description {"Record as latents or coordinates?"}, setter{ MIN_FUNCTION{
+        training_data.clear();
+        if (static_cast<int>(args[0]) == 0 /*tasks::latents*/) {
+            training_data["latents"] = latent_dict;
+        } else if (static_cast<int>(args[0]) == 1 /*tasks::coordinates*/) {
+            training_data["coordinates"] = latent_dict;
+        }
+        training_data.touch();
+        send_recordings();
+        return { args[0] };
+    }} };
+    message<> clear_latents {this, "clear", "Clear recorded vectors",
         MIN_FUNCTION {
             latent_dict.clear();
+//            coord_dict.clear();
             m_trajs.clear();
             training_data.touch();
+//            c_training_data.touch();
             record_count_batch = 0;
-            
-//            latent_lengths.clear();
             
             send_recordings();
             return {};
         }
     };
     
-    message<> bang {this, "bang", "Resend the latents dataset",
+    message<> bang {this, "bang", "Resend the dataset dictionary",
         MIN_FUNCTION {
             send_recordings();
             return {};
         }
     };
     
-    message<> record_latent {this, "poke", "Record just one latent vector from the signal",
+    message<> record_latent {this, "poke", "Record just one vector from the signal",
         MIN_FUNCTION {
             if(record_latents){
                 cerr << "cannot poke while recording" << endl;
@@ -170,7 +181,6 @@ public:
         
         if (m_trajs.empty()){
             traj_num_output.send(m_trajs.size());
-            latent_len_all_output.send(0);
             return;
         }
         latent_lengths.clear();
@@ -186,6 +196,7 @@ public:
                     c74::max::dictionary_appendatoms(traj_dict.m_instance, skey, result.size(), &result[0]);
                     
                 }
+                
                 latent_dict[std::to_string(c+1)] = traj_dict;
                 latent_lengths.push_back(m_trajs[i]->length);
                 record_count += m_trajs[i]->length;
@@ -193,9 +204,8 @@ public:
             }
         }
         training_data.touch();
-        
+//        c_training_data.touch();
         traj_num_output.send(m_trajs.size());
-        latent_len_all_output.send(record_count);
         latent_len_output.send(latent_lengths);
         
         dataset_output.send("dictionary", training_data.name());
@@ -239,11 +249,12 @@ void nn_terrain::perform(audio_bundle input, audio_bundle output) {
                 record_count_batch = 0;
                 record_latents = false;
                 send_recordings();
-                cwarn << "recording latents stopped because maximum length reached" << endl;
+                cwarn << "recording stopped because maximum length reached" << endl;
             }
         }
         for (int c(0); c < input.channel_count(); c++) { // 8
-            m_in_buffer[c].get(m_in_model[c].get(), m_buffer_size);
+//            m_in_buffer[c].get(m_in_model[c].get(), m_buffer_size);
+            m_in_buffer[c].reset();
         }
         
     }
@@ -261,12 +272,12 @@ nn_terrain::nn_terrain(const atoms &args){
       // a_type 1: int, a_type 2: float, a_type 3: symbol
       if (args[0].a_type == 1) { // (int)
           if (int(args[0]) < 1 || int(args[0]) > 1024) {
-              cerr << "error: the latent dimension should be in the range [1, 1024]" << endl;
+              cerr << "error: the dimension should be in the range [1, 1024]" << endl;
               return;
           }
           latent_dim = int(args[0]);
       } else {
-          cerr << "error: the argument should be int (number of latent dimensions) in the range [1, 1024]" << endl;
+          cerr << "error: the argument should be int (number of dimensions) in the range [1, 1024]" << endl;
       }
   }
     if (args.size() >= 2) { // TWO ARGUMENTS ARE GIVEN:
@@ -279,7 +290,7 @@ nn_terrain::nn_terrain(const atoms &args){
     
     m_in_buffer = std::make_unique<circular_buffer<double, float>[]>(latent_dim);
     for (int i(0); i < latent_dim; i++) {
-        std::string input_label = "(signal) latent codes input " + std::to_string(i);
+        std::string input_label = "(signal) latent or coordinates codes input " + std::to_string(i);
         
         m_inlets.push_back(std::make_unique<inlet<>>(this, input_label, "float"));
         m_in_buffer[i].initialize(m_buffer_size); //4096

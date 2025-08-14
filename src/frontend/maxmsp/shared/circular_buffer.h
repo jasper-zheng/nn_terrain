@@ -79,9 +79,7 @@ void circular_buffer<in_type, out_type>::get(out_type *output_array, int N) {
 }
 
 template <class in_type, class out_type>
-out_type circular_buffer<in_type, out_type>::get_no_pop() {
-  return _buffer[_tail];
-}
+out_type circular_buffer<in_type, out_type>::get_no_pop() {return _buffer[_tail];}
 
 template <class in_type, class out_type>
 void circular_buffer<in_type, out_type>::reset() {

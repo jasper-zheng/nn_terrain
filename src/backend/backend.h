@@ -61,9 +61,6 @@ struct FourierCPPNImpl : torch::nn::Module {
         x = prelu4(fc4(x));
         x = fc_out(x);
         
-//        x = torch::cat({x, x, x, x}, 1);
-//        x = torch::ones_like(x);
-        
         return x;
     }
     
@@ -124,15 +121,15 @@ public:
     
     FCPPN();
     
-    int create(int in_dim, int out_dim, int c_max, float gauss_scale, int mapping_size){
+    bool create(int in_dim, int out_dim, int c_max, float gauss_scale, int mapping_size){
         try{
             m_model = FourierCPPN(in_dim, out_dim, c_max, gauss_scale, mapping_size);
             m_loaded = 1;
             m_model->eval();
-            return 0;
+            return true;
         } catch (const std::exception &e) {
             std::cerr << e.what() << '\n';
-            return 1;
+            return false;
         }
     }
     bool is_loaded() { return m_loaded; }

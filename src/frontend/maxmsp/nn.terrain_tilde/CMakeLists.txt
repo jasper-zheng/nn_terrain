@@ -69,7 +69,7 @@ if (APPLE)
 	target_link_libraries(${PROJECT_NAME} PUBLIC "$<LINK_LIBRARY:FRAMEWORK,CoreFoundation>")
 	set_target_properties(${PROJECT_NAME} PROPERTIES
 	BUILD_WITH_INSTALL_RPATH FALSE
-	LINK_FLAGS "-Wl,-F/Library/Frameworks,-rpath,@loader_path/"
+	LINK_FLAGS "-Wl,-rpath,@loader_path/"
 	)
 	# I can't figure out how to set the Bundle Identifier nicely in for max-sdk-base, so I'm just gonna do this thing here...
 	set(AUTHOR_DOMAIN "com.jasperzheng")

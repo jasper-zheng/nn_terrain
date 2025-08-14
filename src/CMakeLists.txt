@@ -26,4 +26,5 @@ if(APPLE OR MSVC)
     add_subdirectory(frontend/maxmsp/nn.terrain.encode) # MAX MSP EXTERNAL
     add_subdirectory(frontend/maxmsp/nn.terrain.record) # MAX MSP EXTERNAL
     add_subdirectory(frontend/maxmsp/nn.terrain.gui) # MAX MSP EXTERNAL
+    add_subdirectory(frontend/maxmsp/nn.terrain.mc.gui)
 endif()

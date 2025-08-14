@@ -83,7 +83,7 @@ std::string min_devkit_path() {
 #endif    // WIN_VERSION
 
 #ifdef MAC_VERSION
-    CFBundleRef this_bundle = CFBundleGetBundleWithIdentifier(CFSTR("com.jasperzheng.nn-terrain-gui"));
+    CFBundleRef this_bundle = CFBundleGetBundleWithIdentifier(CFSTR("com.jasperzheng.nn-terrain-mc-gui"));
     CFURLRef    this_url = CFBundleCopyExecutableURL(this_bundle);
     char        this_path[4096];
     CFURLGetFileSystemRepresentation(this_url, true, reinterpret_cast<UInt8*>(this_path), 4096);
@@ -92,8 +92,8 @@ std::string min_devkit_path() {
     // we now have a path like this:
     // /Users/tim/Materials/min-devkit/externals/min.project.mxo/Contents/MacOS/min.project"
     // so we need to chop off 5 slashes from the end
-    auto iter = this_path_str.find("/externals/nn.terrain.gui.mxo/Contents/MacOS/nn.terrain.gui");
-    this_path_str.erase(iter, strlen("/externals/nn.terrain.gui.mxo/Contents/MacOS/nn.terrain.gui"));
+    auto iter = this_path_str.find("/externals/nn.terrain.mc.gui.mxo/Contents/MacOS/nn.terrain.mc.gui");
+    this_path_str.erase(iter, strlen("/externals/nn.terrain.mc.gui.mxo/Contents/MacOS/nn.terrain.mc.gui"));
     return this_path_str;
 #endif    // MAC_VERSION
 }
@@ -120,12 +120,18 @@ private:
     
     click_check_info cc;
     
-    color playing_selected{0.941f, 0.68f, 0.392f, 1.0f};
+//    color playing_selected{0.976f, 0.737f, 0.255f, 1.0f};
+//    color playing_selected{0.941f, 0.68f, 0.392f, 1.0f};
+    attribute<color> playing_selected { this, "traj_rgb_1", color{0.941f, 0.68f, 0.392f, 1.0f}, description{"selected trajectory colour"}, title{": Trajectory Colour 1"}};
+//    color playing_alter{0.95f, 0.78f, 0.61f, 1.0f};
+    attribute<color> playing_alter { this, "traj_rgb_2", color{0.95f, 0.78f, 0.61f, 1.0f}, description{"selected trajectory colour alter"}, title{": Trajectory Colour 2"}};
     color playing_standby{0.7f, 0.7f, 0.7f, 1.0f};
-    
+//    color playing_hover{0.976f*0.6f, 0.737f*0.6f, 0.255f*0.6f, 1.0f};
     color dataset_complete{0.345f, 0.753f, 0.824f, 1.0f};
     color dataset_selected{0.95f, 0.95f, 0.95f, 1.0f};
+    
     color dataset_incomplete{0.7f, 0.7f, 0.7f, 1.0f};
+//    color dataset_handle{0.941f, 0.68f, 0.392f, 1.0f};
     
     vector<event_info *> e_inks;
     vector<vector<event_info *>> e_slices;
@@ -136,6 +142,7 @@ private:
     
     
     std::unique_ptr<float[]> playheads;
+    std::unique_ptr<float[]> playheads2;
     
     bool process_vec_now = false;
     
@@ -144,16 +151,15 @@ private:
     
     
     double ms_to_distance    { 1.0 };
-    double dist_to_ms    { 116.0 };
+    double dist_to_ms    { 1.0 };
     
     
     bool stylus_to_refresh = true;
     bool traj_to_refresh = true;
     
-
     enum class tasks {dataset, play, stylus, enum_count};
     enum_map tasks_info = {"Dataset", "Play", "Stylus"};
-    attribute<tasks> m_task { this, "task", tasks::dataset, tasks_info, title{"UI Tasks"}, description {"The task to be performed on the UI"}, category{"Behavior"}, setter{ MIN_FUNCTION{
+    attribute<tasks> m_task { this, "task", tasks::dataset, tasks_info, title{": UI Tasks"}, description {"The task to be performed on the UI"}, setter{ MIN_FUNCTION{
 
         if (static_cast<int>(args[0]) != 2 /*tasks::stylus*/ && !e_inks.empty()) {
             e_inks.back()->phase = "up";
@@ -169,6 +175,17 @@ private:
             }
             m_traj_len_all.send(traj_len_ms);
         }
+        if (setup_finished && static_cast<int>(args[0]) == 0 /*tasks::dataset*/) {
+            traj_len_ms.clear();
+            for (int i = 0; i < m_trajs.size(); i++){
+                const auto& traj {m_trajs[i]};
+                traj_len_ms.push_back(traj->ms);
+                if (selected_traj == i){
+                    m_traj_len.send(traj->ms);
+                }
+            }
+            m_traj_len_all.send(traj_len_ms);
+        }
         traj_to_refresh = true;
         return { args[0] };
     }} };
@@ -176,7 +193,8 @@ private:
     enum class modes {points, audio, enum_count};
     enum_map modes_info = {"Points", "Trajectories"};
     
-    attribute<modes> m_mode { this, "mode", modes::audio, modes_info, title{"Dataset Mode"}, description {"The mode for gathering dataset"}, category{"Behavior"}, setter{ MIN_FUNCTION{
+    attribute<modes> m_mode { this, "mode", modes::audio, modes_info, title{": Dataset Mode"}, description {"The mode for gathering dataset"}, setter{ MIN_FUNCTION{
+        
         traj_to_refresh = true;
         return { args[0] };
     }} };
@@ -187,17 +205,16 @@ private:
     number y_prev {};
     number start_x {};
     number start_y {};
-
-    attribute<number> m_in_ratio{ this, "in_ratio", 2048.0, title{"AutoEncoder Ratio"}, description{"(float) autoencoder's compression ratio in the time domain."}};
+    
+    attribute<number> grid_spacing{ this, "grid_spacing", 20, title{": Grid Spacing"}, description{"(int) Spacing of the grid in background (in dataset mode)"}};
+    attribute<color> grid_colour{ this, "grid_colour", color{0.5f, 0.5f, 0.5f, 1.0f}, title{": Grid Colour"}, description{"(color) Colour of the grid in background (in dataset mode)"}};
+    
+    attribute<number> m_in_ratio{ this, "in_ratio", 2048.0, title{": AutoEncoder Ratio"}, description{"(float) autoencoder's compression ratio in the time domain."}};
     float v_left = -16.0f;
     float v_top = -4.0f;
     float v_right = 16.0f;
     float v_bottom = 4.0f;
-    attribute<numbers> v_box{ this, "values_boundary", {-16.0f, -4.0f, 16.0f, 4.0f}, title{"Values at Left-Top-Right-Bottom"}, description{"(float) value at the left, top, right, bottom of the canvas (values won't be clamped, it behaves more like a scale.)"}, setter{ MIN_FUNCTION{
-        if (args.size() != 4) {
-            cerr << "v_box requires 4 arguments: left, top, right, bottom" << endl;
-            return v_box;
-        }
+    attribute<numbers> v_box{ this, "values_boundary", {-16.0f, -4.0f, 16.0f, 4.0f}, title{": Values at Left-Top-Right-Bottom"}, description{"(float) value at the left, top, right, bottom of the canvas (values won't be clamped, it behaves more like a scale.)"}, setter{ MIN_FUNCTION{
         v_left = args[0];
         v_top = args[1];
         v_right = args[2];
@@ -205,13 +222,12 @@ private:
         return {args[0], args[1], args[2], args[3]};
     }}};
     
-    attribute<int,threadsafe::undefined,limit::clamp> plot_resolution {this, "plot_resolution", 1, title{"Plot Resolution"}, description {"(int) 1~16, the resolution to display the terrain"},range{{1, 16}}, category{"Appearance"}};
+    attribute<int,threadsafe::undefined,limit::clamp> plot_resolution {this, "plot_resolution", 1, title{": Plot Resolution"}, description {"(int) 1~16, the resolution to display the terrain"},range{{1, 16}}};
     
-    attribute<number,threadsafe::undefined,limit::clamp> traj_density{ this, "latent_density", 0.4f, title{"Latent Density"}, description{"Density of latents along a trajectory"}, range{{0.1, 10.0}}, setter{ MIN_FUNCTION{
+    attribute<number,threadsafe::undefined,limit::clamp> traj_density{ this, "point_density", 0.4f, title{": Point Density"}, description{"density of points in a trajectory"}, range{{0.1, 10.0}}, setter{ MIN_FUNCTION{
         float density = static_cast<float>(args[0]);
         ms_to_distance = samplerate()/m_in_ratio*0.001*density;
         dist_to_ms = m_in_ratio/(0.001f*samplerate()*density);
-//        cout << "dist_to_ms: " << dist_to_ms << endl;
         return { args[0] };
     }}};
     
@@ -222,7 +238,7 @@ private:
         return static_cast<int>(std::ceil(x * samplerate() / 1000.0 / m_in_ratio));
     }
     
-    attribute<bool> show_terrain{ this, "terrain_display", false, description{"(bool)"}, title{"Terrain Display"}, category{"Appearance"}, setter{ MIN_FUNCTION{
+    attribute<bool> show_terrain{ this, "terrain_display", false, description{"(bool)"}, title{": Terrain Display"}, setter{ MIN_FUNCTION{
             if (args[0] && terrain_loaded){
                 return {true};
             } else {
@@ -231,30 +247,26 @@ private:
         } }
     };
     
-    attribute<numbers> terrain_clamp { this, "terrain_clamp", {-1.0f, 4.0f}, description{"(min, max)"}, title{"Terrain Value Clamp"}, category{"Appearance"}, setter{ MIN_FUNCTION{
-        if (args.size() != 2) {
-            cerr << "terrain_clamp requires 2 arguments: min, max" << endl;
-            return terrain_clamp;
-        }
-        return {args[0], args[1]};
-    }}};
-    attribute<color> t_rgb { this, "terrain_rgb_h", color{1.0,1.0,1.0,1.0}, description{"terrain colour higher bound"}, title{"Terrain Colour Hi"},category{"Appearance"}};
-    attribute<color> b_rgb { this, "terrain_rgb_l", color{0.9,0.75,0.6,0.0}, description{"terrain colour lower bound"}, title{"Terrain Colour Lo"},category{"Appearance"}};
-    attribute<bool> show_stylus{ this, "stylus_display", true, description{"(bool)"}, title{"Stylus Display"}, category{"Appearance"}, setter{ MIN_FUNCTION{
+    attribute<numbers> terrain_clamp { this, "terrain_clamp", {-1.0f, 4.0f}, description{"(min, max)"}, title{": Terrain Value Clamp"}};
+    
+    
+    attribute<color> t_rgb { this, "terrain_rgb_h", color{1.0,1.0,1.0,1.0}, description{"terrain colour higher bound"}, title{": Terrain Colour Hi"}};
+    attribute<color> b_rgb { this, "terrain_rgb_l", color{0.9,0.75,0.6,0.0}, description{"terrain colour lower bound"}, title{": Terrain Colour Lo"}};
+    attribute<bool> show_stylus{ this, "stylus_display", true, description{"(bool)"}, title{": Stylus Display"}, setter{ MIN_FUNCTION{
 //        redraw();
         return { args[0] };
     }}};
-    attribute<int,threadsafe::undefined,limit::clamp> m_buffer_size{ this, "buffer_size", 2048, description{"(int) Buffer size when playing the trajectories. Same values with the terrain and the autoencoder is suggested."}, title{"Buffer Size"}, range{31, 4097}, setter{ MIN_FUNCTION{
+    attribute<int,threadsafe::undefined,limit::clamp> m_buffer_size{ this, "buffer_size", 2048, description{"(int) Buffer size when playing the trajectories. Same values with the terrain and the autoencoder is suggested."}, title{": Buffer Size"}, range{31, 4097}, setter{ MIN_FUNCTION{
         return {int(power_ceil(int(args[0])))};
         } }
     };
     
-    attribute<number,threadsafe::undefined,limit::clamp> m_line_width_scale{ this, "stylus_line_width", 3.0, title{"Stylus Line Width"},range{0.1, 10.0}, description{"(float) line width of the drawing in the stylus mode"},category{"Appearance"}};
+    attribute<number,threadsafe::undefined,limit::clamp> m_line_width_scale{ this, "stylus_line_width", 3.0, title{": Stylus Line Width"},range{0.1, 10.0}, description{"(float) line width of the drawing in the stylus mode"}};
         
     
     number m_line_width_min = 0.01;
 
-    attribute<color>  ink_color{ this, "stylus_ink_color", color{1.0,1.0,1.0,1.0}, title{"Stylus Ink Colour"}, description{"(color) colour of the drawing in the stylus mode"},category{"Appearance"}};
+    attribute<color>  ink_color{ this, "stylus_ink_color", color{1.0,1.0,1.0,1.0}, title{": Stylus Ink Colour"}, description{"(color) colour of the drawing in the stylus mode"}};
     number page_refresh = 1000;
 
     
@@ -265,9 +277,10 @@ private:
     bool is_touching = false;
     int terrain_loaded = 0; // 0: no, 1: mono, 4: color
     
+    bool setup_finished = false;
 
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
-    attribute<symbol> note_name{ this, "log_name", "UntitledTerrainMap", title{"Saving Name"}, category{"Saving"}};
+    attribute<symbol> note_name{ this, "log_name", "UntitledTerrainMap", title{": Saving Name"}};
     
     bool is_refreshing_page = false;
 
@@ -294,42 +307,40 @@ public:
     MIN_RELATED{ "nn.terrain, nn~, nn.terrain.encode, nn.terrain.record, play~" };
 
     inlet<>     m_input_sig { this, "(signal) trajectory position to play (in ms)" };
+    inlet<>     m_input_sig2 { this, "(signal) trajectory position to play (in ms)" };
     
-    outlet<>    m_output_sig1{ this, "(signal) Control signal 1", "signal" };
-    outlet<>    m_output_sig2{ this, "(signal) Control signal 2", "signal" };
+    outlet<>    m_output_sig1x{ this, "(signal) Control signal 1 x", "signal" };
+    outlet<>    m_output_sig1y{ this, "(signal) Control signal 1 y", "signal" };
+    outlet<>    m_output_sig2x{ this, "(signal) Control signal 2 x", "signal" };
+    outlet<>    m_output_sig2y{ this, "(signal) Control signal 2 y", "signal" };
+    
+//    outlet<>    m_outlet_main{ this, "message_name, event_type, is_command_key_down, is_shift_key_down" };
     outlet<>    m_traj_len_all{ this, "(list) Total times of each trajectory (msec)", "list"};
+    
     outlet<>    m_traj_len{ this, "(float) Total time of the selected trajectory (msec)", "number" };
+    
     outlet<>    m_traj_end{ this, "(int) Index of the trajectory when the playhead reach its end (1-based index).", "int" };
+    
     outlet<>    m_outlet_pen{ this, "(float) Mouse/pen events: x, y, pen_pressure (if using a stylus)" };
+//    outlet<>    m_outlet_points_count{ this, "(int) number of points counted from all trajectories" };
+//    outlet<>    m_outlet_status{ this, "(message) logging information" };
     outlet<>    m_outlet_strokes{ this, "(dictionary) x,y coordinates from trajectories", "dictionary"};
     
     bool out_of_zone_banged = false;
     bool out_of_zone = false;
     
+    bool out_of_zone_banged2 = false;
+    bool out_of_zone2 = false;
+    
     message<> dspsetup {this, "dspsetup",
         MIN_FUNCTION {
             ms_to_distance = samplerate()/m_in_ratio*0.001*traj_density;
             dist_to_ms = m_in_ratio/(0.001f*samplerate()*traj_density);
-//            cout << "dist_to_ms: " << dist_to_ms << endl;
-            for (int i = 0; i < m_plays.size(); ++i) {
-                const auto& traj {m_plays[i]};
-                traj->ms = 0.0f;
-                for (segment_info *seg : traj->segments){
-                    seg->distance = sqrt(pow(seg->x_end - seg->x_start, 2) + pow(seg->y_end - seg->y_start, 2));
-                    seg->ms = seg->distance * dist_to_ms;
-                    traj->ms += seg->ms;
-                }
-                traj_len_ms[play_traj_ptr] = traj->ms;
-                if (i == play_traj_ptr){
-                    m_traj_len.send(traj->ms);
-                }
-                m_traj_len_all.send(traj_len_ms);
-            }
            return {};
        }
     };
     
-    attribute<symbol> external_path{ this, "saving_path", "none", title{"Saving Path"}, category{"Saving"}, setter{ MIN_FUNCTION{
+    attribute<symbol> external_path{ this, "saving_path", "none", title{": Saving Path"}, setter{ MIN_FUNCTION{
         if (args[0] == "none") {
             symbol min_path_this = min_devkit_path();
             return { min_path_this };
@@ -367,18 +378,58 @@ public:
                 cerr << "no trajectory available" << endl;
                 return {};
             }
-            if (static_cast<int>(args[0]) <= 0 || static_cast<int>(args[0]) > m_plays.size()){
+            if (static_cast<int>(args[0]) < 0 || static_cast<int>(args[0]) > m_plays.size()){
                 cerr << "selected trajectory index should be in the range [1, " << m_plays.size() << "]" << endl;
                 return {};
             }
             selected_traj = static_cast<int>(args[0]) - 1;
             
             process_vec_now = true;
-            const auto& traj {m_plays[selected_traj]};
-            
             traj_to_refresh = true;
             
-            m_traj_len.send(traj->ms);
+            if (selected_traj == -1){
+                m_traj_len.send("selected1", 0.0f);
+                return {};
+            }
+            
+            const auto& traj {m_plays[selected_traj]};
+            m_traj_len.send("selected1", traj->ms);
+            
+            return {};
+        }
+    };
+    int selected_traj2 = 0;
+    message<> m_selected_traj2 { this, "setselected2",
+        "Set the selected trajectory (using 1-based index)",
+        MIN_FUNCTION {
+            if (args.size() != 1){
+                cerr << "args size " << args.size() << " error, args size should be 1" << endl;
+                return {};
+            }
+            if (args[0].a_type != 1){
+                cerr << "args type should be int" << endl;
+                return {};
+            }
+            if (m_plays.empty()){
+                cerr << "no trajectory available" << endl;
+                return {};
+            }
+            if (static_cast<int>(args[0]) < 0 || static_cast<int>(args[0]) > m_plays.size()){
+                cerr << "selected trajectory index should be in the range [1, " << m_plays.size() << "]" << endl;
+                return {};
+            }
+            selected_traj2 = static_cast<int>(args[0]) - 1;
+            
+            process_vec_now = true;
+            traj_to_refresh = true;
+            
+            if (selected_traj2 == -1){
+                m_traj_len.send("selected2", 0.0f);
+                return {};
+            }
+            
+            const auto& traj {m_plays[selected_traj2]};
+            m_traj_len.send("selected2",traj->ms);
             
             return {};
         }
@@ -392,8 +443,12 @@ public:
                 cwarn << "Defining length of audio samples only works in audio dataset mode" << endl;
                 return {};
             }
+            if (m_task != tasks::dataset){
+                return {};
+            }
             latent_lens.clear();
             traj_len_ms.clear();
+            
             for (auto i = 0; i < args.size(); ++i) {
                 latent_lens.push_back(ms_to_lt(args[i]));
                 if (i < m_trajs.size()){
@@ -402,9 +457,6 @@ public:
                     traj->completed = traj->filled_latents >= latent_lens[i];
                 }
             }
-            const vector<atom> traj_len_ms_num(latent_lens.begin(), latent_lens.end());
-            latent_len_attr.set(traj_len_ms_num);
-            
             if (m_trajs.size() > args.size()){
                 for (auto i = args.size(); i < m_trajs.size(); ++i){
                     const auto& traj {m_trajs[i]};
@@ -436,9 +488,6 @@ public:
                 traj_len_ms.push_back(traj->ms);
                 traj->completed = traj->filled_latents >= latent_lens.back();
             }
-            const vector<atom> traj_len_ms_num(latent_lens.begin(), latent_lens.end());
-            latent_len_attr.set(traj_len_ms_num);
-            
             traj_to_refresh = true;
             return {};
         }
@@ -449,6 +498,9 @@ public:
         MIN_FUNCTION {
             if (m_mode != modes::audio){
                 cwarn << "Defining length of audio samples only works in audio dataset mode" << endl;
+                return {};
+            }
+            if (m_task != tasks::dataset){
                 return {};
             }
             latent_lens.clear();
@@ -467,10 +519,6 @@ public:
                     traj->completed = false;
                 }
             }
-            
-            const vector<atom> traj_len_ms_num(latent_lens.begin(), latent_lens.end());
-            latent_len_attr.set(traj_len_ms_num);
-            
             traj_to_refresh = true;
             return {};
         }
@@ -508,7 +556,9 @@ public:
                     
                     symbol skey{"0"};
                     
+                    
                     if (!c74::max::dictionary_entryisdictionary(terrain_dict.m_instance, skey)){
+//                        cout << "terrain is mono" << endl;
                         terrain_canvas.clear();
                         for (int y = 0; y < count; y++){
                             vector<float> canvas_line;
@@ -551,7 +601,9 @@ public:
                         terrain_loaded = 4;
                     }
                     
+//                    cout << "terrain loaded width: " << canvas_width << endl;
                     m_terrain.redraw(canvas_width, canvas_height);
+                    
                     show_terrain = true;
                     
                 } else if (key_str == "anchors"){
@@ -565,6 +617,9 @@ public:
                         if (keys){
                             c74::max::dictionary_freekeys(d.m_instance, numkeys, keys);
                         }
+                        selected_traj = 0;
+                        selected_traj2 = 0;
+//                        cout << "No anchors found in the dictionary" << endl;
                         return {};
                     }
                     traj_len_ms.clear();
@@ -582,8 +637,8 @@ public:
                         float traj_ms = 0.0f;
                         int filled_latents = 1;
                         for (int j = 0; j < anchor_x.size()-1; j++){
-                            number distance = sqrt(pow(static_cast<double>(anchor_x[j+1])-static_cast<double>(anchor_x[j]), 2) + pow(static_cast<double>(anchor_y[j+1])-static_cast<double>(anchor_y[j]), 2));
-                            float ms = static_cast<double>(distance * dist_to_ms);
+                            number distance = sqrt(pow(static_cast<float>(anchor_x[j+1])-static_cast<float>(anchor_x[j]), 2) + pow(static_cast<float>(anchor_y[j+1])-static_cast<float>(anchor_y[j]), 2));
+                            float ms = static_cast<float>(distance * dist_to_ms);
                             new_segments.push_back(new segment_info{
                                 anchor_x[j], anchor_y[j], anchor_x[j+1], anchor_y[j+1],
                                 distance,
@@ -595,7 +650,7 @@ public:
                         }
                         if (m_task == tasks::dataset && m_mode == modes::audio){
                             if (latent_lens.size() > i){
-                                bool completed = latent_lens[i] < filled_latents;
+                                bool completed = latent_lens[i] <= filled_latents;
                                 type_traj.push_back(new traj_info{ new_segments, 0, filled_latents, traj_ms, completed });
                             } else {
                                 type_traj.push_back(new traj_info{ new_segments, 0, filled_latents, traj_ms, false });
@@ -610,8 +665,16 @@ public:
                     }
                     
                     if (m_task == tasks::play) {
+                        if (selected_traj >= m_plays.size()){
+                            selected_traj = m_plays.size() - 1;
+                        }
+                        if (selected_traj2 >= m_plays.size()){
+                            selected_traj2 = m_plays.size() - 1;
+                        }
+                        
                         m_traj_len_all.send(traj_len_ms);
                     }
+                    
                 }
             }
             
@@ -623,38 +686,22 @@ public:
     };
     
     atoms traj_len_ms;
-    attribute<std::vector<int>> latent_len_attr{ this, "latent_length", {1}, title{"Latent Length"}, description{"(list) Number of latents in each trajectory"}, setter{ MIN_FUNCTION{
-        if (m_mode != modes::audio){
-            cwarn << "Defining length of audio samples only works in audio dataset mode" << endl;
-            return {args};
-        }
-        latent_lens.clear();
-        traj_len_ms.clear();
-        for (auto i = 0; i < args.size(); ++i) {
-            latent_lens.push_back(args[i]);
-            if (i < m_trajs.size()){
-                const auto& traj {m_trajs[i]};
-                traj_len_ms.push_back(traj->ms);
-                traj->completed = traj->filled_latents >= latent_lens[i];
-            }
-        }
-        
-        if (m_trajs.size() > args.size()){
-            for (auto i = args.size(); i < m_trajs.size(); ++i){
-                const auto& traj {m_trajs[i]};
-                traj->completed = false;
-            }
-        }
-        traj_to_refresh = true;
-        return {args};
-    }} };
-    
     
     number prev_x = 0.0f;
     number prev_y = 0.0f;
     number prev_p = 0.0f;
     symbol prev_phase = "none";
     void send(symbol message_name, const event& e) {
+//        symbol event_type;
+//        if (e.type() == event::input_type::mouse)
+//            event_type = c74::max::gensym("mouse");
+//        else if (e.type() == event::input_type::touch)
+//            event_type = c74::max::gensym("touch");
+//        else if (e.type() == event::input_type::pen)
+//            event_type = c74::max::gensym("pen");
+//        else
+//            event_type = c74::max::gensym("unknown");
+//        
         if (prev_x == e.x() && prev_y == e.y() && prev_p == e.pen_pressure() && prev_phase == message_name){
             return;
         } else {
@@ -1120,6 +1167,7 @@ public:
             if (ei.phase == "drag" || continue_dragging){
                 if (play_traj_ptr >= 0 && play_traj_ptr < m_plays.size()){
                     const auto& traj {m_plays[play_traj_ptr]};
+                    
                     traj->ms = 0.0f;
                     for (int i = 0; i < traj->segments.size(); i++){
                         const auto& seg {traj->segments[i]};
@@ -1162,7 +1210,10 @@ public:
                     }
                     traj_len_ms[play_traj_ptr] = traj->ms;
                     if (selected_traj == play_traj_ptr){
-                        m_traj_len.send(traj->ms);
+                        m_traj_len.send("selected1", traj->ms);
+                    }
+                    if (selected_traj2 == play_traj_ptr){
+                        m_traj_len.send("selected2", traj->ms);
                     }
                     
                     traj_to_refresh = true;
@@ -1189,10 +1240,15 @@ public:
                     }
                     traj_len_ms[play_traj_ptr] = traj->ms;
                     if (selected_traj == play_traj_ptr){
-                        m_traj_len.send(traj->ms);
+                        m_traj_len.send("selected1", traj->ms);
                     }
+                    if (selected_traj2 == play_traj_ptr){
+                        m_traj_len.send("selected2", traj->ms);
+                    }
+//                    m_outlet_strokes.send("dictionary",coordinates_dict.name());
                     dump_strokes(m_task, true);
                     m_traj_len_all.send(traj_len_ms);
+//                    cout << "len: " << traj_len_ms.size() << endl;
                     return;
                 }
                 
@@ -1256,6 +1312,8 @@ public:
             m_pen.clear_history();
             traj_ptr = 0;
             clear_trajs(m_task, m_mode);
+            selected_traj = 0;
+            selected_traj2 = 0;
             if (m_mode == modes::points && m_task == tasks::dataset){
                 m_points.clear();
             }
@@ -1283,6 +1341,7 @@ public:
         MIN_FUNCTION {
             is_touching = false;
             send("up", args);
+//            cout << "mouseup" << endl;
             return {};
         }
     };
@@ -1313,7 +1372,6 @@ public:
             min_dict achor_point_dict = {};
             atoms anchor_x = {};
             atoms anchor_y = {};
-            
             
             for (int z(0); z < 2 ; z++){
                 atoms result = {};
@@ -1519,7 +1577,13 @@ public:
         for (int i(0); i < m_plays.size(); i++) {
             const auto& traj {m_plays[i]};
             numbers text_position;
-            color cc = i == selected_traj ? playing_selected : playing_standby;
+//            color cc = (i == selected_traj) || (i == selected_traj2) ? playing_selected : playing_standby;
+            color cc = playing_standby;
+            if (i == selected_traj){
+                cc = playing_selected;
+            } else if (i == selected_traj2){
+                cc = playing_alter;
+            }
             color c_fade = color{cc.red()*0.8, cc.green()*0.8, cc.blue()*0.8, cc.alpha()};
             bool hovered = false;
             for (int j(0); j < traj->segments.size(); j++) {
@@ -1617,9 +1681,9 @@ public:
             }
             if (m_task == tasks::dataset){
                 if (stylus_to_refresh || traj_to_refresh) {
-                    for (int y(0); y < floor(canvas_height/20);y++){
-                        for (int x(0); x < floor(canvas_width/20);x++){
-                            rect<fill>{t, color{ 0.5, 0.5, 0.5, 1.0 }, position{ 15+x*20, 15+y*20 }, size{ 1.0, 1.0 }};
+                    for (int y(0); y < floor(canvas_height/grid_spacing);y++){
+                        for (int x(0); x < floor(canvas_width/grid_spacing);x++){
+                            rect<fill>{t, grid_colour.get(), position{ grid_spacing*0.75+x*grid_spacing, grid_spacing*0.75+y*grid_spacing }, size{ 1.0, 1.0 }};
                         }
                     }
                 }
@@ -1649,7 +1713,7 @@ public:
                 m_pen.draw_surface(t, t.width(), t.height());
             }
             if (m_task == tasks::stylus){
-                return {};
+//                return {};
             }
             
             if (m_task == tasks::dataset) {
@@ -1663,15 +1727,24 @@ public:
             numbers playheads_xy = ftoi(playheads[0], playheads[1]);
             ellipse<stroke> {
                 t,
-                color{ 0.976, 0.737, 0.255, 1.0 },
+                playing_selected.get(),
                 position{ playheads_xy[0] - 8, playheads_xy[1] - 8 },
                 size{ 16, 16 }
             };
+            
+            numbers playheads2_xy = ftoi(playheads2[0], playheads2[1]);
+            ellipse<stroke> {
+                t,
+                playing_alter.get(),
+                position{ playheads2_xy[0] - 8, playheads2_xy[1] - 8 },
+                size{ 16, 16 }
+            };
+            
             return {};
         }
     };
     
-    attribute<number,threadsafe::undefined,limit::clamp> m_display_rate{ this, "interval", 43.4, description{"The rate at which the display is updated."}, title{"Update Interval in Milliseconds"}, range{20, 100}, category{"Appearance"}
+    attribute<number,threadsafe::undefined,limit::clamp> m_display_rate{ this, "interval", 43.4, description{"The rate at which the display is updated."}, title{": Update Interval in Milliseconds"}, range{20, 100}
     };
     
     timer<timer_options::defer_delivery> m_redraw_timer { this,
@@ -1684,10 +1757,16 @@ public:
     timer<timer_options::defer_delivery> m_playhead_timer { this,
         MIN_FUNCTION {
             if (out_of_zone && !out_of_zone_banged){
-                m_traj_end.send(selected_traj+1);
+                m_traj_end.send("selected1", selected_traj+1);
                 out_of_zone_banged = true;
             } else if (!out_of_zone && out_of_zone_banged){
                 out_of_zone_banged = false;
+            }
+            if (out_of_zone2 && !out_of_zone_banged2){
+                m_traj_end.send("selected2", selected_traj2+1);
+                out_of_zone_banged2 = true;
+            } else if (!out_of_zone2 && out_of_zone_banged2){
+                out_of_zone_banged2 = false;
             }
             m_playhead_timer.delay(5);
             return {};
@@ -1705,52 +1784,41 @@ public:
         
         if (m_in_buffer[0].full() || process_vec_now) {
             
-//            float play = m_in_buffer[0].get_no_pop();
             float play = *input.samples(0);
+            float play2 = *input.samples(1);
+            update_playheads(play, play2);
             
-            update_playheads(play);
-            
-//            std::fill(x_values.get(), x_values.get() + vec_size, playheads[0]);
-//            std::fill(y_values.get(), y_values.get() + vec_size, playheads[1]);
-//            m_out_buffer[0].put(x_values.get(), vec_size);
-//            m_out_buffer[1].put(y_values.get(), vec_size);
             process_vec_now = false;
             m_in_buffer[0].reset();
         }
         
-        
-        for (int c(0); c < output.channel_count(); c++) {
+        for (int c(0); c < 2; c++) {
             auto out = output.samples(c);
             std::fill(out, out + vec_size, playheads[c]);
-//            std::fill(out, out + vec_size, playheads[1]);
-//            auto out = output.samples(c);
-//            m_out_buffer[c].get(out, vec_size);
+        }
+        for (int c2(2); c2 < 4; c2++) {
+            auto out2 = output.samples(c2);
+//            cout << c2 << ": " << playheads2[c2-2] << endl;
+            std::fill(out2, out2 + vec_size, playheads2[c2-2]);
         }
     }
     
-    bool update_playheads(float p){
-        const auto& traj {m_plays[selected_traj]};
-        if (traj->segments.empty()){
-            return false;
-        }
-        // we can't do any outlet-sending in the audio thread
-//        if (p > traj->ms && !playhead_end_banged){
-////            m_traj_end.send(selected_traj);
-//            playhead_end_banged = true;
-//        } else if (p < traj->ms && playhead_end_banged){
-//            playhead_end_banged = false;
-//        }
-        if (p >= traj->ms && traj->ms > 0.0f){
-            out_of_zone = true;
-        } else {
-            out_of_zone = false;
-        }
+    bool update_playheads(float p, float p2){
         
-        p = fmax(0.0f, fmin(p, traj->ms));
-        float played_distance = p * ms_to_distance;
-        for (segment_info* seg : traj->segments) {
-//            if (seg->completed){
-//                float dist = seg->distance == 0.0f ? 0.0001f : seg->distance;
+        if (selected_traj >= 0 && selected_traj < m_plays.size()){
+            const auto& traj {m_plays[selected_traj]};
+            if (traj->segments.empty()) {
+                return false;
+            }
+            if (p >= traj->ms && traj->ms > 0.0f){
+                out_of_zone = true;
+            } else {
+                out_of_zone = false;
+            }
+            p = fmax(0.0f, fmin(p, traj->ms));
+            float played_distance = p * ms_to_distance;
+            
+            for (segment_info* seg : traj->segments) {
                 float dist = seg->distance;
                 if (played_distance > dist){
                     played_distance -= dist;
@@ -1758,29 +1826,51 @@ public:
                     dist = dist==0.0f ? 0.0001f : dist;
                     playheads[0] = seg->x_start + played_distance / dist * (seg->x_end - seg->x_start);
                     playheads[1] = seg->y_start + played_distance / dist * (seg->y_end - seg->y_start);
-                    return true;
+                    break;
                 }
-//            }
+            }
         }
         
-        return false;
+        if (selected_traj2 >= 0 && selected_traj2 < m_plays.size()){
+            const auto& traj2 {m_plays[selected_traj2]};
+            if (traj2->segments.empty()) {
+                return false;
+            }
+            if (p2 >= traj2->ms && traj2->ms > 0.0f){
+                out_of_zone2 = true;
+            } else {
+                out_of_zone2 = false;
+            }
+            p2 = fmax(0.0f, fmin(p2, traj2->ms));
+            float played_distance2 = p2 * ms_to_distance;
+            
+            for (segment_info* seg : traj2->segments) {
+                float dist = seg->distance;
+                if (played_distance2 > dist){
+                    played_distance2 -= dist;
+                } else {
+                    dist = dist==0.0f ? 0.0001f : dist;
+                    playheads2[0] = seg->x_start + played_distance2 / dist * (seg->x_end - seg->x_start);
+                    playheads2[1] = seg->y_start + played_distance2 / dist * (seg->y_end - seg->y_start);
+                    break;
+                }
+            }
+        }
+        return true;
     }
 };
 stylus::stylus(const atoms& args) : ui_operator::ui_operator {this, args} {
 //    cout << min_devkit_path() << endl;
 //    external_path = min_devkit_path();
 //    cout << "hi2" << endl;
-    m_in_buffer = std::make_unique<circular_buffer<double, float>[]>(1);
-    for (int i(0); i < 1; i++) {
+    m_in_buffer = std::make_unique<circular_buffer<double, float>[]>(2);
+    for (int i(0); i < 2; i++) {
       m_in_buffer[i].initialize(m_buffer_size); //2048
     }
-    m_out_buffer = std::make_unique<circular_buffer<float, double>[]>(2);
-    for (int i(0); i < 2; i++) {
+    m_out_buffer = std::make_unique<circular_buffer<float, double>[]>(4);
+    for (int i(0); i < 4; i++) {
         m_out_buffer[i].initialize(m_buffer_size);
     }
-    
-//    x_values = std::make_unique<float[]>(m_buffer_size);
-//    y_values = std::make_unique<float[]>(m_buffer_size);
     
     m_redraw_timer.delay(1000);
     m_playhead_timer.delay(1000);
@@ -1789,11 +1879,12 @@ stylus::stylus(const atoms& args) : ui_operator::ui_operator {this, args} {
     playheads[0] = -32.0f;
     playheads[1] = -32.0f;
     
-//    canvas_width = _sym_patching_rect;
-//    canvas_height = _sym_patching_rect;
-//    canvas_width = t.width();
+    playheads2 = std::make_unique<float[]>(2);
+    playheads2[0] = -32.0f;
+    playheads2[1] = -32.0f;
     
-//    cout << "width: " << c74::max::_common_symbols->s_patching_rect << endl;
+    setup_finished = true;
+    
 }
 
 stylus::~stylus() {
@@ -1863,11 +1954,12 @@ void stylus::clear_trajs(tasks t, modes m){
             traj->filled_latents = 1;
         }
         type_traj.clear();
-//        traj_len_ms.clear();
-//        latent_lens.clear();
+        traj_len_ms.clear();
+        latent_lens.clear();
         traj_ptr = 0;
     } else if (t == tasks::play){
-        selected_traj = 0;
+//        selected_traj = 0;
+//        selected_traj2 = 0;
         for (auto i = 0; i < m_plays.size(); i++) {
             const auto& traj {m_plays[i]};
             for (auto j = 0; j < traj->segments.size(); j++) {
@@ -1880,7 +1972,7 @@ void stylus::clear_trajs(tasks t, modes m){
         traj_len_ms.clear();
 //        m_traj_sel.send(selected_traj+1);
         m_traj_len.send(0.0f);
-        m_traj_len_all.send(traj_len_ms);
+//        m_traj_len_all.send(traj_len_ms);
     }
 }
 
