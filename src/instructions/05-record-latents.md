@@ -10,3 +10,8 @@ eleventyNavigation:
 date: git Last Modified
 tocEnabled: false
 ---
+
+
+Recording training data for a terrain with 3 continuous control channels, for an autoencoder with 64 latent dimensions.
+
+

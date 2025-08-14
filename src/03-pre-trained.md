@@ -11,7 +11,7 @@ date: git Last Modified
 ---
 
 Make sure to have both:
-* an **autoencoder** (typically a `.ts` file)
+* an **autoencoder** (a `.ts` file)
 * a **terrain** model (a `.pt` file).
 
 
