@@ -344,7 +344,7 @@
                                 <span ws-nowrap="sm,md">
                                     
                                     Last modified
-                                    2025-08-01
+                                    2025-08-14
                                 </span>
                             </p>
                         
@@ -373,7 +373,39 @@
                 </aside>
             
             </noscript>
-            <aside class="widget widget-embed">
+            <p>Loading a terrain with 2 continuous control channels, navigating an autoencoder with 4 latent dimensions.</p>
+
+                        <h2 id="what-we-need" pl-9="xs,sm">
+                            <a href="#what-we-need" title="What we need" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                                <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
+                            </a>
+                    What we need</h2>
+<ul>
+<li>Make sure to have <code>nn.terrain</code> package and <code>nn~</code> installed correctly, see <a href="/nn_terrain/installation">Download and Installation</a> for this.</li>
+<li>Make sure to grab an <strong>autoencoder</strong> (a <code>.ts</code> file) and a <strong>terrain</strong> model (a <code>.pt</code> file) from <a href="/nn_terrain/pre-trained">Pre-Trained Terrains (Presets)</a>.</li>
+</ul>
+
+                        <h2 id="synopsis" pl-9="xs,sm">
+                            <a href="#synopsis" title="Synopsis" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                                <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
+                            </a>
+                    Synopsis</h2>
+<figure class="wide">
+    <picture class="eleventy-image"><source type="image/avif" srcset="/nn_terrain/instructions/load-terrain/load-pretrained-1-DLOHf9NtcV-__730__.avif 730w, /nn_terrain/instructions/load-terrain/load-pretrained-1-DLOHf9NtcV-__1400__.avif 1400w, /nn_terrain/instructions/load-terrain/load-pretrained-1-DLOHf9NtcV-__2592__.avif 2592w" sizes="auto"><img loading="lazy" decoding="async" src="/nn_terrain/instructions/load-terrain/load-pretrained-1-DLOHf9NtcV-__730__.webp" alt="Trajectories" width="2592" height="1668" srcset="/nn_terrain/instructions/load-terrain/load-pretrained-1-DLOHf9NtcV-__730__.webp 730w, /nn_terrain/instructions/load-terrain/load-pretrained-1-DLOHf9NtcV-__1400__.webp 1400w, /nn_terrain/instructions/load-terrain/load-pretrained-1-DLOHf9NtcV-__2592__.webp 2592w" sizes="auto"></picture>
+    <figcaption>
+        Example can be found in the help file of `nn.terrain`.
+    </figcaption>
+</figure>
+<p>This tutorial guides you through:</p>
+<ul>
+<li>A brief introduction of an autoencoder and latent terrain,</li>
+<li>Loading a pre-trained terrain in MaxMSP,</li>
+<li>Adding an XY pad to control the navigation in the terrain,</li>
+<li>Visualising latent vectors (via multisliders),</li>
+<li>Visualising the terrain (rendering a surface map).</li>
+</ul>
+<p>Video:</p>
+<aside class="widget widget-embed">
 <iframe src="https://www.youtube-nocookie.com/embed/l97QXTctZuU?controls=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" loading="lazy" allowfullscreen=""></iframe>
 </aside>
 

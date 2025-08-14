@@ -344,7 +344,7 @@
                                 <span ws-nowrap="sm,md">
                                     
                                     Last modified
-                                    2025-08-01
+                                    2025-08-14
                                 </span>
                             </p>
                         
@@ -373,7 +373,8 @@
                 </aside>
             
             </noscript>
-            
+            <p>Building a terrain with 2 continuous control channels, for an autoencoder with 4 latent dimensions.</p>
+
                         <h2 id="what-we-need" pl-9="xs,sm">
                             <a href="#what-we-need" title="What we need" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
                                 <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
@@ -390,13 +391,34 @@
 </ul>
 </li>
 </ul>
-<p>A terrain is a <strong>supervised machine learning</strong> model that learns this coordiantes-to-latents pairs, so that it can produce new latent vectors given any coordiantes in the control space.</p>
+<p>A terrain is a <strong>supervised machine learning</strong> model that learns this coordiantes-to-latents pairs, to produce new latent vectors given any coordiantes in the control space, so that the control space can be rendered as a &quot;map&quot; for the latent space.</p>
 <figure>
     <picture class="eleventy-image"><source type="image/avif" srcset="/nn_terrain/instructions/build-terrain/latent-coord-pairs-vPsqcaaOo2-__730__.avif 730w, /nn_terrain/instructions/build-terrain/latent-coord-pairs-vPsqcaaOo2-__1400__.avif 1400w, /nn_terrain/instructions/build-terrain/latent-coord-pairs-vPsqcaaOo2-__2546__.avif 2546w" sizes="auto"><img loading="lazy" decoding="async" src="/nn_terrain/instructions/build-terrain/latent-coord-pairs-vPsqcaaOo2-__730__.webp" alt="Trajectories" width="2546" height="1586" srcset="/nn_terrain/instructions/build-terrain/latent-coord-pairs-vPsqcaaOo2-__730__.webp 730w, /nn_terrain/instructions/build-terrain/latent-coord-pairs-vPsqcaaOo2-__1400__.webp 1400w, /nn_terrain/instructions/build-terrain/latent-coord-pairs-vPsqcaaOo2-__2546__.webp 2546w" sizes="auto"></picture>
     <figcaption>
         Latent trajectories, spatial trajectories, and latent terrain.
     </figcaption>
 </figure>
+
+                        <h2 id="synopsis" pl-9="xs,sm">
+                            <a href="#synopsis" title="Synopsis" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
+                                <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
+                            </a>
+                    Synopsis</h2>
+<p>This tutorial guides you through:</p>
+<ul>
+<li>Creating an empty terrain with customised number of inputs, outputs.</li>
+<li>Gathering <strong>latent trajectories</strong> from audio buffers, using <code>nn.terrain.encode</code>.</li>
+<li>Plotting 2D <strong>spatial trajectories</strong> in <code>nn.terrain.gui</code> with customised length.</li>
+<li>Training the empty terrain with latent and spatial trajectories.
+<ul>
+<li>Setting up training dataset</li>
+<li>Monitoring the training loss</li>
+<li>Visualising terrain on-the-fly</li>
+<li>Saving checkpoints</li>
+</ul>
+</li>
+</ul>
+
             <footer class="minh-100vh">
                 <div class="pt-11 | blwidth-1 blstyle-dashed bcolor-neutral-500"></div>
                 <nav class="d-flex ai-center rgap-7 | blwidth-1 blstyle-dashed bcolor-neutral-500" fw-wrap="xs">
