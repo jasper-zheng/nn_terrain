@@ -1019,12 +1019,19 @@ public:
                     continue_dragging = false;
                     return;
                 }
-                vector<segment_info *> new_segments;
-                new_segments.push_back(new segment_info{ ei.X, ei.Y, ei.X, ei.Y, 0, 0.0f, false });
-                m_points.push_back(new traj_info{ new_segments, 0, 1, 0.0f, false });
-                traj_ptr = m_points.size()-1;
-                traj_to_refresh = true;
-                return;
+                cc = check_click(ei.X, ei.Y);
+                if (cc.traj_idx == -1){
+                    vector<segment_info *> new_segments;
+                    new_segments.push_back(new segment_info{ ei.X, ei.Y, ei.X, ei.Y, 0, 0.0f, false });
+                    m_points.push_back(new traj_info{ new_segments, 0, 1, 0.0f, false });
+                    traj_ptr = m_points.size()-1;
+                    traj_to_refresh = true;
+                    return;
+                } else {
+                    traj_ptr = cc.traj_idx;
+                    traj_to_refresh = true;
+                    return;
+                }
             }
             if (ei.phase == "drag" || continue_dragging){
                 if (traj_ptr >= 0 && traj_ptr < m_points.size()){
