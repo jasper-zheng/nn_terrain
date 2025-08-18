@@ -11,11 +11,12 @@ date: git Last Modified
 tocEnabled: false
 ---
 
-Building a terrain with 2 continuous control channels, for an autoencoder with 4 latent dimensions.
+An object `nn.terrain~ 2 4` creates an **empty** terrain with 2 control channels and 4 latent channels.  
+This video introduces building a terrain with 2 continuous control channels, for an autoencoder with 4 latent dimensions.
 
 ## What we need
 
-To built a terrain from scratch, we need pairs of **latent trajectories** and **spatial trajectories**.  
+To build a terrain from scratch, we need a training dataset: pairs of **latent trajectories** and **spatial trajectories**.  
 
 * **Latent trajectories** are sequences of latent vectors encoded from audio buffers.
 * **Spatial trajectories** are sequences of coordiantes in a control space. For instance:
@@ -36,6 +37,15 @@ A terrain is a **supervised machine learning** model that learns this coordiante
 
 ## Synopsis  
 
+
+<figure class="wide">
+    <img src="../../assets/training.png"
+        alt="Trajectories">
+    <figcaption>
+        Example can be found in the help file of `nn.terrain`.
+    </figcaption>
+</figure>
+
 This tutorial guides you through: 
 
 * Creating an empty terrain with customised number of inputs, outputs.  
@@ -46,3 +56,9 @@ This tutorial guides you through:
   * Monitoring the training loss
   * Visualising terrain on-the-fly
   * Saving checkpoints
+
+
+Video: 
+{{ 'https://www.youtube-nocookie.com/embed/pAWJsSA4ZKQ?controls=1' | embed }}
+
+

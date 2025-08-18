@@ -11,7 +11,7 @@ date: git Last Modified
 tocEnabled: false
 ---
 
-Loading a terrain with 2 continuous control channels, navigating an autoencoder with 4 latent dimensions.
+This video introduces loading a terrain with 2 continuous control channels, navigating an autoencoder with 4 latent dimensions.
 
 ## What we need
 
@@ -38,3 +38,5 @@ This tutorial guides you through:
 
 Video: 
 {{ 'https://www.youtube-nocookie.com/embed/l97QXTctZuU?controls=1' | embed }}
+
+

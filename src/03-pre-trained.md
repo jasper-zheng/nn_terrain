@@ -23,7 +23,7 @@ Download from RAVE official repository [percussion.ts](https://acids-ircam.githu
 
 * **Terrain**: [percussion-terrain-demo.pt](https://github.com/jasper-zheng/nn_terrain/raw/refs/heads/main/pre-trained/percussion-terrain-demo.pt)<br>
 **Config**: 2 inputs 4 outputs, range: `-16, -4, 16, 4`<br>
-<img class="damier" src="https://github.com/jasper-zheng/nn_terrain/blob/main/pre-trained/percussion-terrain-demo.png?raw=true" alt="Trajectories">
+<img class="damier" src="https://github.com/jasper-zheng/nn_terrain/blob/main/pre-trained/percussion-terrain-demo.png?raw=true" alt="percussion-terrain-demo">
 
 
 
