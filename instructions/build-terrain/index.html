@@ -344,7 +344,7 @@
                                 <span ws-nowrap="sm,md">
                                     
                                     Last modified
-                                    2025-08-14
+                                    2025-08-18
                                 </span>
                             </p>
                         
@@ -373,14 +373,15 @@
                 </aside>
             
             </noscript>
-            <p>Building a terrain with 2 continuous control channels, for an autoencoder with 4 latent dimensions.</p>
+            <p>An object <code>nn.terrain~ 2 4</code> creates an <strong>empty</strong> terrain with 2 control channels and 4 latent channels.<br>
+This video introduces building a terrain with 2 continuous control channels, for an autoencoder with 4 latent dimensions.</p>
 
                         <h2 id="what-we-need" pl-9="xs,sm">
                             <a href="#what-we-need" title="What we need" class="pos-absolute top-50 left-0 t-tY-50 | p-4 ml-1 | td-none | brad-4 bc-neutral-100 bwidth-1 bstyle-dashed bcolor-neutral-500 __hover-1 __soft-shadow" ml-3="xs,sm">
                                 <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
                             </a>
                     What we need</h2>
-<p>To built a terrain from scratch, we need pairs of <strong>latent trajectories</strong> and <strong>spatial trajectories</strong>.</p>
+<p>To build a terrain from scratch, we need a training dataset: pairs of <strong>latent trajectories</strong> and <strong>spatial trajectories</strong>.</p>
 <ul>
 <li><strong>Latent trajectories</strong> are sequences of latent vectors encoded from audio buffers.</li>
 <li><strong>Spatial trajectories</strong> are sequences of coordiantes in a control space. For instance:
@@ -404,6 +405,12 @@
                                 <span class="icon-link-simple | pos-absolute top-50 left-50 t-tY-50 t-tX-50 | fs-4"></span>
                             </a>
                     Synopsis</h2>
+<figure class="wide">
+    <picture class="eleventy-image"><source type="image/avif" srcset="/nn_terrain/instructions/build-terrain/training-vIB5nycY6J-__730__.avif 730w, /nn_terrain/instructions/build-terrain/training-vIB5nycY6J-__1400__.avif 1400w, /nn_terrain/instructions/build-terrain/training-vIB5nycY6J-__2634__.avif 2634w" sizes="auto"><img loading="lazy" decoding="async" src="/nn_terrain/instructions/build-terrain/training-vIB5nycY6J-__730__.webp" alt="Trajectories" width="2634" height="1690" srcset="/nn_terrain/instructions/build-terrain/training-vIB5nycY6J-__730__.webp 730w, /nn_terrain/instructions/build-terrain/training-vIB5nycY6J-__1400__.webp 1400w, /nn_terrain/instructions/build-terrain/training-vIB5nycY6J-__2634__.webp 2634w" sizes="auto"></picture>
+    <figcaption>
+        Example can be found in the help file of `nn.terrain`.
+    </figcaption>
+</figure>
 <p>This tutorial guides you through:</p>
 <ul>
 <li>Creating an empty terrain with customised number of inputs, outputs.</li>
@@ -418,6 +425,10 @@
 </ul>
 </li>
 </ul>
+<p>Video:</p>
+<aside class="widget widget-embed">
+<iframe src="https://www.youtube-nocookie.com/embed/pAWJsSA4ZKQ?controls=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" loading="lazy" allowfullscreen=""></iframe>
+</aside>
 
             <footer class="minh-100vh">
                 <div class="pt-11 | blwidth-1 blstyle-dashed bcolor-neutral-500"></div>

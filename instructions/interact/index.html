@@ -7,7 +7,7 @@
     
 
     <meta itemprop="name" content="Composing and interacting with a terrain">
-    <meta name="description" itemprop="description" content="Feeling like using some already built terrains? They can be used as presets.">
+    <meta name="description" itemprop="description" content="Programming trajectories in a 2D terrain.">
     <meta name="application-name" content="Composing and interacting with a terrain">
     <meta name="author" content="Jasper Shuoyang Zheng">
     <link rel="icon" type="image/png" href="/nn_terrain/assets/myfavicon.png">
@@ -21,13 +21,13 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="/instructions/interact/">
     <meta property="og:title" content="Composing and interacting with a terrain">
-    <meta property="og:description" content="Feeling like using some already built terrains? They can be used as presets.">
+    <meta property="og:description" content="Programming trajectories in a 2D terrain.">
     <meta property="og:image" content="https://github.com/jasper-zheng/nn_terrain/blob/pages/assets/open-graphic.jpg?raw=true">
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Composing and interacting with a terrain">
-    <meta name="twitter:description" content="Feeling like using some already built terrains? They can be used as presets.">
+    <meta name="twitter:description" content="Programming trajectories in a 2D terrain.">
     <meta name="twitter:url" content="/instructions/interact/">
     <meta name="twitter:image" content="https://github.com/jasper-zheng/nn_terrain/blob/pages/assets/open-graphic.jpg?raw=true">
     
@@ -331,7 +331,7 @@
                 </h1>
                 
                     <p class="d-flex ai-center fw-wrap gap-2 | pt-5 pl-5 pb-5 m-0 | fvs-wght-400 tws-balance fs-7 lsp-3 lh-5 | blwidth-1 blstyle-dashed bcolor-neutral-500" pt-3="xs" pb-3="xs" fs-6="sm" fs-5="xs">
-                        Feeling like using some already built terrains? They can be used as presets.
+                        Programming trajectories in a 2D terrain.
                     </p>
                 
                 
@@ -344,7 +344,7 @@
                                 <span ws-nowrap="sm,md">
                                     
                                     Last modified
-                                    2025-08-14
+                                    2025-08-18
                                 </span>
                             </p>
                         
@@ -373,7 +373,12 @@
                 </aside>
             
             </noscript>
-            
+            <p>The <code>play</code> mode of <code>nn.terrain.gui</code> offers position-based trajectory playback, which is similar to the <code>play~</code> object in Max - plays back latent trajectories based on an offset within the trajectory.</p>
+<p>It can be used with any signal that generates a positional value in milliseconds (e.g., the <code>line~</code> object).</p>
+<p><img src="/nn_terrain/instructions/interact/play-i4lODGeVOq-__450__.webp" width="450" alt="Playback" loading="lazy" decoding="async" height="545"></p>
+<p><strong>Please see the help file of <code>nn.terrain.gui</code> in Max for details:</strong></p>
+<p><picture class="eleventy-image"><source type="image/avif" srcset="/nn_terrain/instructions/interact/gui-y-MfiXnvvA-__730__.avif 730w, /nn_terrain/instructions/interact/gui-y-MfiXnvvA-__1400__.avif 1400w, /nn_terrain/instructions/interact/gui-y-MfiXnvvA-__2546__.avif 2546w" sizes="auto"><img loading="lazy" decoding="async" src="/nn_terrain/instructions/interact/gui-y-MfiXnvvA-__730__.webp" alt="Playback" width="2546" height="1630" srcset="/nn_terrain/instructions/interact/gui-y-MfiXnvvA-__730__.webp 730w, /nn_terrain/instructions/interact/gui-y-MfiXnvvA-__1400__.webp 1400w, /nn_terrain/instructions/interact/gui-y-MfiXnvvA-__2546__.webp 2546w" sizes="auto"></picture></p>
+
             <footer class="minh-100vh">
                 <div class="pt-11 | blwidth-1 blstyle-dashed bcolor-neutral-500"></div>
                 <nav class="d-flex ai-center rgap-7 | blwidth-1 blstyle-dashed bcolor-neutral-500" fw-wrap="xs">

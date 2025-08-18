@@ -36,7 +36,7 @@
                 {
                     "url": "/nn_terrain/instructions/load-terrain/",
                     "title": "Using pre-trained terrains",
-                    "content": "Feeling like using some already built terrains? They can be loaded like presets.  Loading a terrain with 2 continuous control channels, navigating an autoencoder with 4 latent dimensions.What we needMake sure to have nn.terrain package and nn~ installed correctly, see Download and Installation for this.Make sure to grab an autoencoder (a .ts file) and a terrain model (a .pt file) from Pre-Trained Terrains (Presets).Synopsis Example can be found in the help file of `nn.terrain`. This tutorial guides you through:A brief introduction of an autoencoder and latent terrain,Loading a pre-trained terrain in MaxMSP,Adding an XY pad to control the navigation in the terrain,Visualising latent vectors (via multisliders),Visualising the terrain (rendering a surface map).Video:"
+                    "content": "Feeling like using some already built terrains? They can be loaded like presets.  This video introduces loading a terrain with 2 continuous control channels, navigating an autoencoder with 4 latent dimensions.What we needMake sure to have nn.terrain package and nn~ installed correctly, see Download and Installation for this.Make sure to grab an autoencoder (a .ts file) and a terrain model (a .pt file) from Pre-Trained Terrains (Presets).Synopsis Example can be found in the help file of `nn.terrain`. This tutorial guides you through:A brief introduction of an autoencoder and latent terrain,Loading a pre-trained terrain in MaxMSP,Adding an XY pad to control the navigation in the terrain,Visualising latent vectors (via multisliders),Visualising the terrain (rendering a surface map).Video:"
                 },
                 {
                     "url": "/nn_terrain/instructions/visualisation/",
@@ -46,7 +46,7 @@
                 {
                     "url": "/nn_terrain/instructions/build-terrain/",
                     "title": "Building terrains from scratch",
-                    "content": "Instructions on building and training a customised terrain using supervised machine learning.  Building a terrain with 2 continuous control channels, for an autoencoder with 4 latent dimensions.What we needTo built a terrain from scratch, we need pairs of latent trajectories and spatial trajectories.Latent trajectories are sequences of latent vectors encoded from audio buffers.Spatial trajectories are sequences of coordiantes in a control space. For instance:Trajectory of mouse in an XY track padTrajectory of hand gestures in an XYZ 3D spaceTimestamps in a timeline playback systemA terrain is a supervised machine learning model that learns this coordiantes-to-latents pairs, to produce new latent vectors given any coordiantes in the control space, so that the control space can be rendered as a &amp;quot;map&amp;quot; for the latent space. Latent trajectories, spatial trajectories, and latent terrain. SynopsisThis tutorial guides you through:Creating an empty terrain with customised number of inputs, outputs.Gathering latent trajectories from audio buffers, using nn.terrain.encode.Plotting 2D spatial trajectories in nn.terrain.gui with customised length.Training the empty terrain with latent and spatial trajectories.Setting up training datasetMonitoring the training lossVisualising terrain on-the-flySaving checkpoints"
+                    "content": "Instructions on building and training a customised terrain using supervised machine learning.  An object nn.terrain~ 2 4 creates an empty terrain with 2 control channels and 4 latent channels.This video introduces building a terrain with 2 continuous control channels, for an autoencoder with 4 latent dimensions.What we needTo build a terrain from scratch, we need a training dataset: pairs of latent trajectories and spatial trajectories.Latent trajectories are sequences of latent vectors encoded from audio buffers.Spatial trajectories are sequences of coordiantes in a control space. For instance:Trajectory of mouse in an XY track padTrajectory of hand gestures in an XYZ 3D spaceTimestamps in a timeline playback systemA terrain is a supervised machine learning model that learns this coordiantes-to-latents pairs, to produce new latent vectors given any coordiantes in the control space, so that the control space can be rendered as a &amp;quot;map&amp;quot; for the latent space. Latent trajectories, spatial trajectories, and latent terrain. Synopsis Example can be found in the help file of `nn.terrain`. This tutorial guides you through:Creating an empty terrain with customised number of inputs, outputs.Gathering latent trajectories from audio buffers, using nn.terrain.encode.Plotting 2D spatial trajectories in nn.terrain.gui with customised length.Training the empty terrain with latent and spatial trajectories.Setting up training datasetMonitoring the training lossVisualising terrain on-the-flySaving checkpointsVideo:"
                 },
                 {
                     "url": "/nn_terrain/instructions/record-latents/",
@@ -56,7 +56,7 @@
                 {
                     "url": "/nn_terrain/instructions/interact/",
                     "title": "Composing and interacting with a terrain",
-                    "content": "Feeling like using some already built terrains? They can be used as presets.  "
+                    "content": "Programming trajectories in a 2D terrain.  The play mode of nn.terrain.gui offers position-based trajectory playback, which is similar to the play~ object in Max - plays back latent trajectories based on an offset within the trajectory.It can be used with any signal that generates a positional value in milliseconds (e.g., the line~ object).Please see the help file of nn.terrain.gui in Max for details:"
                 },
                 {
                     "url": "/nn_terrain/posts/hello-post/",
@@ -71,7 +71,7 @@
                 {
                     "url": "/nn_terrain/posts/",
                     "title": "./core/libdoc_blog.liquid",
-                    "content": "  2025-08-14 Jasper Shuoyang Zheng Nothing to tutor at the moment The first blog post 1"
+                    "content": "  2025-08-18 Jasper Shuoyang Zheng Nothing to tutor at the moment The first blog post 1"
                 },
                 {
                     "url": "/nn_terrain/tags/",
