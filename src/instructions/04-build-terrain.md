@@ -11,8 +11,7 @@ date: git Last Modified
 tocEnabled: false
 ---
 
-An object `nn.terrain~ 2 4` creates an **empty** terrain with 2 control channels and 4 latent channels.  
-This video introduces building a terrain with 2 continuous control channels, for an autoencoder with 4 latent dimensions.
+An object `nn.terrain~ 2 4` creates an **empty** terrain with 2 control channels and 4 latent channels. The video tutorial introduces creating training dataset for building `nn.terrain~ 2 4`.
 
 ## What we need
 
