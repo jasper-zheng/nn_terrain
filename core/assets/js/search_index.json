@@ -41,17 +41,17 @@
                 {
                     "url": "/nn_terrain/instructions/visualisation/",
                     "title": "Creating visualisations",
-                    "content": "Given a terrain with 2D inputs, we can visualise it as a map.  Looking at a terrain from above, we&#39;ll get a greyscale surface map, where brighter pixels denote higher latent value."
+                    "content": "Given a terrain with 2D inputs, we can visualise it as a map.  Since the control space is 2D, the latent space can be visualised by sampling the control space across a closed interval (i.e., width and height in this example). Use the plot_interval message to do this:plot_interval for 2D plane takes 6 arguments:interval value boundary at the left, top, right, bottom (these usually are the same as the values_bound attribute of nn.terrain.gui), and the resolution of the x and y axes (these usually are the same as the width and height of nn.terrain.gui)The greyscale visualisation is like a surface map that looks at a terrain from above, where brighter pixels denote higher latent value."
                 },
                 {
                     "url": "/nn_terrain/instructions/build-terrain/",
                     "title": "Building terrains from scratch",
-                    "content": "Instructions on building and training a customised terrain using supervised machine learning.  An object nn.terrain~ 2 4 creates an empty terrain with 2 control channels and 4 latent channels.This video introduces building a terrain with 2 continuous control channels, for an autoencoder with 4 latent dimensions.What we needTo build a terrain from scratch, we need a training dataset: pairs of latent trajectories and spatial trajectories.Latent trajectories are sequences of latent vectors encoded from audio buffers.Spatial trajectories are sequences of coordiantes in a control space. For instance:Trajectory of mouse in an XY track padTrajectory of hand gestures in an XYZ 3D spaceTimestamps in a timeline playback systemA terrain is a supervised machine learning model that learns this coordiantes-to-latents pairs, to produce new latent vectors given any coordiantes in the control space, so that the control space can be rendered as a &amp;quot;map&amp;quot; for the latent space. Latent trajectories, spatial trajectories, and latent terrain. Synopsis Example can be found in the help file of `nn.terrain`. This tutorial guides you through:Creating an empty terrain with customised number of inputs, outputs.Gathering latent trajectories from audio buffers, using nn.terrain.encode.Plotting 2D spatial trajectories in nn.terrain.gui with customised length.Training the empty terrain with latent and spatial trajectories.Setting up training datasetMonitoring the training lossVisualising terrain on-the-flySaving checkpointsVideo:"
+                    "content": "Instructions on building and training a customised terrain using supervised machine learning.  An object nn.terrain~ 2 4 creates an empty terrain with 2 control channels and 4 latent channels. The video tutorial introduces creating training dataset for building nn.terrain~ 2 4.What we needTo build a terrain from scratch, we need a training dataset: pairs of latent trajectories and spatial trajectories.Latent trajectories are sequences of latent vectors encoded from audio buffers.Spatial trajectories are sequences of coordiantes in a control space. For instance:Trajectory of mouse in an XY track padTrajectory of hand gestures in an XYZ 3D spaceTimestamps in a timeline playback systemA terrain is a supervised machine learning model that learns this coordiantes-to-latents pairs, to produce new latent vectors given any coordiantes in the control space, so that the control space can be rendered as a &amp;quot;map&amp;quot; for the latent space. Latent trajectories, spatial trajectories, and latent terrain. Synopsis Example can be found in the help file of `nn.terrain`. This tutorial guides you through:Creating an empty terrain with customised number of inputs, outputs.Gathering latent trajectories from audio buffers, using nn.terrain.encode.Plotting 2D spatial trajectories in nn.terrain.gui with customised length.Training the empty terrain with latent and spatial trajectories.Setting up training datasetMonitoring the training lossVisualising terrain on-the-flySaving checkpointsVideo:"
                 },
                 {
                     "url": "/nn_terrain/instructions/record-latents/",
-                    "title": "Recording latent trajectories",
-                    "content": "Feeling like using some already built terrains? They can be used as presets.  Recording training data for a terrain with 3 continuous control channels, for an autoencoder with 64 latent dimensions."
+                    "title": "Recording trajectories",
+                    "content": "Recording latents or spatial trajectories as training dataset to build a terrain.  The nn.terrain.record object is a recorder that record multichannel signal as dictionary dataset. The recorded dictionary can be used to build a latent terrain.The video tutorial covers building a terrain in a 3D control space, for an autoencoder (music2latent)Synopsis Example can be found in the help file of `nn.terrain.record`. This tutorial guides you through:Creating an empty terrain with 3 inputs, 64 outputs,Scripting patch cords (i.e., adding all cords in one click),Recording latent trajectory with an encoder, from an audio buffer,Recording spatial trajectory from three sliders,Training the terrain.Video:"
                 },
                 {
                     "url": "/nn_terrain/instructions/interact/",
@@ -71,7 +71,7 @@
                 {
                     "url": "/nn_terrain/posts/",
                     "title": "./core/libdoc_blog.liquid",
-                    "content": "  2025-08-18 Jasper Shuoyang Zheng Nothing to tutor at the moment The first blog post 1"
+                    "content": "  2025-08-23 Jasper Shuoyang Zheng Nothing to tutor at the moment The first blog post 1"
                 },
                 {
                     "url": "/nn_terrain/tags/",

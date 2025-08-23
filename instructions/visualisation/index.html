@@ -344,7 +344,7 @@
                                 <span ws-nowrap="sm,md">
                                     
                                     Last modified
-                                    2025-08-18
+                                    2025-08-23
                                 </span>
                             </p>
                         
@@ -373,7 +373,13 @@
                 </aside>
             
             </noscript>
-            <p>Looking at a terrain from above, we'll get a greyscale surface map, where brighter pixels denote higher latent value.</p>
+            <p>Since the control space is 2D, the latent space can be visualised by sampling the control space across a closed interval (i.e., width and height in this example). Use the <code>plot_interval</code> message to do this:</p>
+<ul>
+<li><code>plot_interval</code> for 2D plane takes 6 arguments:</li>
+<li>interval value boundary at the left, top, right, bottom (these usually are the same as the <code>values_bound</code> attribute of <code>nn.terrain.gui</code>), and the resolution of the x and y axes (these usually are the same as the width and height of <code>nn.terrain.gui</code>)
+<picture class="eleventy-image"><source type="image/avif" srcset="/nn_terrain/instructions/visualisation/plot-fjiBQglLv_-__730__.avif 730w, /nn_terrain/instructions/visualisation/plot-fjiBQglLv_-__1400__.avif 1400w, /nn_terrain/instructions/visualisation/plot-fjiBQglLv_-__1782__.avif 1782w" sizes="auto"><img loading="lazy" decoding="async" src="/nn_terrain/instructions/visualisation/plot-fjiBQglLv_-__730__.webp" alt="Trajectories" width="1782" height="1066" srcset="/nn_terrain/instructions/visualisation/plot-fjiBQglLv_-__730__.webp 730w, /nn_terrain/instructions/visualisation/plot-fjiBQglLv_-__1400__.webp 1400w, /nn_terrain/instructions/visualisation/plot-fjiBQglLv_-__1782__.webp 1782w" sizes="auto"></picture></li>
+</ul>
+<p>The greyscale visualisation is like a surface map that looks at a terrain from above, where brighter pixels denote higher latent value.</p>
 
             <footer class="minh-100vh">
                 <div class="pt-11 | blwidth-1 blstyle-dashed bcolor-neutral-500"></div>
