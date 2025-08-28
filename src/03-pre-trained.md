@@ -31,3 +31,9 @@ Download from RAVE official repository [percussion.ts](https://acids-ircam.githu
 ### Autoencoder: Music2Latent-Scripted
 Original model is the work by Marco Pasini at SonyCSLParis.  
 Scripted model can be downloaded from [music2latent.ts](https://github.com/jasper-zheng/music2latent-scripted.git).
+
+
+* **Terrain**: [m2l-demo.pt](https://github.com/jasper-zheng/nn_terrain/raw/refs/heads/main/pre-trained/m2l-demo.pt) (the one used in the demo video)<br>
+**Training data from**: Stem from an EDM [track](https://on.soundcloud.com/t9Paat88x6amyOIs1G) I made under the name Alaska Winter.<br>
+**Config**: 2 inputs 4 outputs, range: `-16, -4, 16, 4`<br>
+<img class="damier" src="https://github.com/jasper-zheng/nn_terrain/blob/main/pre-trained/m2l-demo.png?raw=true" alt="m2l-demo">

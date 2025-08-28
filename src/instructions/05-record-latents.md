@@ -14,7 +14,7 @@ tocEnabled: false
 The `nn.terrain.record` object is a recorder that record multichannel signal as dictionary dataset. The recorded dictionary can be used to [build a latent terrain](../build-terrain).
 
 
-The video tutorial covers building a terrain in a 3D control space, for an autoencoder ([music2latent](https://github.com/jasper-zheng/music2latent-scripted.git))
+The video tutorial covers building a terrain in a 3D control space, for an autoencoder ([music2latent](https://github.com/jasper-zheng/music2latent-scripted.git)). The exported `music2latent.ts` can be found
 
 ## Synopsis  
 
