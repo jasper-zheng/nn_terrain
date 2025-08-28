@@ -16,7 +16,7 @@
                 {
                     "url": "/nn_terrain/pre-trained/",
                     "title": "Pre-Trained Terrains (Presets)",
-                    "content": "Some already built terrains to get started with.  Make sure to have both:an autoencoder (a .ts file)a terrain model (a .pt file).Autoencoder: Percussion - RAVE v1Pre-trained autoencoder author: Antoine CaillonDownload from RAVE official repository percussion.ts.Terrain: percussion-terrain-demo.ptConfig: 2 inputs 4 outputs, range: -16, -4, 16, 4Autoencoder: Music2Latent-ScriptedOriginal model is the work by Marco Pasini at SonyCSLParis.Scripted model can be downloaded from music2latent.ts."
+                    "content": "Some already built terrains to get started with.  Make sure to have both:an autoencoder (a .ts file)a terrain model (a .pt file).Autoencoder: Percussion - RAVE v1Pre-trained autoencoder author: Antoine CaillonDownload from RAVE official repository percussion.ts.Terrain: percussion-terrain-demo.ptConfig: 2 inputs 4 outputs, range: -16, -4, 16, 4Autoencoder: Music2Latent-ScriptedOriginal model is the work by Marco Pasini at SonyCSLParis.Scripted model can be downloaded from music2latent.ts.Terrain: m2l-demo.pt (the one used in the demo video)Training data from: Stem from an EDM track I made under the name Alaska Winter.Config: 2 inputs 4 outputs, range: -16, -4, 16, 4"
                 },
                 {
                     "url": "/nn_terrain/compile/",
@@ -51,7 +51,7 @@
                 {
                     "url": "/nn_terrain/instructions/record-latents/",
                     "title": "Recording trajectories",
-                    "content": "Recording latents or spatial trajectories as training dataset to build a terrain.  The nn.terrain.record object is a recorder that record multichannel signal as dictionary dataset. The recorded dictionary can be used to build a latent terrain.The video tutorial covers building a terrain in a 3D control space, for an autoencoder (music2latent)Synopsis Example can be found in the help file of `nn.terrain.record`. This tutorial guides you through:Creating an empty terrain with 3 inputs, 64 outputs,Scripting patch cords (i.e., adding all cords in one click),Recording latent trajectory with an encoder, from an audio buffer,Recording spatial trajectory from three sliders,Training the terrain.Video:"
+                    "content": "Recording latents or spatial trajectories as training dataset to build a terrain.  The nn.terrain.record object is a recorder that record multichannel signal as dictionary dataset. The recorded dictionary can be used to build a latent terrain.The video tutorial covers building a terrain in a 3D control space, for an autoencoder (music2latent). The exported music2latent.ts can be foundSynopsis Example can be found in the help file of `nn.terrain.record`. This tutorial guides you through:Creating an empty terrain with 3 inputs, 64 outputs,Scripting patch cords (i.e., adding all cords in one click),Recording latent trajectory with an encoder, from an audio buffer,Recording spatial trajectory from three sliders,Training the terrain.Video:"
                 },
                 {
                     "url": "/nn_terrain/instructions/interact/",
@@ -71,7 +71,7 @@
                 {
                     "url": "/nn_terrain/posts/",
                     "title": "./core/libdoc_blog.liquid",
-                    "content": "  2025-08-24 Jasper Shuoyang Zheng Nothing to tutor at the moment The first blog post 1"
+                    "content": "  2025-08-28 Jasper Shuoyang Zheng Nothing to tutor at the moment The first blog post 1"
                 },
                 {
                     "url": "/nn_terrain/tags/",
