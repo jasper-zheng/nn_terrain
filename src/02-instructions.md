@@ -9,8 +9,9 @@ eleventyNavigation:
 date: git Last Modified
 ---
 
-<!-- Howdy! I am the first page! Let’s go to [child page](/hello-child.md "Go to hello child").
-
-```markdown
-Howdy! I am the first page! Let’s go to [child page](/hello-child.md "Go to hello child").
-``` -->
+ * [Overview](overview)
+ * [Using Pre-Trained Terrains](load-terrain)
+ * [Creating Visualisations](visualisation)
+ * [Building Terrains from Scratch](build-terrain)
+ * [Recording Latents Trajectories](record-latents)
+ * [Composing and Interacting with Terrains](interact)
