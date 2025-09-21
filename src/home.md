@@ -9,7 +9,7 @@ tocEnabled: false
 {% alert 'MaxMSP externals available [here](https://github.com/jasper-zheng/nn_terrain/releases/tag/v1.5.6), example MaxMSP/Max4Live devices will be available soon.', 'warning', 'News' %}
 
 ## Welcome   
-Latent terrain is a coordinates-to-latents mapping model for neural audio autoencoders (such as [RAVE](https://github.com/acids-ircam/RAVE), [Music2Latent](https://github.com/SonyCSLParis/music2latent)). A terrain is a surface map for the autoencoder's latent space, taking coordinates in a control space as inputs, and producing continuous latent vectors in real-time.
+Latent terrain is a coordinates-to-latents mapping model for neural audio autoencoders (such as [RAVE](https://github.com/acids-ircam/RAVE), [Stable Audio Open (autoencoder)](https://github.com/jasper-zheng/streamable-stable-audio-open.git), [Music2Latent](https://github.com/SonyCSLParis/music2latent)). A terrain is a surface map for the autoencoder's latent space, taking coordinates in a control space as inputs, and producing continuous latent vectors in real-time.
 
 Latent terrain aims to open up the creative possibilities of **latent space navigation**, allowing one to adapt the latent space of an autoencoder to easy-to-navigate interfaces (such as gestural controllers, stylus and tablets, XY-pads, and more), explore it like walking on a terrain surface, and build new musical instruments that compose and interact with AI audio generators.
 
@@ -30,6 +30,7 @@ Latent terrain can work with any [audio autoencoder](https://github.com/acids-ir
 
 * [RAVE](https://github.com/acids-ircam/RAVE) <br>Realtime Audio Variational autoEncoder for fast and high-quality neural audio synthesis, by Antoine Caillon and Philippe Esling.   
 * [Music2Latent-Scripted](https://github.com/jasper-zheng/music2latent-scripted) <br>Music2Latent is a Consistency Autoencoder to encode and decode audio samples, by Marco Pasini, Stefan Lattner, and George Fazekas. We're using a scripted fork of the original repository.   
+* [Stable Audio Open 1.0 (autoencoder)](https://github.com/jasper-zheng/streamable-stable-audio-open.git) <br>**[Will be supported by nn.terrain Oct-2025 version]** The pretransform audoencoder in Stable Audio Open 1.0 (not the text-to-audio diffusion model, only the audoencoder).
 
 We plan to test the following model in the future:  
 * [FlowDec](https://github.com/facebookresearch/FlowDec)

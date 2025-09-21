@@ -37,3 +37,8 @@ Scripted model can be downloaded from [music2latent.ts](https://github.com/jaspe
 **Training data from**: Stem from an EDM [track](https://on.soundcloud.com/t9Paat88x6amyOIs1G) I made under the name Alaska Winter.<br>
 **Config**: 2 inputs 4 outputs, range: `-16, -4, 16, 4`<br>
 <img class="damier" src="https://github.com/jasper-zheng/nn_terrain/blob/main/pre-trained/m2l-demo.png?raw=true" alt="m2l-demo">
+
+### Autoencoder: Stable Audio Open 1.0  
+Pre-trained model by Stability AI.  
+A streamable scripted version for realtime continuous inference in MaxMSP: [jasper-zheng/streamable-stable-audio-open](https://github.com/jasper-zheng/streamable-stable-audio-open.git).
+
