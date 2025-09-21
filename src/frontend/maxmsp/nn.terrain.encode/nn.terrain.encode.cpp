@@ -32,7 +32,7 @@ class nn_terrain : public object<nn_terrain>{
 public:
     MIN_DESCRIPTION{"Encoding audio buffers to latent vectors with neural audio autoencoder"};
     MIN_AUTHOR{"Jasper Shuoyang Zheng"};
-    MIN_RELATED        { "nn.terrain, nn.terrain.record, nn~, nn.terrain.gui" };
+    MIN_RELATED        { "nn.terrain~, nn.terrain.record, nn~, nn.terrain.gui" };
 
     inlet<>    append_inlet      { this, "(append) Append buffers to the buffer pool", "message"};
     
@@ -94,7 +94,7 @@ public:
 
     int latent_dim = 8;
     
-    attribute<int,threadsafe::undefined,limit::clamp> batch_size{ this, "encoder_batch_size", 64, description{"batch size used when encoding audio buffers"}, range{{16, 256}} };
+    attribute<int,threadsafe::undefined,limit::clamp> batch_size{ this, "encoder_batch_size", 16, description{"batch size used when encoding audio buffers"}, range{{8, 256}} };
     
   // BOOT STAMP
   message<> maxclass_setup{
@@ -257,13 +257,19 @@ public:
                         cerr << "buffer " << i << " is empty" << endl;
                         continue;
                     }
+                    if (b.channel_count() < m_in_dim){
+                        cerr << "buffer " << i << " has less channels than model input dimension, skipping" << endl;
+                        continue;
+                    }
                     vector<float> buffer_data;
-                    for (int j(0); j < b.frame_count(); j++){
-                        float buffer_data_p = b.lookup(j, 0);
-                        buffer_data.push_back(buffer_data_p);
+                    for (int c(0); c < m_in_dim; c++){
+                        for (int j(0); j < b.frame_count(); j++){
+                            float buffer_data_p = b.lookup(j, c);
+                            buffer_data.push_back(buffer_data_p);
+                        }
                     }
                     
-                    at::Tensor buffer_tensor = torch::from_blob(buffer_data.data(), {1, 1, static_cast<long long>(b.frame_count())}, torch::kFloat);
+                    at::Tensor buffer_tensor = torch::from_blob(buffer_data.data(), {1, m_in_dim, static_cast<long long>(b.frame_count())}, torch::kFloat);
                     buffer_tensor = buffer_tensor.clone();
                     
                     // if buffer size is not divisible by m_out_ratio (2048), pad with zeros at the end
@@ -271,7 +277,7 @@ public:
                     latent_lens.push_back(
                         std::ceil(static_cast<float>(b.frame_count()) / static_cast<float>(m_out_ratio))
                     );
-                    at::Tensor zero_fill = torch::zeros({1,1,zeros});
+                    at::Tensor zero_fill = torch::zeros({1,m_in_dim,zeros});
                     buffer_tensor = torch::cat({buffer_tensor, zero_fill}, 2);
                     tensor_in.push_back(buffer_tensor);
                     valid_buffers+= 1;
@@ -284,23 +290,27 @@ public:
                 cerr << "no valid buffers found" << endl;
                 return {};
             }
-            auto cat_tensor_in = torch::cat(tensor_in, 2); // -> [1, 1, num_samples]
+            auto cat_tensor_in = torch::cat(tensor_in, 2); // -> [1, 2, num_samples]
             
             // batching, in case the buffers are too long:
             at::Tensor cat_tensor_in_trim, cat_tensor_in_left;
             try{
-                float leftover = cat_tensor_in.size(2) % (m_out_ratio*batch_size);
+                int chunk_size = m_out_ratio*batch_size;
+                float leftover = cat_tensor_in.size(2) % (chunk_size);
                 float trim = cat_tensor_in.size(2) - leftover;
-                
                 cat_tensor_in_trim = cat_tensor_in.index({Slice(None), Slice(None), Slice(None, trim) });
-                cat_tensor_in_trim = cat_tensor_in_trim.reshape({-1,1,(m_out_ratio*batch_size)});
+                cat_tensor_in_trim = cat_tensor_in_trim.squeeze(0).unfold(1, chunk_size, chunk_size).permute({1,0,2}); // -> [num_chunks, m_in_dim, chunk_size]
+                
+//                cat_tensor_in_trim = cat_tensor_in_trim.reshape({-1, m_in_dim, (m_out_ratio*batch_size)});
                 cat_tensor_in_left = cat_tensor_in.index({Slice(None), Slice(None), Slice(trim, None)});
             } catch (const std::exception &e) {
                 cerr << e.what() << endl;
                 return {};
             }
             
-            // forward pass:
+//            cout << cat_tensor_in_trim.sizes() << endl;
+//            cout << cat_tensor_in_left.sizes() << endl;
+//            return {};
             std::vector<at::Tensor> tensor_out_trim;
             at::Tensor cat_tensor_out;
 //            return {};
@@ -317,24 +327,32 @@ public:
                     tensor_out = tensor_out.index({0}).permute({1,0}).to(torch::kCPU);
                     tensor_out_trim.push_back(tensor_out);
                 }
-                cat_tensor_in_left = cat_tensor_in_left.to(m_model->m_device);
-                std::vector<torch::jit::IValue> inputs_left = {cat_tensor_in_left};
-                at::Tensor tensor_out_left = m_model->m_model.get_method(e_method)(inputs_left).toTensor();
-                tensor_out_left = tensor_out_left.index({0}).permute({1,0}).to(torch::kCPU);
-                tensor_out_trim.push_back(tensor_out_left);
-                
+                if (cat_tensor_in_left.size(2) != 0){
+                    cat_tensor_in_left = cat_tensor_in_left.to(m_model->m_device);
+                    std::vector<torch::jit::IValue> inputs_left = {cat_tensor_in_left};
+                    at::Tensor tensor_out_left = m_model->m_model.get_method(e_method)(inputs_left).toTensor();
+                    tensor_out_left = tensor_out_left.index({0}).permute({1,0}).to(torch::kCPU);
+                    tensor_out_trim.push_back(tensor_out_left);
+                }
                 cat_tensor_out = torch::cat(tensor_out_trim, 0);
                 
                 model_lock.unlock();
             } catch (const std::exception &e) {
                 std::string str = e.what();
-                if (str.size() > 1000) {
+                int batches = std::ceil(str.size()/1000.0);
+                for (int i(0); i < batches; i++){
+                    if (str.size() > 1000) {
+                        std::string display = str.substr(0, 1000);
                         str.erase(0, 1000);
+                        cerr << display << endl;
+                    } else {
+                        cerr << str << endl;
                     }
-                cerr << str << endl;
-                
+                }
+                cerr << "It's likely that encoder_batch_size is too large, please try changing to a smaller buffer size" << endl;
                 return {};
             }
+            
             
             latent_dict.clear();
             

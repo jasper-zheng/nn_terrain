@@ -6,6 +6,10 @@
 #include <stdio.h>
 #include <iostream>
 
+//#include <thread>
+//#include <semaphore>
+//#include <mutex>
+
 #ifdef MAC_VERSION
 #include <ApplicationServices/ApplicationServices.h>
 #endif    // MAC_VERSION
@@ -100,6 +104,14 @@ std::string min_devkit_path() {
 
 class stylus : public object<stylus>, public ui_operator<600, 150>, public vector_operator<> {
 private:
+    
+//    bool m_use_thread{true}, m_should_stop_perform_thread{false};
+//    std::unique_ptr<std::thread> m_render_thread{nullptr};
+//    std::binary_semaphore m_should_render_lock{0};
+//    std::binary_semaphore m_finish_render_lock{0};
+    
+//    static void terrain_render_loop(stylus *st, target t);
+    
     float cursor_x = -21.0f;
     float cursor_y = -21.0f;
     float cursor_p = 0.0f;
@@ -133,7 +145,6 @@ private:
     
     std::unique_ptr<circular_buffer<double, float>[]> m_in_buffer;
     std::unique_ptr<circular_buffer<float, double>[]> m_out_buffer;
-    
     
     std::unique_ptr<float[]> playheads;
     
@@ -241,7 +252,6 @@ private:
     attribute<color> t_rgb { this, "terrain_rgb_h", color{1.0,1.0,1.0,1.0}, description{"terrain colour higher bound"}, title{"Terrain Colour Hi"},category{"Appearance"}};
     attribute<color> b_rgb { this, "terrain_rgb_l", color{0.9,0.75,0.6,0.0}, description{"terrain colour lower bound"}, title{"Terrain Colour Lo"},category{"Appearance"}};
     attribute<bool> show_stylus{ this, "stylus_display", true, description{"(bool)"}, title{"Stylus Display"}, category{"Appearance"}, setter{ MIN_FUNCTION{
-//        redraw();
         return { args[0] };
     }}};
     attribute<int,threadsafe::undefined,limit::clamp> m_buffer_size{ this, "buffer_size", 2048, description{"(int) Buffer size when playing the trajectories. Same values with the terrain and the autoencoder is suggested."}, title{"Buffer Size"}, range{31, 4097}, setter{ MIN_FUNCTION{
@@ -291,7 +301,7 @@ public:
     MIN_DESCRIPTION    { "Graphic User Interface for Latent Terrain Synth" };
     MIN_TAGS        { "dictionary, nn, ui, multitouch" }; // if multitouch tag is defined then multitouch is supported but mousedragdelta is not supported
     MIN_AUTHOR        { "Jasper Shuoyang Zheng" };
-    MIN_RELATED{ "nn.terrain, nn~, nn.terrain.encode, nn.terrain.record, play~" };
+    MIN_RELATED{ "nn.terrain~, nn~, nn.terrain.encode, nn.terrain.record, play~" };
 
     inlet<>     m_input_sig { this, "(signal) trajectory position to play (in ms)" };
     
@@ -310,7 +320,6 @@ public:
         MIN_FUNCTION {
             ms_to_distance = samplerate()/m_in_ratio*0.001*traj_density;
             dist_to_ms = m_in_ratio/(0.001f*samplerate()*traj_density);
-//            cout << "dist_to_ms: " << dist_to_ms << endl;
             for (int i = 0; i < m_plays.size(); ++i) {
                 const auto& traj {m_plays[i]};
                 traj->ms = 0.0f;
@@ -507,13 +516,11 @@ public:
                     float clamp_max = terrain_clamp[1];
                     
                     symbol skey{"0"};
-                    
                     if (!c74::max::dictionary_entryisdictionary(terrain_dict.m_instance, skey)){
                         terrain_canvas.clear();
                         for (int y = 0; y < count; y++){
                             vector<float> canvas_line;
                             atoms latents = terrain_dict[y];
-                            
                             for (int x = 0; x < latents.size(); x++){
                                 float value = static_cast<float>(latents[x]);
                                 canvas_line.push_back(scale(fmin(fmax(value, clamp_min), clamp_max), clamp_min, clamp_max, 0.0f, 1.0f));
@@ -1371,10 +1378,12 @@ public:
         
         m_outlet_strokes.send("dictionary",coordinates_dict.name());
     }
-    terrain m_terrain{ this, 600.0, 150.0, MIN_FUNCTION{
+    terrain m_terrain{ this, 600.0, 150.0, [this](const c74::min::atoms& args, const int inlet) -> c74::min::atoms{
         target t { args };
+//        m_render_thread = std::make_unique<std::thread>(terrain_render_loop, this, t);
+//        terrain_render_loop(this,t);
+//        m_should_render_lock.release();
         if (terrain_loaded==1){
-//            cout << "draw terrain" << t.width() << endl;
             for (int i = 0; i < terrain_canvas.size(); i++) {
                 for (int j = 0; j < terrain_canvas[0].size(); j++) {
                     float v = terrain_canvas[i][j];
@@ -1605,9 +1614,11 @@ public:
             return {};
         }
     };
-    
+    std::mutex t_mutex;
     message<> m_paint{ this, "paint",
         MIN_FUNCTION {
+            std::unique_lock<std::mutex> t_lock(t_mutex);
+            
             target t { args };
             
             if (canvas_width != t.width() || canvas_height != t.height()) {
@@ -1618,7 +1629,9 @@ public:
             }
             
             if (show_terrain) {
-                m_terrain.draw_surface(t, t.width(), t.height());
+//                if(m_finish_render_lock.try_acquire()){
+                    m_terrain.draw_surface(t, t.width(), t.height());
+//                }
             } else {
                 rect<fill>{t, color{ 0.1, 0.1, 0.1, 1.0 }};
             }
@@ -1674,9 +1687,11 @@ public:
                 position{ playheads_xy[0] - 8, playheads_xy[1] - 8 },
                 size{ 16, 16 }
             };
+            t_lock.unlock();
             return {};
         }
     };
+    
     
     attribute<number,threadsafe::undefined,limit::clamp> m_display_rate{ this, "interval", 43.4, description{"The rate at which the display is updated."}, title{"Update Interval in Milliseconds"}, range{20, 100}, category{"Appearance"}
     };
@@ -1684,6 +1699,10 @@ public:
     timer<timer_options::defer_delivery> m_redraw_timer { this,
         MIN_FUNCTION {
             redraw();
+//            if(m_finish_render_lock.try_acquire()){
+//                cout << "thread completed" << endl;
+//                m_render_thread->join();
+//            }
             m_redraw_timer.delay(m_display_rate);
             return {};
         }
@@ -1712,26 +1731,16 @@ public:
         
         if (m_in_buffer[0].full() || process_vec_now) {
             
-//            float play = m_in_buffer[0].get_no_pop();
             float play = *input.samples(0);
             
             update_playheads(play);
             
-//            std::fill(x_values.get(), x_values.get() + vec_size, playheads[0]);
-//            std::fill(y_values.get(), y_values.get() + vec_size, playheads[1]);
-//            m_out_buffer[0].put(x_values.get(), vec_size);
-//            m_out_buffer[1].put(y_values.get(), vec_size);
             process_vec_now = false;
             m_in_buffer[0].reset();
         }
-        
-        
         for (int c(0); c < output.channel_count(); c++) {
             auto out = output.samples(c);
             std::fill(out, out + vec_size, playheads[c]);
-//            std::fill(out, out + vec_size, playheads[1]);
-//            auto out = output.samples(c);
-//            m_out_buffer[c].get(out, vec_size);
         }
     }
     
@@ -1741,12 +1750,6 @@ public:
             return false;
         }
         // we can't do any outlet-sending in the audio thread
-//        if (p > traj->ms && !playhead_end_banged){
-////            m_traj_end.send(selected_traj);
-//            playhead_end_banged = true;
-//        } else if (p < traj->ms && playhead_end_banged){
-//            playhead_end_banged = false;
-//        }
         if (p >= traj->ms && traj->ms > 0.0f){
             out_of_zone = true;
         } else {
@@ -1756,8 +1759,6 @@ public:
         p = fmax(0.0f, fmin(p, traj->ms));
         float played_distance = p * ms_to_distance;
         for (segment_info* seg : traj->segments) {
-//            if (seg->completed){
-//                float dist = seg->distance == 0.0f ? 0.0001f : seg->distance;
                 float dist = seg->distance;
                 if (played_distance > dist){
                     played_distance -= dist;
@@ -1767,16 +1768,14 @@ public:
                     playheads[1] = seg->y_start + played_distance / dist * (seg->y_end - seg->y_start);
                     return true;
                 }
-//            }
         }
-        
         return false;
     }
 };
+
+
 stylus::stylus(const atoms& args) : ui_operator::ui_operator {this, args} {
-//    cout << min_devkit_path() << endl;
-//    external_path = min_devkit_path();
-//    cout << "hi2" << endl;
+    
     m_in_buffer = std::make_unique<circular_buffer<double, float>[]>(1);
     for (int i(0); i < 1; i++) {
       m_in_buffer[i].initialize(m_buffer_size); //2048
@@ -1785,10 +1784,7 @@ stylus::stylus(const atoms& args) : ui_operator::ui_operator {this, args} {
     for (int i(0); i < 2; i++) {
         m_out_buffer[i].initialize(m_buffer_size);
     }
-    
-//    x_values = std::make_unique<float[]>(m_buffer_size);
-//    y_values = std::make_unique<float[]>(m_buffer_size);
-    
+
     m_redraw_timer.delay(1000);
     m_playhead_timer.delay(1000);
     
@@ -1796,11 +1792,6 @@ stylus::stylus(const atoms& args) : ui_operator::ui_operator {this, args} {
     playheads[0] = -32.0f;
     playheads[1] = -32.0f;
     
-//    canvas_width = _sym_patching_rect;
-//    canvas_height = _sym_patching_rect;
-//    canvas_width = t.width();
-    
-//    cout << "width: " << c74::max::_common_symbols->s_patching_rect << endl;
 }
 
 stylus::~stylus() {
@@ -1854,6 +1845,12 @@ stylus::~stylus() {
     m_plays.clear();
     m_redraw_timer.stop();
     m_playhead_timer.stop();
+    
+//    if (m_render_thread){
+//        if (m_render_thread->joinable()){
+//            m_render_thread->join();
+//        }
+//    }
 }
 
 void stylus::clear_trajs(tasks t, modes m){

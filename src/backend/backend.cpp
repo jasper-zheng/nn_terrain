@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stdlib.h>
 
+
 #define CPU torch::kCPU
 #define CUDA torch::kCUDA
 #define MPS torch::kMPS
@@ -402,23 +403,24 @@ void Backend::use_gpu(bool value) {
 }
 
 void FCPPN::use_gpu(bool value) {
-  std::unique_lock<std::mutex> model_lock(m_model_mutex);
-  if (value) {
-    if (torch::hasCUDA()) {
-      std::cout << "sending model to cuda" << std::endl;
-      m_device = CUDA;
-    } else if (torch::hasMPS()) {
-      std::cout << "sending model to mps" << std::endl;
-      m_device = MPS;
+    std::unique_lock<std::mutex> model_lock(m_model_mutex);
+    if (value) {
+        if (torch::hasCUDA()) {
+          std::cout << "sending model to cuda" << std::endl;
+          m_device = CUDA;
+        } else if (torch::hasMPS()) {
+          std::cout << "sending model to mps" << std::endl;
+          m_device = MPS;
+        } else {
+          std::cout << "sending model to cpu" << std::endl;
+          m_device = CPU;
+        }
     } else {
-      std::cout << "sending model to cpu" << std::endl;
-      m_device = CPU;
+        m_device = CPU;
     }
-  } else {
-    m_device = CPU;
-  }
-  m_model->to(m_device);
-//    model_lock.unlock();
+    m_model->to(m_device);
+    sample_tensor = sample_tensor.to(m_device);
+    model_lock.unlock();
 }
 
 bool FCPPN::save(std::string save_path, std::string save_name, int m_in_dim, int m_out_dim,
@@ -450,5 +452,40 @@ bool FCPPN::save(std::string save_path, std::string save_name, int m_in_dim, int
     }
 }
 
+void FCPPN::init_optimizer(float lr) {
+    optimizer.reset();
+    optimizer = std::make_unique<torch::optim::Adam>(m_model->parameters(), lr);
+    optimizer_init = true;
+}
 
-
+float FCPPN::train_for(int epoch){
+    std::unique_lock<std::mutex> model_lock(m_model_mutex);
+    m_model->train();
+    size_t batch_count = 0;
+    float loss_log = 0.0;
+    for (int i(0); i < epoch; i++){
+        for (auto& batch : *data_loader) {
+            optimizer->zero_grad();
+            torch::Tensor batch_data = batch.data.to(m_device);
+            torch::Tensor prediction = m_model->forward(batch_data);
+            
+            torch::Tensor batch_target = batch.target.to(m_device);
+            
+            torch::Tensor loss = torch::mse_loss(prediction, batch_target).to(m_device);
+            loss.backward();
+            
+            optimizer->step();
+            
+            loss_log += loss.to(torch::kCPU).item<float>();
+            
+            batch_count++;
+        }
+    }
+    m_model->eval();
+    model_lock.unlock();
+    if (batch_count == 0){
+        throw std::runtime_error("no batches were found for training");
+    }
+    loss_log /= batch_count;
+    return loss_log;
+}
