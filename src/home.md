@@ -6,7 +6,7 @@ permalink: index.html
 date: git Last Modified
 tocEnabled: false
 ---
-{% alert 'New MaxMSP externals available here: [v1.5.6.1-oct2025](https://github.com/jasper-zheng/nn_terrain/releases/tag/v1.5.6.1-oct2025), supported [stable-audio-open-1.0 autoencoder](https://github.com/jasper-zheng/streamable-stable-audio-open), example MaxMSP/Max4Live devices will be available soon.', 'warning', 'News' %}
+{% alert 'New MaxMSP externals updates: [v1.5.6.1-oct2025](https://github.com/jasper-zheng/nn_terrain/releases/tag/v1.5.6.1-oct2025), which added support for [stable-audio-open-1.0 autoencoder](https://github.com/jasper-zheng/streamable-stable-audio-open), example MaxMSP/Max4Live devices will be available soon.', 'warning', 'News' %}
 
 ## Welcome   
 Latent terrain is a coordinates-to-latents mapping model for neural audio autoencoders (such as [RAVE](https://github.com/acids-ircam/RAVE), [Stable Audio Open (autoencoder)](https://github.com/jasper-zheng/streamable-stable-audio-open.git), [Music2Latent](https://github.com/SonyCSLParis/music2latent)). A terrain is a surface map for the autoencoder's latent space, taking coordinates in a control space as inputs, and producing continuous latent vectors in real-time.
