@@ -165,7 +165,7 @@ public:
         }
     };
     
-    message<> m_sample_interval {this, "plot_interval", "Sample the terrain across a closed interval to plot into the GUI, only 2D interval dimension is supported at the moment.   <br /><br />Args:  <br />1D [not implemented]: lo, hi, resolution;  <br />2D: values at left, top, right, bottom, x_resolution, y_resolution, color_channel (optional, default 1)",
+    message<> m_sample_interval {this, "plot_interval", "Sample the terrain across a closed interval to plot into the GUI, only 2D interval dimension is supported at the moment.   <br /><br />Args:  <br />1D [not implemented]: lo, hi, resolution;  <br />2D: values at left, top, right, bottom, x_resolution, y_resolution, latent_channel (optional, default 0)",
         MIN_FUNCTION {
             //args:
             // x_lo, x_hi, y_lo, y_hi, stride, latent_clamp_min, latent_clamp_max
@@ -174,7 +174,7 @@ public:
                 cerr << "plot_interval: 1D sampling not implemented" << endl;
                 return {};
             } else if (args.size() == 6) {
-                sample_interval(args[0], args[2], args[4], args[1], args[3], args[5], 1);
+                sample_interval(args[0], args[2], args[4], args[1], args[3], args[5], 0);
                 return {};
             } else if (args.size() == 7) {
                 sample_interval(args[0], args[2], args[4], args[1], args[3], args[5], args[6]);
@@ -185,7 +185,8 @@ public:
         }
     };
 
-    attribute<int,threadsafe::undefined,limit::clamp> plot_resolution {this, "plot_resolution", 1, title{"Plot Resolution"}, description {"(int) 1~16"},range{{1, 16}}};
+    attribute<int,threadsafe::undefined,limit::clamp> plot_resolution {this, "plot_resolution", 1, title{"Plot Resolution"}, description {"(int) stride 1~16"},range{{1, 16}}};
+    attribute<bool> plot_colour {this, "plot_multi_channel", false, title{"Plot Multi-Channel"}, description {"(bool) Plot multiple latent channels at once (only support the adjacent 4 channels at the moment)"}};
     
     attribute<number,threadsafe::undefined,limit::clamp> lr{ this, "training_lr", 0.001, title{"Training Learning Rate"}, description{"learning rate when training the nn"}, range{{0.0001, 0.1}}, category{"Training"}};
     attribute<int,threadsafe::undefined,limit::clamp> batch_size{ this, "training_batchsize", 32, title{"Training Batch Size"}, description{"batch size when training the nn"}, range{{4, 128}}, category{"Training"}};
@@ -195,7 +196,7 @@ public:
     
     message<> maxclass_setup{
         this, "maxclass_setup", [this](const c74::min::atoms &args, const int inlet) -> c74::min::atoms {
-            cout << "nn.terrain~ version: 1.5.6 - torch version: " << TORCH_VERSION << endl;
+            cout << "nn.terrain~ version: 1.5.6.1 Oct-2025 - torch version: " << TORCH_VERSION << endl;
             return {};
         }
     };
@@ -337,9 +338,9 @@ public:
 //                        optimizer = std::make_unique<torch::optim::Adam>(cppn_model->m_model->parameters(), static_cast<float>(lr));
                         cppn_model->init_optimizer(static_cast<float>(lr));
                         
-                        if (bool(args[0])){
-                            cwarn << "The terrain model is a very small neural network without any convolutional layer, it's performance on CPU can be better in some cases" << endl;
-                        }
+//                        if (bool(args[0])){
+//                            cwarn << "Terrain is a very small neural network, it's performance on CPU can be better in some cases" << endl;
+//                        }
                     }
                 }
                 return args;
@@ -656,16 +657,38 @@ void nn_terrain::model_plot_loop(nn_terrain *nn_instance) {
       if (nn_instance->m_should_plot_lock.try_acquire_for(std::chrono::milliseconds(100))) {
           nn_instance->terrain_dict.clear();
           std::unique_lock<std::mutex> model_lock(nn_instance->cppn_model->m_model_mutex);
+          int c = nn_instance->c_prev;
+          bool multi_channel = c + 4 < nn_instance->m_out_dim ? nn_instance->plot_colour : false;
           try {
-              for (int i(0); i < nn_instance->cppn_model->sample_tensor.size(0); i++){ // y
-                  at::Tensor tensor_in = nn_instance->cppn_model->sample_tensor.index({i});
-                  at::Tensor tensor_out = nn_instance->cppn_model->m_model->forward(tensor_in).to(torch::kFloat);
-                  tensor_out = tensor_out.index({Slice(None), 0}).to(torch::kCPU);
-                  auto ten_out_ptr = tensor_out.contiguous().data_ptr<float>();
-                  atoms result(ten_out_ptr, ten_out_ptr + nn_instance->cppn_model->sample_tensor.size(1));
-                  
-                  symbol skey{i};
-                  c74::max::dictionary_appendatoms(nn_instance->terrain_dict.m_instance, skey, result.size(), &result[0]);
+              if (multi_channel){
+                  for (int i(0); i < nn_instance->cppn_model->sample_tensor.size(0); i++){ // y
+                      min_dict row_dict = {};
+                      at::Tensor tensor_in = nn_instance->cppn_model->sample_tensor.index({i});
+                      at::Tensor tensor_out = nn_instance->cppn_model->m_model->forward(tensor_in).to(torch::kFloat);
+                      
+                      for (int j(0); j < 4; j++){
+                          
+                          at::Tensor a_out = tensor_out.index({Slice(None), c+j}).to(torch::kCPU);
+                          
+                          auto ten_out_ptr = a_out.contiguous().data_ptr<float>();
+                          atoms result(ten_out_ptr, ten_out_ptr + nn_instance->cppn_model->sample_tensor.size(1));
+                          
+                          symbol skey{j};
+                          c74::max::dictionary_appendatoms(row_dict.m_instance, skey, result.size(), &result[0]);
+                      }
+                      nn_instance->terrain_dict[std::to_string(i)] = row_dict;
+                  }
+              } else {
+                  for (int i(0); i < nn_instance->cppn_model->sample_tensor.size(0); i++){ // y
+                      at::Tensor tensor_in = nn_instance->cppn_model->sample_tensor.index({i});
+                      at::Tensor tensor_out = nn_instance->cppn_model->m_model->forward(tensor_in).to(torch::kFloat);
+                      tensor_out = tensor_out.index({Slice(None), c}).to(torch::kCPU);
+                      auto ten_out_ptr = tensor_out.contiguous().data_ptr<float>();
+                      atoms result(ten_out_ptr, ten_out_ptr + nn_instance->cppn_model->sample_tensor.size(1));
+                      
+                      symbol skey{i};
+                      c74::max::dictionary_appendatoms(nn_instance->terrain_dict.m_instance, skey, result.size(), &result[0]);
+                  }
               }
               nn_instance->m_finish_plot_lock.release();
           } catch (const std::exception &e) {
@@ -696,7 +719,7 @@ void nn_terrain::operator()(audio_bundle input, audio_bundle output) {
 }
 
 void nn_terrain::sample_interval(float x_lo, float x_hi, int x_res, float y_lo, float y_hi, int y_res, int c){
-    if (x_lo == x_lo_prev && x_hi == x_hi_prev && y_lo == y_lo_prev && y_hi == y_hi_prev && y_res == y_res_prev && x_res == x_res_prev && plot_resolution == plot_resolution_prev && c == c_prev){
+    if (x_lo == x_lo_prev && x_hi == x_hi_prev && y_lo == y_lo_prev && y_hi == y_hi_prev && y_res == y_res_prev && x_res == x_res_prev && plot_resolution == plot_resolution_prev){
         // do nothing
     } else {
         x_lo_prev = x_lo;
@@ -706,9 +729,13 @@ void nn_terrain::sample_interval(float x_lo, float x_hi, int x_res, float y_lo, 
         x_res_prev = x_res;
         y_res_prev = y_res;
         plot_resolution_prev = plot_resolution;
-        c_prev = c;
         create_sample_tensor();
     }
+    if (c < 0 || c >= m_out_dim){
+        cerr << "latent channel out of range" << endl;
+        return;
+    }
+    c_prev = c;
     if (cppn_model->sample_tensor.numel() == 0){
         return;
     }
@@ -962,7 +989,7 @@ nn_terrain::nn_terrain(const atoms &args){
     
   m_out_buffer = std::make_unique<circular_buffer<float, double>[]>(m_out_dim);
   for (int i(0); i < m_out_dim; i++) {
-      std::string output_label = "(signal) output value at latent space dimension: " + std::to_string(i);
+      std::string output_label = "(signal) output at latent space dimension: " + std::to_string(i);
       m_outlets.push_back(std::make_unique<outlet<>>(this, output_label, "signal"));
       m_out_buffer[i].initialize(m_buffer_size);
       m_out_model.push_back(std::make_unique<float[]>(m_buffer_size));
@@ -990,7 +1017,7 @@ nn_terrain::nn_terrain(const atoms &args){
     
     m_train_timer.delay(200);
     
-    cout << "terrain setup finished" << endl;
+//    cout << "terrain setup finished" << endl;
 }
 
 nn_terrain::~nn_terrain() {

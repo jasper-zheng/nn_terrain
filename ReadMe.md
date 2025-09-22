@@ -50,7 +50,19 @@ https://github.com/user-attachments/assets/2dd7edea-583d-410b-8b09-7aa1eec09bfa
 ### Point-by-Point Steering  
 
 [todo] It also supports the [point-by-point steering approach](https://vigliensoni.com/portfolio/42-vigliensoni23steering/) proposed by Vigliensoni and Fiebrink (2023). -->
+
 ## Change Logs
+
+**Oct. 2025** v1.5.6.1 and v1.6.0.1
+
+ - `nn.terrain~`:  
+   - Terrain training moved to multi-thread, `train` and `plot_interval` message won't block the main thread anymore.  
+   - The last argument in `plot_interval` now defines which latent dimension to sample, a new attribute `plot_multi_channel` is added for coloured plot.
+ - `nn.terrain.encode`: 
+   - Supported autoencoders with stereo io channels (i.e., supoorted `stable-audio-open-1.0`); 
+   - Default `encoder_batch_size` chenged from 64 to 16; 
+   - Fixed the faulty argument list.  
+ - Cleaned up the codebase: Fourier-CPPN, Dataset classes moved to `backend.cpp`.
 
 **Aug. 2025** v1.5.6 and v1.6.0
 
@@ -60,11 +72,13 @@ https://github.com/user-attachments/assets/2dd7edea-583d-410b-8b09-7aa1eec09bfa
  - Fixed the playhead updates in the `play` mode in `nn.terrain.gui`.
  - [HELP FILES] Added a JS script for patch cords scripting.
 
-
 **May. 2025** v1.5.6-beta and v1.6.0-beta
 
  - The first release.
 
+## Build Instructions
+
+Please refer to [https://jasper-zheng.github.io/nn_terrain/compile/](https://jasper-zheng.github.io/nn_terrain/compile/).
  
 ## TODOs   
 

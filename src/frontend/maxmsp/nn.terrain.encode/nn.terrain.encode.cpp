@@ -59,7 +59,7 @@ public:
     int load_encoder(string path_str);
     
     argument<symbol> path_arg{this, "model_path", "Path to the pretrained model (encoder).", true};
-    argument<int> latent_dim_arg {this, "latent_dim", "(Optional) Dimensionality of the autoencoder's latent space."};
+//    argument<int> latent_dim_arg {this, "latent_dim", "(Optional) Dimensionality of the autoencoder's latent space."};
     
     
   // ENABLE / DISABLE ATTRIBUTE
@@ -489,19 +489,6 @@ nn_terrain::nn_terrain(const atoms &args){
   // CHECK ARGUMENTS
   if (!args.size()) {
     return;
-  } else if (args.size() == 2) { // TWO ARGUMENT IS GIVEN:
-      // a_type 1: int, a_type 2: float, a_type 3: symbol
-      if (args[0].a_type == 1 && args[1].a_type == 3) { // (int, symbol)
-          latent_dim = int(args[1]);
-          int latent_available = load_encoder(std::string(args[0]));
-          if (latent_available > latent_dim){
-              cout << "defined latent_dim is lower than the model's latent_dim, " << latent_available - latent_dim << " latents from model is unused" << endl;
-          } else if (latent_available < latent_dim){
-              cout << "defined latent_dim is higher than the model's latent_dim, " << latent_dim - latent_available << " latents will remain empty" << endl;
-          }
-      } else {
-          cerr << "error: if two arguments are given, the first argument should be int, second argument should be symbol" << endl;
-      }
   } else if (args.size() == 1) { // ONE ARGUMENT (symbols) ARE GIVEN
       if (args[0].a_type == 3){
           latent_dim = load_encoder(std::string(args[0]));
