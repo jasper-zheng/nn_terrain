@@ -80,8 +80,8 @@ All externals above are designed to work together with `nn~`, which is a MaxMSP/
 
 Depending on which version of `nn~` you're using:  
 
-* If you're using [nn~ v1.5.6 (torch v2.0.0/2.0.1)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6) (the 2023 version): <br>Please download [nn.terrain~ v1.5.6](https://github.com/jasper-zheng/nn_terrain/releases/tag/v1.5.6).  
-* If you're using [nn~ v1.6.0 (torch v2.5.0/2.5.1)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6) (the 2025 version): <br>Please download [nn.terrain~ v1.6.0](https://github.com/jasper-zheng/nn_terrain_tilde/releases/tag/1.6.0-macos).  
+* If you're using [nn~ v1.5.6 (torch v2.0.x)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6) (the 2023 version): <br>Please download [nn.terrain~ v1.5.6](https://github.com/jasper-zheng/nn_terrain/releases/tag/v1.5.6.1-oct2025).  
+* If you're using [nn~ v1.6.0 (torch v2.5.x)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6) (the 2025 version): <br>Please download [nn.terrain~ v1.6.0](https://github.com/jasper-zheng/nn_terrain_tilde/releases/tag/v1.6.0.1-oct2025).  
 
 While the 1.6.0 `nn~` offers amazing add-on functionalities, I personally use the 1.5.6 version more often because it does exactly what I need already, and it's more stable with `nn.terrain~`.
 
