@@ -105,11 +105,16 @@ If you have a self-compiled combination like me, you might need to consider comp
 
 ### With nn~ v1.6.0
 * **macOS**
-  * Uncompress the `.tar.gz` file
-  * In `~/Documents/Max 9/Packages`, **copy and merge** the unzipped folders to the `nn_tilde` folder, make sure that all externals (e.g., `nn.terrain~.mxo`) are placed next to `nn~.mxo` in the same folder.
-  * Reopen Max and you can find all `nn.terrain` objects.
-  * You might get a quarantine warning, proceed will disable this warning. 
+ - Make sure that you have [nn_tilde v1.6.0](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.6.0) installed,
+ - Uncompress the `.tar.gz` file,
+ - In `~/Documents/Max 9/Packages`, **copy and merge** the unzipped folders to the `nn_tilde` folder, make sure that all externals (e.g., `nn.terrain~.mxo`) are placed next to `nn~.mxo` in the **same folder**.
+ - Reopen Max and you will find all `nn.terrain` objects.
+ - You might get a quarantine warning, proceed will disable this warning.
 * **Windows**
-  * To be updated soon.
+ - Make sure that you have [nn_tilde v1.6.0](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.6.0) installed,
+ - Uncompress the `.tar.gz` file,
+ - In `~/Documents/Max 9/Packages`, **copy and merge** the unzipped folders to the `nn_tilde` folder, make sure that all externals (e.g., `nn.terrain~.mxe64`) are placed next to `nn~.mxe64` in the **same folder**.
+ - Reopen Max and you will find all `nn.terrain` objects.
+ - You might get a quarantine warning, proceed will disable this warning.
 
 If the externals have trouble opening in Max, or doesn't work correctly with `nn~` you might considering compiling the externals yourself, see [Compile from Source](/compile).  
