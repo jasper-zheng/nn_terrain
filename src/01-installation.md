@@ -83,14 +83,12 @@ Depending on which version of `nn~` you're using:
 * If you're using [nn~ v1.5.6 (torch v2.0.x)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6) (the 2023 version): <br>Please download [nn.terrain~ v1.5.6](https://github.com/jasper-zheng/nn_terrain/releases/tag/v1.5.6.1-oct2025).  
 * If you're using [nn~ v1.6.0 (torch v2.5.x)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6) (the 2025 version): <br>Please download [nn.terrain~ v1.6.0](https://github.com/jasper-zheng/nn_terrain_tilde/releases/tag/v1.6.0.1-oct2025).  
 
-While the 1.6.0 `nn~` offers amazing add-on functionalities, I personally use the 1.5.6 version more often because it does exactly what I need already, and it's more stable with `nn.terrain~`.
-
 If you're unsure which version you're using, this can be checked from your Max console when an `nn~` instance is first opened in Max:  
 
 <img src="../assets/nn-version.png" alt="max console" width="60%"></img>  
 
 
-If you have a customised `nn~` like me, you might need to consider compiling your own `nn.terrain~` from source, please see instructions [Compile from Source](/compile).
+If you have a self-compiled combination like me, you might need to consider compiling your own `nn.terrain~` from source, please see instructions [Compile from Source](/compile).
 
 ## Installation
 
