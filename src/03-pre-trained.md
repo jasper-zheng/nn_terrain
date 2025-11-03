@@ -44,4 +44,5 @@ A streamable scripted version for realtime continuous inference in MaxMSP: [jasp
 
 * **Terrain**: [stable-audio-terrain-demo.pt](https://github.com/jasper-zheng/nn_terrain/raw/refs/heads/main/pre-trained/stable-audio-terrain-demo.pt)<br>
 **Config**: 2 inputs 64 outputs, range: `-8, -8, 8, 8`<br>
-<video controls="" loop="" playsinline="" aria-labelledby="video-label" src="./assets/stableaudio-demo.mp4" width="80%"></video>
+<video controls="" loop="" playsinline="" aria-labelledby="video-label" src="../assets/stableaudio-demo.mp4" width="80%"></video>
+
