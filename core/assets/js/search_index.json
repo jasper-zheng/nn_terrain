@@ -16,7 +16,7 @@
                 {
                     "url": "/nn_terrain/pre-trained/",
                     "title": "Pre-Trained Terrains (Presets)",
-                    "content": "Some already built terrains to get started with.  Make sure to have both:an autoencoder (a .ts file)a terrain model (a .pt file).Autoencoder: Percussion - RAVE v1Pre-trained autoencoder author: Antoine CaillonDownload from RAVE official repository percussion.ts.Terrain: percussion-terrain-demo.ptConfig: 2 inputs 4 outputs, range: -16, -4, 16, 4Autoencoder: Music2Latent-ScriptedOriginal model is the work by Marco Pasini at SonyCSLParis.Scripted model can be downloaded from music2latent.ts.Terrain: m2l-demo.pt (the one used in the demo video)Training data from: Stem from an EDM track I made under the name Alaska Winter.Config: 2 inputs 4 outputs, range: -16, -4, 16, 4Autoencoder: Stable Audio Open 1.0Pre-trained model by Stability AI.A streamable scripted version for realtime continuous inference in MaxMSP: jasper-zheng/streamable-stable-audio-open."
+                    "content": "Some already built terrains to get started with.  Make sure to have both:an autoencoder (a .ts file)a terrain model (a .pt file).Autoencoder: Percussion - RAVE v1Pre-trained autoencoder author: Antoine CaillonDownload from RAVE official repository percussion.ts.Terrain: percussion-terrain-demo.ptConfig: 2 inputs 4 outputs, range: -16, -4, 16, 4Autoencoder: Music2Latent-ScriptedOriginal model is the work by Marco Pasini at SonyCSLParis.Scripted model can be downloaded from music2latent.ts.Terrain: m2l-demo.pt (the one used in the demo video)Training data from: Stem from an EDM track I made under the name Alaska Winter.Config: 2 inputs 64 outputs, range: -16, -4, 16, 4Autoencoder: Stable Audio Open 1.0Pre-trained model by Stability AI.A streamable scripted version for realtime continuous inference in MaxMSP: jasper-zheng/streamable-stable-audio-open.Terrain: stable-audio-terrain-demo.ptConfig: 2 inputs 64 outputs, range: -8, -8, 8, 8"
                 },
                 {
                     "url": "/nn_terrain/compile/",
@@ -71,7 +71,7 @@
                 {
                     "url": "/nn_terrain/posts/",
                     "title": "./core/libdoc_blog.liquid",
-                    "content": "  2025-10-29 Jasper Shuoyang Zheng Nothing to tutor at the moment The first blog post 1"
+                    "content": "  2025-11-03 Jasper Shuoyang Zheng Nothing to tutor at the moment The first blog post 1"
                 },
                 {
                     "url": "/nn_terrain/tags/",
