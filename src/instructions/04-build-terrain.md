@@ -7,6 +7,8 @@ eleventyNavigation:
     key: Building Terrains from Scratch
     parent: Instructions
     order: 4
+tags:
+    - tutorials
 date: git Last Modified
 tocEnabled: false
 ---

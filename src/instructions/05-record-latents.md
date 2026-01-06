@@ -7,6 +7,8 @@ eleventyNavigation:
     key: Recording Latents Trajectories
     parent: Instructions
     order: 5
+tags:
+    - tutorials
 date: git Last Modified
 tocEnabled: false
 ---

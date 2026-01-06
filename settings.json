@@ -3,8 +3,8 @@
     "siteDescription": "Building new musical instruments that compose and interact with AI audio autoencoders.",
     "author": "Jasper Shuoyang Zheng",
     "faviconUrl": "/assets/myfavicon.png",
-    "blogTitle": "Tutorials",
-    "displayTagsListLink": false,
+    "blogTitle": "Blog Posts",
+    "displayTagsListLink": true,
     "customLinks": [
         {
             "url": "https://github.com/jasper-zheng/nn_terrain",

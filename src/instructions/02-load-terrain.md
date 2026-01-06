@@ -7,6 +7,8 @@ eleventyNavigation:
     key: Using Pre-Trained Terrains
     parent: Instructions
     order: 2
+tags:
+    - tutorials
 date: git Last Modified
 tocEnabled: false
 ---

@@ -1,0 +1,1 @@
+We collaborated with several artist-researchers to explore NIME design with autoencoders and latent terrain. In this series of interviews, we invited artists to share the design thinking and experience behind the making process of their demo projects. The full annotated portfolio is at [here](./annotated-portfolio.md).
