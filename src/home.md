@@ -16,7 +16,7 @@ Latent terrain aims to open up the creative possibilities of **latent space navi
 
 An example **latent space walk** with Stable Audio Open 1.0:
 
-<video controls="" loop="" playsinline="" aria-labelledby="video-label" src="../assets/stableaudio-demo.mp4" width="70%"></video>
+<video controls="" loop="" playsinline="" aria-labelledby="video-label" src="./assets/stableaudio-demo.mp4" width="70%"></video>
 
 ### Example applications
 
