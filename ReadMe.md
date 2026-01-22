@@ -4,15 +4,19 @@
 
 <img src="assets/overview.gif" width="500px"></img>
 
-Latent terrain is a coordinates-to-latents mapping model for neural audio autoencoders (such as [RAVE](https://github.com/acids-ircam/RAVE), [Music2Latent](https://github.com/SonyCSLParis/music2latent)). A terrain is a surface map for the autoencoder's latent space, taking coordinates in a control space as inputs, and producing continuous latent vectors in real-time.
+Latent terrain is a coordinates-to-latents mapping model for neural audio autoencoders (such as [RAVE](https://github.com/acids-ircam/RAVE), [Music2Latent](https://github.com/SonyCSLParis/music2latent), [Stable Audio Open (Codec)](https://github.com/jasper-zheng/streamable-stable-audio-open)). A terrain is a surface map for the autoencoder's latent space, taking coordinates in a control space as inputs, and producing continuous latent vectors in real-time.
 
 Latent terrain aims to open up the creative possibilities of **latent space navigation**, allowing one to adapt an autoencoder to easier-to-navigate interfaces (such as gestural controllers, stylus and tablets, XY-pads, and more), and build new musical instruments that compose and interact with AI audio generators.
 
-An example latent space walk with Music2Latent:
+An example latent space walk with Stable Audio Open:
 
 
 
-https://github.com/user-attachments/assets/4fbac683-968f-446e-9e41-905f8eb3de49
+https://github.com/user-attachments/assets/218f82a0-efad-4917-8c80-8fcc2bbcd9aa
+
+
+
+
 
 
 
