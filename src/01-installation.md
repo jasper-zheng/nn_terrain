@@ -80,8 +80,8 @@ All externals above are designed to work together with `nn~`, which is a MaxMSP/
 
 Depending on which version of `nn~` you're using:  
 
-* If you're using [nn~ v1.5.6 (torch v2.0.x)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6) (the 2023 version) **[Recommended]**: <br>Please download [nn.terrain~ v1.5.6](https://github.com/jasper-zheng/nn_terrain/releases/tag/v1.5.6.1-oct2025).  
-* If you're using [nn~ v1.6.0 (torch v2.5.x)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6) (the 2025 version): <br>Please download [nn.terrain~ v1.6.0](https://github.com/jasper-zheng/nn_terrain_tilde/releases/tag/v1.6.0.1-oct2025).  
+* If you're using [nn~ v1.5.6 (torch v2.0.x)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6) (2023 version) **[Recommended]**, please download [nn.terrain~ v1.5.6](https://github.com/jasper-zheng/nn_terrain/releases/tag/v1.5.6.1-oct2025).  
+* If you're using [nn~ v1.6.0 (torch v2.5.x)](https://github.com/acids-ircam/nn_tilde/releases/tag/v1.5.6) (2025 version), please download [nn.terrain~ v1.6.0](https://github.com/jasper-zheng/nn_terrain_tilde/releases/tag/v1.6.0.1-oct2025).  
 
 If you're unsure which version you're using, this can be checked from your Max console when an `nn~` instance is first opened in Max:  
 
