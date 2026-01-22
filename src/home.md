@@ -14,9 +14,9 @@ Latent terrain is a tool to build corpus-based sound spaces/maps/materials to st
 Latent terrain aims to open up the creative possibilities of **latent space navigation**, allowing one to adapt the latent space of an autoencoder to easy-to-navigate interfaces (such as gestural controllers, stylus and tablets, XY-pads, and more), explore it like walking on a terrain surface, and build new musical instruments that compose and interact with AI audio generators.
 
 
-An example **latent space walk** with Music2Latent:
+An example **latent space walk** with Stable Audio Open 1.0:
 
-<video controls="" loop="" playsinline="" aria-labelledby="video-label" src="./assets/terrain-walk.mp4" width="95%"></video>
+<video controls="" loop="" playsinline="" aria-labelledby="video-label" src="../assets/stableaudio-demo.mp4" width="70%"></video>
 
 ### Example applications
 
