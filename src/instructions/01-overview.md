@@ -30,7 +30,7 @@ Latent terrain aims to be **nonlinear** (i.e., able to produce complex sequentia
 
 You may have seen "latent space walk" animations created by AI image generators, for instance, this is a latent space walk in a diffusion transformer:
 
-<img src="https://github.com/rnbwdsh/ComfyUI-LatentWalk/blob/main/examples/tower-house.gif?raw=true" width="200" alt="Trajectories" ></img>  
+<!-- <img src="https://github.com/rnbwdsh/ComfyUI-LatentWalk/blob/main/examples/tower-house.gif?raw=true" width="200" alt="Trajectories" ></img>   -->
 Credit: [https://github.com/rnbwdsh/ComfyUI-LatentWalk](https://github.com/rnbwdsh/ComfyUI-LatentWalk)
 
 In parallel, this is an **latent space walk** with Music2Latent, and we're using the mouse (stylus) to control the sampling position in a terrain:
