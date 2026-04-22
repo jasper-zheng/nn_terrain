@@ -1,5 +1,7 @@
 # Latent Terrain: Coordinates-to-Latents Generator for Neural Audio Autoencoders
 
+![Static Badge](https://img.shields.io/badge/docs-nn.terrain-blue?style=flat&link=https%3A%2F%2Fjasper-zheng.github.io%2Fnn_terrain%2F)
+
 > New documentation page: [https://jasper-zheng.github.io/nn_terrain/](https://jasper-zheng.github.io/nn_terrain/)
 
 <img src="assets/overview.gif" width="500px"></img>
